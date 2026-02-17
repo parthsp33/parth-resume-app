@@ -1,0 +1,53 @@
+Analyzing my_resume_app...                                      
+
+  error • The getter 'sp' isn't defined for the type 'int' • lib/config/theme.dart:21:22 • undefined_getter
+  error • The getter 'sp' isn't defined for the type 'int' • lib/config/theme.dart:26:22 • undefined_getter
+  error • The getter 'sp' isn't defined for the type 'int' • lib/config/theme.dart:31:22 • undefined_getter
+  error • The getter 'sp' isn't defined for the type 'int' • lib/config/theme.dart:36:22 • undefined_getter
+  error • The getter 'sp' isn't defined for the type 'int' • lib/config/theme.dart:40:22 • undefined_getter
+  error • The getter 'textPrimaryLight' isn't defined for the type 'AppColors' • lib/const/style.dart:10:22 • undefined_getter
+  error • The getter 'textPrimaryLight' isn't defined for the type 'AppColors' • lib/const/style.dart:16:22 • undefined_getter
+  error • The getter 'textSecondaryLight' isn't defined for the type 'AppColors' • lib/const/style.dart:21:22 • undefined_getter
+  error • The element type 'Type' can't be assigned to the list type 'Widget' • lib/widgets/sections/achievements_section.dart:14:5 • list_element_type_not_assignable
+  error • Expected to find ',' • lib/widgets/sections/achievements_section.dart:14:10 • expected_token
+  error • The element type 'bool' can't be assigned to the list type 'Widget' • lib/widgets/sections/achievements_section.dart:14:10 • list_element_type_not_assignable
+  error • Undefined name 'isMobile' • lib/widgets/sections/achievements_section.dart:14:10 • undefined_identifier
+  error • Expected to find ')' • lib/widgets/sections/achievements_section.dart:14:38 • expected_token
+  error • Expected to find ']' • lib/widgets/sections/achievements_section.dart:14:38 • expected_token
+warning • Dead code • lib/widgets/sections/achievements_section.dart:16:5 • dead_code
+  error • Undefined name 'isMobile' • lib/widgets/sections/achievements_section.dart:31:29 • undefined_identifier
+  error • Undefined name 'isMobile' • lib/widgets/sections/achievements_section.dart:39:55 • undefined_identifier
+  error • Undefined name 'AppColors' • lib/widgets/sections/achievements_section.dart:45:62 • undefined_identifier
+  error • Undefined name 'AppColors' • lib/widgets/sections/achievements_section.dart:92:37 • undefined_identifier
+warning • Unused import: '../../const/color.dart' • lib/widgets/sections/contact_section.dart:5:8 • unused_import
+  error • The method '_buildFooterColumn' isn't defined for the type 'ContactSection' • lib/widgets/sections/contact_section.dart:65:9 • undefined_method
+  error • The method '_buildFooterColumn' isn't defined for the type 'ContactSection' • lib/widgets/sections/contact_section.dart:67:9 • undefined_method
+  error • The method '_buildFooterColumn' isn't defined for the type 'ContactSection' • lib/widgets/sections/contact_section.dart:88:13 • undefined_method
+  error • The method '_buildFooterColumn' isn't defined for the type 'ContactSection' • lib/widgets/sections/contact_section.dart:89:13 • undefined_method
+  error • Expected to find ';' • lib/widgets/sections/contact_section.dart:92:7 • expected_token
+  error • Expected to find ']' • lib/widgets/sections/contact_section.dart:92:7 • expected_token
+warning • Dead code • lib/widgets/sections/contact_section.dart:92:8 • dead_code
+  error • Expected an identifier • lib/widgets/sections/contact_section.dart:92:8 • missing_identifier
+  error • Expected to find ';' • lib/widgets/sections/contact_section.dart:92:8 • expected_token
+  error • Unexpected text ';' • lib/widgets/sections/contact_section.dart:92:8 • unexpected_token
+  error • Expected an identifier • lib/widgets/sections/contact_section.dart:93:5 • missing_identifier
+  error • Unexpected text ';' • lib/widgets/sections/contact_section.dart:93:5 • unexpected_token
+   info • Unnecessary empty statement • lib/widgets/sections/contact_section.dart:93:6 • empty_statements
+warning • The declaration '_launchURL' isn't referenced • lib/widgets/sections/contact_section.dart:96:8 • unused_element
+   info • 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss • lib/widgets/sections/education_section.dart:64:51 • deprecated_member_use
+   info • 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss • lib/widgets/sections/education_section.dart:69:66 • deprecated_member_use
+   info • 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss • lib/widgets/sections/education_section.dart:76:34 • deprecated_member_use
+   info • Unnecessary use of 'toList' in a spread • lib/widgets/sections/experience_section.dart:20:12 • unnecessary_to_list_in_spreads
+   info • Unnecessary use of 'toList' in a spread • lib/widgets/sections/experience_section.dart:113:20 • unnecessary_to_list_in_spreads
+   info • The import of 'dart:ui' is unnecessary because all of the used elements are also provided by the import of 'package:flutter/material.dart' • lib/widgets/sections/hero_section.dart:3:8 • unnecessary_import
+warning • Unused import: '../../config/resume_data.dart' • lib/widgets/sections/hero_section.dart:4:8 • unused_import
+  error • The named parameter 'maxWidth' isn't defined • lib/widgets/sections/hero_section.dart:84:15 • undefined_named_parameter
+   info • Unnecessary use of 'toList' in a spread • lib/widgets/sections/projects_section.dart:22:12 • unnecessary_to_list_in_spreads
+   info • 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss • lib/widgets/sections/projects_section.dart:116:45 • deprecated_member_use
+   info • 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss • lib/widgets/sections/projects_section.dart:116:77 • deprecated_member_use
+   info • 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss • lib/widgets/sections/projects_section.dart:119:47 • deprecated_member_use
+   info • Unnecessary use of 'toList' in a spread • lib/widgets/sections/skills_section.dart:75:20 • unnecessary_to_list_in_spreads
+   info • 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss • lib/widgets/sections/skills_section.dart:88:29 • deprecated_member_use
+warning • The dev dependency on flutter_lints is unnecessary because there is also a normal dependency on that package • pubspec.yaml:54:3 • unnecessary_dev_dependency
+
+49 issues found. (ran in 1.5s)

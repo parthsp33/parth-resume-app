@@ -1,0 +1,45 @@
+{
+  "flutter": {
+    "platforms": {
+      "android": {
+        "default": {
+          "projectId": "parth-prajapati-resume",
+          "appId": "1:166022302292:android:517aa5f1a1202f74b8fbc1",
+          "fileOutput": "android/app/google-services.json"
+        }
+      },
+      "ios": {
+        "default": {
+          "projectId": "parth-prajapati-resume",
+          "appId": "1:166022302292:ios:25abac9b1b9d6a26b8fbc1",
+          "uploadDebugSymbols": false,
+          "fileOutput": "ios/Runner/GoogleService-Info.plist"
+        }
+      },
+      "dart": {
+        "lib/firebase_options.dart": {
+          "projectId": "parth-prajapati-resume",
+          "configurations": {
+            "android": "1:166022302292:android:517aa5f1a1202f74b8fbc1",
+            "ios": "1:166022302292:ios:25abac9b1b9d6a26b8fbc1",
+            "web": "1:166022302292:web:fe72b852f5124adeb8fbc1"
+          }
+        }
+      }
+    }
+  },
+  "hosting": {
+    "public": "build/web",
+    "ignore": [
+      "firebase.json",
+      "**/.*",
+      "**/node_modules/**"
+    ],
+    "rewrites": [
+      {
+        "source": "**",
+        "destination": "/index.html"
+      }
+    ]
+  }
+}

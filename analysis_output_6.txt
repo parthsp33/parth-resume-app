@@ -1,0 +1,43 @@
+Analyzing my_resume_app...                                      
+
+warning • Unused import: 'package:google_fonts/google_fonts.dart' • lib/const/style.dart:3:8 • unused_import
+warning • Unused import: 'package:my_resume_app/const/color.dart' • lib/const/style.dart:4:8 • unused_import
+warning • Unused import: '../const/color.dart' • lib/screen/home_screen.dart:9:8 • unused_import
+   info • 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss • lib/screen/home_screen.dart:49:78 • deprecated_member_use
+   info • 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss • lib/screen/home_screen.dart:56:80 • deprecated_member_use
+   info • 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss • lib/widgets/sections/achievements_section.dart:30:75 • deprecated_member_use
+warning • Unused import: 'package:url_launcher/url_launcher.dart' • lib/widgets/sections/contact_section.dart:3:8 • unused_import
+   info • 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss • lib/widgets/sections/contact_section.dart:23:57 • deprecated_member_use
+   info • 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss • lib/widgets/sections/contact_section.dart:29:68 • deprecated_member_use
+  error • Undefined name 'indexStr' • lib/widgets/sections/education_section.dart:66:17 • undefined_identifier
+  error • Undefined name 'isMobile' • lib/widgets/sections/education_section.dart:68:29 • undefined_identifier
+   info • 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss • lib/widgets/sections/education_section.dart:70:75 • deprecated_member_use
+  error • Undefined name 'isMobile' • lib/widgets/sections/education_section.dart:77:55 • undefined_identifier
+  error • Undefined name 'AppColors' • lib/widgets/sections/education_section.dart:86:30 • undefined_identifier
+  error • Undefined name 'indexStr' • lib/widgets/sections/education_section.dart:90:33 • undefined_identifier
+  error • Undefined name 'edu' • lib/widgets/sections/education_section.dart:97:22 • undefined_identifier
+  error • Undefined name 'edu' • lib/widgets/sections/education_section.dart:97:40 • undefined_identifier
+  error • Undefined name 'edu' • lib/widgets/sections/education_section.dart:102:22 • undefined_identifier
+  error • Undefined name 'edu' • lib/widgets/sections/education_section.dart:102:41 • undefined_identifier
+  error • Undefined name 'AppColors' • lib/widgets/sections/education_section.dart:104:28 • undefined_identifier
+  error • Undefined name 'edu' • lib/widgets/sections/education_section.dart:111:34 • undefined_identifier
+  error • Undefined name 'AppColors' • lib/widgets/sections/education_section.dart:124:16 • undefined_identifier
+  error • Undefined name 'AppColors' • lib/widgets/sections/education_section.dart:126:35 • undefined_identifier
+  error • Undefined name 'AppColors' • lib/widgets/sections/education_section.dart:131:18 • undefined_identifier
+   info • 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss • lib/widgets/sections/experience_section.dart:43:75 • deprecated_member_use
+  error • Undefined name 'mode' • lib/widgets/sections/hero_section.dart:22:19 • undefined_identifier
+   info • 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss • lib/widgets/sections/hero_section.dart:59:74 • deprecated_member_use
+   info • 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss • lib/widgets/sections/projects_section.dart:45:75 • deprecated_member_use
+   info • 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss • lib/widgets/sections/projects_section.dart:113:45 • deprecated_member_use
+   info • 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss • lib/widgets/sections/projects_section.dart:113:96 • deprecated_member_use
+   info • 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss • lib/widgets/sections/projects_section.dart:116:47 • deprecated_member_use
+   info • 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss • lib/widgets/sections/projects_section.dart:116:97 • deprecated_member_use
+   info • 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss • lib/widgets/sections/projects_section.dart:122:96 • deprecated_member_use
+   info • 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss • lib/widgets/sections/skills_section.dart:30:75 • deprecated_member_use
+   info • Unnecessary use of 'toList' in a spread • lib/widgets/sections/skills_section.dart:76:20 • unnecessary_to_list_in_spreads
+   info • 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss • lib/widgets/sections/skills_section.dart:89:47 • deprecated_member_use
+   info • 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss • lib/widgets/sections/skills_section.dart:91:66 • deprecated_member_use
+   info • 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss • lib/widgets/sections/skills_section.dart:98:64 • deprecated_member_use
+warning • The dev dependency on flutter_lints is unnecessary because there is also a normal dependency on that package • pubspec.yaml:54:3 • unnecessary_dev_dependency
+
+39 issues found. (ran in 1.6s)

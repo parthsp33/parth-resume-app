@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <!--
+    If you are serving your web app in a path other than the root, change the
+    href value below to reflect the base path you are serving from.
+
+    The path provided below has to start and end with a slash "/" in order for
+    it to work correctly.
+
+    For more details:
+    * https://developer.mozilla.org/en-US/docs/Web/HTML/Element/base
+
+    This is a placeholder for base href that will be replaced by the value of
+    the `--base-href` argument provided to `flutter build`.
+  -->
+  <base href="/">
+
+  <meta charset="UTF-8">
+  <meta content="IE=Edge" http-equiv="X-UA-Compatible">
+  <meta name="description" content="Parth Prajapati's Professional Resume">
+
+  <!-- iOS meta tags & icons -->
+  <meta name="mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black">
+  <meta name="apple-mobile-web-app-title" content="my_resume_app">
+  <link rel="apple-touch-icon" href="icons/Icon-192.png">
+
+  <!-- Favicon -->
+  <link rel="icon" type="image/png" href="favicon.png"/>
+
+  <title>Parth Prajapati | Resume</title>
+  <link rel="manifest" href="manifest.json">
+
+  <style>
+    body {
+      margin: 0;
+      padding: 0;
+      overflow: hidden;
+    }
+    .loading {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      margin: 0;
+      position: absolute;
+      top: 0;
+      left: 0;
+      height: 100%;
+      width: 100%;
+      background: linear-gradient(135deg, #2196F3 0%, #9C27B0 100%);
+      font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+    }
+    .loader {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      position: relative;
+    }
+    .loading-spinner {
+      width: 50px;
+      height: 50px;
+      border: 4px solid rgba(255, 255, 255, 0.1);
+      border-radius: 50%;
+      border-left-color: #ffffff;
+      animation: spin 1s linear infinite;
+      margin-bottom: 20px;
+    }
+    .loader-text {
+      color: #ffffff;
+      font-size: 20px;
+      font-weight: 300;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      animation: pulse-text 1.5s ease-in-out infinite;
+    }
+    @keyframes spin {
+      0% { transform: rotate(0deg); }
+      100% { transform: rotate(360deg); }
+    }
+    @keyframes pulse-text {
+      0% { opacity: 0.5; }
+      50% { opacity: 1; }
+      100% { opacity: 0.5; }
+    }
+    .background-animation {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(45deg, 
+        rgba(255,255,255,0.05) 25%, 
+        transparent 25%, 
+        transparent 75%, 
+        rgba(255,255,255,0.05) 75%);
+      background-size: 60px 60px;
+      animation: moveBackground 20s linear infinite;
+      pointer-events: none;
+    }
+    @keyframes moveBackground {
+      0% { background-position: 0 0; }
+      100% { background-position: 60px 60px; }
+    }
+    #flutter-app {
+      height: 100vh;
+      width: 100vw;
+    }
+  </style>
+</head>
+<body>
+  <div id="flutter-app"></div>
+  
+  <!-- Loading screen -->
+  <div class="loading" id="loading">
+    <div class="background-animation"></div>
+    <div class="loader">
+      <div class="loading-spinner"></div>
+      <div class="loader-text">Loading</div>
+    </div>
+  </div>
+
+  <script>
+    window.addEventListener('load', function() {
+      // Hide loading screen when the app is ready
+      window.addEventListener('flutter-first-frame', function() {
+        var loadingElement = document.getElementById('loading');
+        loadingElement.style.opacity = '0';
+        loadingElement.style.transition = 'opacity 0.8s ease-out';
+        setTimeout(function() {
+          loadingElement.style.display = 'none';
+        }, 800);
+      });
+    });
+  </script>
+  <script src="flutter_bootstrap.js" async></script>
+</body>
+</html>

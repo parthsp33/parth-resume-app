@@ -1,0 +1,20 @@
+Analyzing my_resume_app...                                      
+
+warning • Unused import: 'package:google_fonts/google_fonts.dart' • lib/const/style.dart:3:8 • unused_import
+warning • The declaration '_launchURL' isn't referenced • lib/widgets/sections/contact_section.dart:124:8 • unused_element
+   info • 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss • lib/widgets/sections/education_section.dart:64:51 • deprecated_member_use
+   info • 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss • lib/widgets/sections/education_section.dart:69:66 • deprecated_member_use
+   info • 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss • lib/widgets/sections/education_section.dart:76:34 • deprecated_member_use
+   info • Unnecessary use of 'toList' in a spread • lib/widgets/sections/experience_section.dart:20:12 • unnecessary_to_list_in_spreads
+   info • Unnecessary use of 'toList' in a spread • lib/widgets/sections/experience_section.dart:113:20 • unnecessary_to_list_in_spreads
+   info • The import of 'dart:ui' is unnecessary because all of the used elements are also provided by the import of 'package:flutter/material.dart' • lib/widgets/sections/hero_section.dart:3:8 • unnecessary_import
+warning • Unused import: '../../config/resume_data.dart' • lib/widgets/sections/hero_section.dart:4:8 • unused_import
+   info • Unnecessary use of 'toList' in a spread • lib/widgets/sections/projects_section.dart:22:12 • unnecessary_to_list_in_spreads
+   info • 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss • lib/widgets/sections/projects_section.dart:116:45 • deprecated_member_use
+   info • 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss • lib/widgets/sections/projects_section.dart:116:77 • deprecated_member_use
+   info • 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss • lib/widgets/sections/projects_section.dart:119:47 • deprecated_member_use
+   info • Unnecessary use of 'toList' in a spread • lib/widgets/sections/skills_section.dart:75:20 • unnecessary_to_list_in_spreads
+   info • 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss • lib/widgets/sections/skills_section.dart:88:29 • deprecated_member_use
+warning • The dev dependency on flutter_lints is unnecessary because there is also a normal dependency on that package • pubspec.yaml:54:3 • unnecessary_dev_dependency
+
+16 issues found. (ran in 2.2s)

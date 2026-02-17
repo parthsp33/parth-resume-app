@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "166022302292",
+    "project_id": "parth-prajapati-resume",
+    "storage_bucket": "parth-prajapati-resume.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:166022302292:android:517aa5f1a1202f74b8fbc1",
+        "android_client_info": {
+          "package_name": "com.example.my_resume_app"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBCDYsGwEZCDlS_5q1YbDd8xI71U0EP0gU"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

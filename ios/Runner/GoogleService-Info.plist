@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>API_KEY</key>
+	<string>AIzaSyAdHHmqbX6urhiXOthTIIHJY5BJi9Zu6K0</string>
+	<key>GCM_SENDER_ID</key>
+	<string>166022302292</string>
+	<key>PLIST_VERSION</key>
+	<string>1</string>
+	<key>BUNDLE_ID</key>
+	<string>com.example.myResumeApp</string>
+	<key>PROJECT_ID</key>
+	<string>parth-prajapati-resume</string>
+	<key>STORAGE_BUCKET</key>
+	<string>parth-prajapati-resume.firebasestorage.app</string>
+	<key>IS_ADS_ENABLED</key>
+	<false></false>
+	<key>IS_ANALYTICS_ENABLED</key>
+	<false></false>
+	<key>IS_APPINVITE_ENABLED</key>
+	<true></true>
+	<key>IS_GCM_ENABLED</key>
+	<true></true>
+	<key>IS_SIGNIN_ENABLED</key>
+	<true></true>
+	<key>GOOGLE_APP_ID</key>
+	<string>1:166022302292:ios:25abac9b1b9d6a26b8fbc1</string>
+</dict>
+</plist>
