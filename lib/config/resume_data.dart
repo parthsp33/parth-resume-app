@@ -97,7 +97,7 @@ class ResumeData {
     ProjectModel(
       name: "BASMA",
       shortDescription: "Simple property booking platform with two apps: one for tenants and one for landlords.",
-      status: "In Progress",
+      status: "Complete",
       tools: "Flutter 3.35, Android Studio, Xcode",
       keyFeatures: [
         "Landlord: Add properties, manage photos, receive booking requests",
@@ -123,7 +123,7 @@ class ResumeData {
     ProjectModel(
       name: "Greyy8",
       shortDescription: "Two-app platform (Vendor/User) connecting businesses with users via deals, coins, and cashback rewards.",
-      status: "In Progress",
+      status: "Complete",
       tools: "Flutter 3.16.5, Android Studio, Xcode",
       keyFeatures: [
         "Vendor app: Create deals, manage promotions, analytics dashboard",
@@ -148,7 +148,7 @@ class ResumeData {
     ProjectModel(
       name: "Stacked Up",
       shortDescription: "All-in-one social media platform for marketers to plan, schedule, and analyze content directly.",
-      status: "In Progress",
+      status: "Complete",
       tools: "Flutter 2.8, Android Studio, Xcode",
       keyFeatures: [
         "Direct image and content sharing to social media pages",
@@ -159,7 +159,7 @@ class ResumeData {
     ProjectModel(
       name: "Q-Club",
       shortDescription: "Golf-focused app for team selection and live scoreboard management.",
-      status: "In Progress",
+      status: "Complete",
       tools: "Flutter 3.0, Android Studio, Xcode",
       keyFeatures: [
         "Team selection and management",
