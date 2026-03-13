@@ -9,7 +9,7 @@ class ResumeData {
   static const String mobile = "7383493845";
   static const String email = "bantiprajapati33@gmail.com";
   static const String linkedin = "https://www.linkedin.com/in/parth-prajapati-7174b2144";
-  static const String github = "https://github.com/yudizparth";
+  static const String github = "https://github.com/parthsp33";
   static const String website = "https://parth-prajapati-resume.web.app/";
 
   static const List<Map<String, dynamic>> experience = [
@@ -179,20 +179,6 @@ class ResumeData {
       ],
       teamSize: 1,
       appStoreLink: "https://apps.apple.com/us/app/pick-up-my-things/id1563413994",
-    ),
-    ProjectModel(
-      name: "Creato-Kit",
-      shortDescription: "Professional editor app for small businesses to create festival and daily brand banners.",
-      status: "Complete",
-      tools: "Flutter 2.5, Android Studio, Xcode",
-      keyFeatures: [
-        "Business registration and brand identity management",
-        "Robust image and video editor for posters/banners",
-        "Single-click social media sharing and local downloads"
-      ],
-      teamSize: 2,
-      appStoreLink: "https://apps.apple.com/app/id1591731993",
-      playStoreLink: "https://play.google.com/store/apps/details?id=com.amar.creatokit",
     ),
     ProjectModel(
       name: "Shop & Me",

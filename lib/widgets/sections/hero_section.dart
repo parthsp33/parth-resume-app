@@ -97,8 +97,8 @@ class HeroSection extends StatelessWidget {
                           Text(
                             ResumeData.role.split('|').first.trim().toUpperCase(),
                             style: Theme.of(context).textTheme.labelLarge?.copyWith(
-                              fontSize: isMobile ? 12 : 12.sp,
-                              letterSpacing: isMobile ? 2 : 3,
+                              fontSize: isMobile ? 14 : 12.sp,
+                              letterSpacing: isMobile ? 1.5 : 3,
                             ),
                           ),
                         ],
@@ -108,7 +108,7 @@ class HeroSection extends StatelessWidget {
                       Text(
                         "${ResumeData.name.split(' ').first}\n${ResumeData.name.split(' ').last}",
                         style: Theme.of(context).textTheme.displayLarge?.copyWith(
-                          fontSize: isMobile ? 48 : 120.sp,
+                          fontSize: isMobile ? 56 : 120.sp,
                           color: Theme.of(context).textTheme.displayLarge?.color,
                           height: 1.1,
                         ),
@@ -166,8 +166,8 @@ class HeroSection extends StatelessWidget {
       onTap: onPressed,
       child: Container(
         padding: EdgeInsets.symmetric(
-          horizontal: isMobile ? 24.w : 32.w, 
-          vertical: isMobile ? 12.h : 16.h
+          horizontal: isMobile ? 28 : 32.w, 
+          vertical: isMobile ? 14 : 16.h
         ),
         decoration: BoxDecoration(
           color: bgColor,
@@ -181,13 +181,13 @@ class HeroSection extends StatelessWidget {
               label,
               style: TextStyle(
                 color: textColor,
-                fontSize: isMobile ? 14 : 16.sp,
+                fontSize: isMobile ? 16 : 16.sp,
                 fontWeight: FontWeight.w700,
               ),
             ),
             if (isPrimary) ...[
                SizedBox(width: 8.w),
-               Icon(Icons.arrow_forward, color: textColor, size: isMobile ? 16 : 18.sp),
+               Icon(Icons.arrow_forward, color: textColor, size: isMobile ? 18 : 18.sp),
             ],
           ],
         ),

@@ -14,17 +14,17 @@ class ProjectsSection extends StatelessWidget {
     bool isMobile = screenWidth < 600;
 
     return Container(
-      padding: EdgeInsets.symmetric(horizontal: isMobile ? 20.w : 40.w),
+      padding: EdgeInsets.symmetric(horizontal: isMobile ? 12 : 40.w),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Text(
             'Selected Work',
             style: Theme.of(context).textTheme.displayMedium?.copyWith(
-              fontSize: isMobile ? 32 : 48.sp,
+              fontSize: isMobile ? 36 : 48.sp,
             ),
           ),
-          SizedBox(height: 64.h),
+          SizedBox(height: isMobile ? 32.h : 64.h),
           GridView.builder(
             shrinkWrap: true,
             physics: const NeverScrollableScrollPhysics(),
@@ -32,7 +32,7 @@ class ProjectsSection extends StatelessWidget {
               crossAxisCount: isMobile ? 1 : 2,
               crossAxisSpacing: 32.w,
               mainAxisSpacing: 32.h,
-              childAspectRatio: isMobile ? 1.1 : 1.5,
+              childAspectRatio: isMobile ? 1.0 : 1.5,
             ),
             itemCount: ResumeData.projects.length,
             itemBuilder: (context, index) {
@@ -55,7 +55,7 @@ class ProjectsSection extends StatelessWidget {
         }
       },
       child: Container(
-        padding: EdgeInsets.all(24.r),
+        padding: EdgeInsets.all(isMobile ? 16 : 24.r),
         decoration: BoxDecoration(
           color: Theme.of(context).brightness == Brightness.dark 
               ? AppColors.surfaceDark.withValues(alpha: 0.4) 
@@ -84,7 +84,7 @@ class ProjectsSection extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 Container(
-                  padding: EdgeInsets.all(10.r),
+                  padding: EdgeInsets.all(isMobile ? 8 : 10.r),
                   decoration: BoxDecoration(
                     color: Theme.of(context).brightness == Brightness.dark 
                         ? Colors.white.withValues(alpha: 0.03) 
@@ -99,14 +99,14 @@ class ProjectsSection extends StatelessWidget {
                   child: Icon(
                     Icons.launch, 
                     color: Theme.of(context).brightness == Brightness.dark ? Colors.white : AppColors.primary, 
-                    size: 20.sp
+                    size: isMobile ? 18 : 20.sp
                   ),
                 ),
                 Text(
                    project.status.toUpperCase(),
                    style: TextStyle(
                      color: Theme.of(context).textTheme.bodyLarge?.color?.withValues(alpha: 0.4),
-                     fontSize: 10.sp,
+                     fontSize: isMobile ? 10 : 10.sp,
                      fontWeight: FontWeight.bold,
                      letterSpacing: 2,
                    ),
@@ -117,18 +117,18 @@ class ProjectsSection extends StatelessWidget {
             Text(
               project.name,
               style: TextStyle(
-                fontSize: isMobile ? 20 : 24.sp,
+                fontSize: isMobile ? 22 : 24.sp,
                 fontWeight: FontWeight.w700,
                 color: Theme.of(context).brightness == Brightness.dark ? Colors.white : Colors.black87,
               ),
             ),
-            SizedBox(height: 12.h),
+            SizedBox(height: isMobile ? 8.h : 12.h),
             Text(
               project.shortDescription,
               maxLines: 2,
               overflow: TextOverflow.ellipsis,
               style: TextStyle(
-                fontSize: isMobile ? 14 : 14.sp,
+                fontSize: isMobile ? 15 : 14.sp,
                 color: Theme.of(context).textTheme.bodyLarge?.color?.withValues(alpha: 0.6),
                 height: 1.5,
               ),
@@ -147,9 +147,9 @@ class ProjectsSection extends StatelessWidget {
 
 
   Widget _buildTechChip(String text, BuildContext context) {
-    bool isMobile = MediaQuery.of(context).size.width < 800;
+    bool isMobile = MediaQuery.of(context).size.width < 600;
     return Container(
-      padding: EdgeInsets.symmetric(horizontal: 10.w, vertical: 4.h),
+      padding: EdgeInsets.symmetric(horizontal: isMobile ? 8 : 10.w, vertical: 4.h),
       decoration: BoxDecoration(
         color: Theme.of(context).brightness == Brightness.dark 
             ? Colors.white.withValues(alpha: 0.03) 
@@ -165,7 +165,7 @@ class ProjectsSection extends StatelessWidget {
         text,
         style: TextStyle(
           color: Theme.of(context).textTheme.bodyLarge?.color?.withValues(alpha: 0.5),
-          fontSize: isMobile ? 10 : 11.sp,
+          fontSize: isMobile ? 12 : 11.sp,
           fontWeight: FontWeight.w600,
         ),
       ),
