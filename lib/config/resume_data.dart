@@ -193,18 +193,5 @@ class ResumeData {
       teamSize: 3,
       playStoreLink: "https://play.google.com/store/apps/details?id=com.amar.shopme",
     ),
-    ProjectModel(
-      name: "Amar",
-      shortDescription: "Informative corporate app with WebView integration for company details and training programs.",
-      status: "Complete",
-      tools: "Flutter 2.5, Android Studio, Xcode",
-      keyFeatures: [
-        "Access company details and service overviews",
-        "Information on training programs and technical workshops"
-      ],
-      teamSize: 1,
-      appStoreLink: "https://apps.apple.com/us/app/amar-technolabs/id1561910973",
-      playStoreLink: "https://play.google.com/store/apps/details?id=com.amar.amargroup",
-    ),
   ];
 }
