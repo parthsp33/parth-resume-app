@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import '../../config/resume_data.dart';
 import '../../const/color.dart';
+import '../section_reveal.dart';
 
 class ExperienceSection extends StatelessWidget {
   const ExperienceSection({super.key});
@@ -13,9 +14,10 @@ class ExperienceSection extends StatelessWidget {
 
     return Container(
       padding: EdgeInsets.symmetric(horizontal: isMobile ? 20.w : 40.w),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
+      child: SectionReveal(
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
           Text(
             'Experience',
             style: Theme.of(context).textTheme.displayMedium?.copyWith(
@@ -43,6 +45,7 @@ class ExperienceSection extends StatelessWidget {
             ],
           ),
         ],
+      ),
       ),
     );
   }

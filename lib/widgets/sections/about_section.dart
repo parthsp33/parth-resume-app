@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import '../../config/resume_data.dart';
 import '../../const/color.dart';
+import '../section_reveal.dart';
 
 class AboutSection extends StatelessWidget {
   const AboutSection({super.key});
@@ -13,9 +14,10 @@ class AboutSection extends StatelessWidget {
 
     return Container(
       padding: EdgeInsets.symmetric(horizontal: isMobile ? 20.w : 40.w),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
+      child: SectionReveal(
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
           // Section Prefix (01 — )
           Row(
             children: [
@@ -82,6 +84,7 @@ class AboutSection extends StatelessWidget {
             ),
         ],
       ),
+      ),
     );
   }
 
@@ -97,7 +100,6 @@ class AboutSection extends StatelessWidget {
   }
 
   Widget _buildStats(BuildContext context) {
-    bool isMobile = MediaQuery.of(context).size.width < 800;
     return Wrap(
       spacing: 60.w,
       runSpacing: 32.h,

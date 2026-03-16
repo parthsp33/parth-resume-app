@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import '../../config/resume_data.dart';
 import '../../const/color.dart';
-
+import '../section_reveal.dart';
 import 'package:fl_chart/fl_chart.dart';
 
 class SkillsSection extends StatelessWidget {
@@ -15,9 +15,10 @@ class SkillsSection extends StatelessWidget {
 
     return Container(
       padding: EdgeInsets.symmetric(horizontal: isMobile ? 20.w : 40.w),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
+      child: SectionReveal(
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
           Text(
             'Technical Arsenal',
             style: Theme.of(context).textTheme.displayMedium?.copyWith(
@@ -60,6 +61,7 @@ class SkillsSection extends StatelessWidget {
              ),
           ],
         ],
+      ),
       ),
     );
   }

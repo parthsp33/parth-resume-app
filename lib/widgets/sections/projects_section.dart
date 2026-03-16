@@ -4,6 +4,8 @@ import 'package:url_launcher/url_launcher.dart';
 import '../../config/resume_data.dart';
 import '../../models/project_model.dart';
 import '../../const/color.dart';
+import '../section_reveal.dart';
+import '../hover_scale.dart';
 
 class ProjectsSection extends StatelessWidget {
   const ProjectsSection({super.key});
@@ -15,9 +17,10 @@ class ProjectsSection extends StatelessWidget {
 
     return Container(
       padding: EdgeInsets.symmetric(horizontal: isMobile ? 12 : 40.w),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
+      child: SectionReveal(
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
           Text(
             'Selected Work',
             style: Theme.of(context).textTheme.displayMedium?.copyWith(
@@ -41,14 +44,17 @@ class ProjectsSection extends StatelessWidget {
           ),
         ],
       ),
+      ),
     );
   }
 
   Widget _buildProjectCard(ProjectModel project, BuildContext context) {
     bool isMobile = MediaQuery.of(context).size.width < 600;
-    return InkWell(
-      onTap: () {
-        if (project.playStoreLink != null) {
+    return HoverScale(
+      scale: 1.02,
+      child: InkWell(
+        onTap: () {
+          if (project.playStoreLink != null) {
           _launchURL(project.playStoreLink!);
         } else if (project.appStoreLink != null) {
           _launchURL(project.appStoreLink!);
@@ -141,6 +147,7 @@ class ProjectsSection extends StatelessWidget {
             ),
           ],
         ),
+      ),
       ),
     );
   }

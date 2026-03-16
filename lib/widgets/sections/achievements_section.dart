@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import '../../config/resume_data.dart';
 import '../../const/color.dart';
+import '../section_reveal.dart';
 
 class AchievementsSection extends StatelessWidget {
   const AchievementsSection({super.key});
@@ -13,9 +14,10 @@ class AchievementsSection extends StatelessWidget {
     
     return Container(
       margin: EdgeInsets.only(bottom: 100.h),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
+      child: SectionReveal(
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
           Row(
             children: [
               Container(width: isMobile ? 40 : 72.w, height: 2, color: AppColors.primary),
@@ -44,6 +46,7 @@ class AchievementsSection extends StatelessWidget {
             context,
           )),
         ],
+      ),
       ),
     );
   }

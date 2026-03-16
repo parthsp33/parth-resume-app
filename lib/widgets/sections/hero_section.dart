@@ -3,7 +3,9 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import '../../const/color.dart';
 import '../../config/resume_data.dart';
 import 'package:url_launcher/url_launcher.dart';
+import 'package:flutter_animate/flutter_animate.dart';
 import '../../main.dart'; // Import themeNotifier
+import '../hover_scale.dart';
 
 class HeroSection extends StatelessWidget {
   final VoidCallback? onViewWork;
@@ -145,7 +147,7 @@ class HeroSection extends StatelessWidget {
                           ),
                         ],
                       ),
-                    ],
+                    ].animate(interval: 150.ms).fade(duration: 800.ms).slideY(begin: 0.1, end: 0, duration: 800.ms, curve: Curves.easeOutCubic),
                   ),
                 ),
               ),
@@ -162,9 +164,10 @@ class HeroSection extends StatelessWidget {
     final textColor = isPrimary ? Colors.black : Theme.of(context).textTheme.bodyLarge?.color;
     final borderColor = isPrimary ? Colors.white : Theme.of(context).textTheme.bodyLarge?.color?.withValues(alpha: 0.2);
 
-    return InkWell(
-      onTap: onPressed,
-      child: Container(
+    return HoverScale(
+      child: InkWell(
+        onTap: onPressed,
+        child: Container(
         padding: EdgeInsets.symmetric(
           horizontal: isMobile ? 28 : 32.w, 
           vertical: isMobile ? 14 : 16.h
@@ -191,6 +194,7 @@ class HeroSection extends StatelessWidget {
             ],
           ],
         ),
+      ),
       ),
     );
   }

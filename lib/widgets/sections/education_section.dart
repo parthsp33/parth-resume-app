@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import '../../config/resume_data.dart';
 import '../../const/color.dart';
+import '../section_reveal.dart';
 
 class EducationSection extends StatelessWidget {
   const EducationSection({super.key});
@@ -11,14 +12,16 @@ class EducationSection extends StatelessWidget {
     double screenWidth = MediaQuery.of(context).size.width;
     int index = ResumeData.experience.length + 1;
 
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
+    return SectionReveal(
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
         ...ResumeData.education.asMap().entries.map((entry) {
           int currentIndex = index + entry.key;
           return _buildEducationItem(entry.value, currentIndex, screenWidth, context);
         }),
       ],
+      ),
     );
   }
 

@@ -42,6 +42,8 @@ dependencies:
   flutter_svg: ^2.0.9     # For SVG icons and images
   font_awesome_flutter: ^10.7.0  # For social media and other icons
   fl_chart: ^1.1.1
+  flutter_animate: ^4.5.2
+  visibility_detector: ^0.4.0+2
 
 dev_dependencies:
   flutter_test:

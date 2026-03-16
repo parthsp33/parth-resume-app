@@ -3,6 +3,8 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import '../../config/resume_data.dart';
 import 'package:url_launcher/url_launcher.dart';
 import '../../const/color.dart';
+import '../section_reveal.dart';
+import '../hover_scale.dart';
 
 class ContactSection extends StatelessWidget {
   const ContactSection({super.key});
@@ -13,8 +15,9 @@ class ContactSection extends StatelessWidget {
 
     return Container(
       padding: EdgeInsets.symmetric(vertical: 100.h, horizontal: isMobile ? 20.w : 60.w),
-      child: Column(
-        children: [
+      child: SectionReveal(
+        child: Column(
+          children: [
           // Large CTA
           Text(
             'Ready to build something together?',
@@ -24,9 +27,10 @@ class ContactSection extends StatelessWidget {
             ),
           ),
           SizedBox(height: 48.h),
-          InkWell(
-            onTap: () async {
-              final Uri uri = Uri.parse('mailto:${ResumeData.email}');
+          HoverScale(
+            child: InkWell(
+              onTap: () async {
+                final Uri uri = Uri.parse('mailto:${ResumeData.email}');
               if (await canLaunchUrl(uri)) {
                 await launchUrl(uri);
               }
@@ -53,6 +57,7 @@ class ContactSection extends StatelessWidget {
                 ],
               ),
             ),
+            ),
           ),
           SizedBox(height: 120.h),
 
@@ -77,6 +82,7 @@ class ContactSection extends StatelessWidget {
             ),
           ),
         ],
+      ),
       ),
     );
   }
