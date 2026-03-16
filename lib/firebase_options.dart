@@ -52,6 +52,7 @@ class DefaultFirebaseOptions {
     messagingSenderId: '166022302292',
     projectId: 'parth-prajapati-resume',
     authDomain: 'parth-prajapati-resume.firebaseapp.com',
+    databaseURL: 'https://parth-prajapati-resume-default-rtdb.firebaseio.com',
     storageBucket: 'parth-prajapati-resume.firebasestorage.app',
     measurementId: 'G-Y0LCHVFE1J',
   );
@@ -61,6 +62,7 @@ class DefaultFirebaseOptions {
     appId: '1:166022302292:android:517aa5f1a1202f74b8fbc1',
     messagingSenderId: '166022302292',
     projectId: 'parth-prajapati-resume',
+    databaseURL: 'https://parth-prajapati-resume-default-rtdb.firebaseio.com',
     storageBucket: 'parth-prajapati-resume.firebasestorage.app',
   );
 
@@ -69,6 +71,7 @@ class DefaultFirebaseOptions {
     appId: '1:166022302292:ios:25abac9b1b9d6a26b8fbc1',
     messagingSenderId: '166022302292',
     projectId: 'parth-prajapati-resume',
+    databaseURL: 'https://parth-prajapati-resume-default-rtdb.firebaseio.com',
     storageBucket: 'parth-prajapati-resume.firebasestorage.app',
     iosBundleId: 'com.example.myResumeApp',
   );

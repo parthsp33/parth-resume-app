@@ -7,6 +7,7 @@ import '../widgets/sections/skills_section.dart';
 import '../widgets/sections/projects_section.dart';
 import '../widgets/sections/contact_section.dart';
 import '../widgets/sections/achievements_section.dart';
+import '../services/visitor_service.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
@@ -25,6 +26,17 @@ class _HomeScreenState extends State<HomeScreen> {
   final GlobalKey _projectsKey = GlobalKey();
   final GlobalKey _skillsKey = GlobalKey();
   final GlobalKey _contactKey = GlobalKey();
+
+  @override
+  void initState() {
+    super.initState();
+    _initVisitorCount();
+  }
+
+  Future<void> _initVisitorCount() async {
+    // Only increment once per session load
+    await VisitorService().incrementVisitorCount();
+  }
 
   void _scrollToSection(GlobalKey key) {
     final context = key.currentContext;

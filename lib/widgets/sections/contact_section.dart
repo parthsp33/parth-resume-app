@@ -1,10 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import '../../config/resume_data.dart';
 import 'package:url_launcher/url_launcher.dart';
+import '../../config/resume_data.dart';
 import '../../const/color.dart';
 import '../section_reveal.dart';
 import '../hover_scale.dart';
+import '../visitor_counter.dart';
 
 class ContactSection extends StatelessWidget {
   const ContactSection({super.key});
@@ -76,12 +77,19 @@ class ContactSection extends StatelessWidget {
              color: Theme.of(context).textTheme.bodyLarge?.color?.withValues(alpha: 0.05),
           ),
           SizedBox(height: 32.h),
-          Text(
-            '© 2025 ${ResumeData.name}. All rights reserved.',
-            style: TextStyle(
-              color: Theme.of(context).textTheme.bodyLarge?.color?.withValues(alpha: 0.3),
-              fontSize: isMobile ? 12 : 12.sp,
-            ),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: [
+              Text(
+                '© 2025 ${ResumeData.name}. All rights reserved.',
+                style: TextStyle(
+                  color: Theme.of(context).textTheme.bodyLarge?.color?.withValues(alpha: 0.3),
+                  fontSize: isMobile ? 12 : 12.sp,
+                ),
+              ),
+              const VisitorCounter(),
+            ],
           ),
         ],
       ),
