@@ -14,12 +14,17 @@ class VisitorCounter extends StatelessWidget {
     return StreamBuilder<int>(
       stream: VisitorService().getVisitorCountStream(),
       builder: (context, snapshot) {
-        // We only want to show the counter if we have data
-        if (!snapshot.hasData || snapshot.data == null) {
-          return const SizedBox.shrink(); 
+        if (snapshot.hasError) {
+          debugPrint('VisitorCounter Error: ${snapshot.error}');
+          return const SizedBox.shrink();
         }
 
-        final int count = snapshot.data!;
+        // We only want to show the counter if we have data
+        if (!snapshot.hasData) {
+          return const SizedBox.shrink();
+        }
+
+        final int count = snapshot.data ?? 0;
 
         return Container(
           padding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 8.h),
@@ -34,7 +39,7 @@ class VisitorCounter extends StatelessWidget {
           child: Row(
             mainAxisSize: MainAxisSize.min,
             children: [
-              Icon(
+              FaIcon(
                 FontAwesomeIcons.eye,
                 size: isMobile ? 12.sp : 14.sp,
                 color: AppColors.primary,
