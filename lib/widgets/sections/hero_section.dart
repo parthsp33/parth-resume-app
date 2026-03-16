@@ -134,7 +134,7 @@ class HeroSection extends StatelessWidget {
                         runSpacing: 16.h,
                         children: [
                           _buildActionButton(
-                            'View Work',
+                            'View Portfolio',
                             true,
                             context,
                             onPressed: onViewWork ?? () {},
@@ -220,7 +220,9 @@ class HeroSection extends StatelessWidget {
   Widget _buildEmailIcon(IconData icon, String email, BuildContext context) {
     return InkWell(
       onTap: () async {
-        final Uri uri = Uri.parse('mailto:$email');
+        final Uri uri = Uri.parse(
+          "https://mail.google.com/mail/?view=cm&fs=1&to=$email&su=Contact from Website&body=Hello",
+        );
         if (await canLaunchUrl(uri)) {
           await launchUrl(uri);
         }

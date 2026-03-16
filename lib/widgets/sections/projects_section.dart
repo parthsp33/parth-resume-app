@@ -22,7 +22,7 @@ class ProjectsSection extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
           Text(
-            'Selected Work',
+            'Portfolio',
             style: Theme.of(context).textTheme.displayMedium?.copyWith(
               fontSize: isMobile ? 36 : 48.sp,
             ),

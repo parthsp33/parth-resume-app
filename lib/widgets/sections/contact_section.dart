@@ -30,11 +30,13 @@ class ContactSection extends StatelessWidget {
           HoverScale(
             child: InkWell(
               onTap: () async {
-                final Uri uri = Uri.parse('mailto:${ResumeData.email}');
-              if (await canLaunchUrl(uri)) {
-                await launchUrl(uri);
-              }
-            },
+                final Uri uri = Uri.parse(
+                  "https://mail.google.com/mail/?view=cm&fs=1&to=${ResumeData.email}&su=Contact from Website&body=Hello",
+                );
+                if (await canLaunchUrl(uri)) {
+                  await launchUrl(uri);
+                }
+              },
             child: Container(
               padding: EdgeInsets.symmetric(horizontal: 48.w, vertical: 24.h),
               decoration: BoxDecoration(
@@ -155,7 +157,9 @@ class ContactSection extends StatelessWidget {
     bool isMobile = MediaQuery.of(context).size.width < 700;
     return InkWell(
       onTap: () async {
-        final Uri uri = url.startsWith('http') ? Uri.parse(url) : Uri.parse('mailto:$url');
+        final Uri uri = url.startsWith('http')
+            ? Uri.parse(url)
+            : Uri.parse("https://mail.google.com/mail/?view=cm&fs=1&to=$url&su=Contact from Website&body=Hello");
         if (await canLaunchUrl(uri)) {
           await launchUrl(uri);
         }
