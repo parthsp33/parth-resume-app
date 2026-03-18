@@ -6,17 +6,17 @@ import '../../models/project_model.dart';
 import '../../const/color.dart';
 import '../section_reveal.dart';
 import '../hover_scale.dart';
+import '../../utils/responsive_utils.dart';
 
 class ProjectsSection extends StatelessWidget {
   const ProjectsSection({super.key});
 
   @override
   Widget build(BuildContext context) {
-    double screenWidth = MediaQuery.of(context).size.width;
-    bool isMobile = screenWidth < 600;
+    final isMobile = context.isMobile;
 
     return Container(
-      padding: EdgeInsets.symmetric(horizontal: isMobile ? 12 : 40.w),
+      padding: EdgeInsets.symmetric(horizontal: isMobile ? 12.0 : 40.w),
       child: SectionReveal(
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
@@ -28,18 +28,29 @@ class ProjectsSection extends StatelessWidget {
             ),
           ),
           SizedBox(height: isMobile ? 32.h : 64.h),
-          GridView.builder(
-            shrinkWrap: true,
-            physics: const NeverScrollableScrollPhysics(),
-            gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-              crossAxisCount: isMobile ? 1 : 2,
-              crossAxisSpacing: 32.w,
-              mainAxisSpacing: 32.h,
-              childAspectRatio: isMobile ? 1.0 : 1.5,
-            ),
-            itemCount: ResumeData.projects.length,
-            itemBuilder: (context, index) {
-              return _buildProjectCard(ResumeData.projects[index], context);
+          LayoutBuilder(
+            builder: (context, constraints) {
+              final w = constraints.maxWidth;
+              final int columns = w < Breakpoints.mobile
+                  ? 1
+                  : (w < 980 ? 2 : 3);
+
+              final double aspectRatio = columns == 1 ? 1.05 : 1.35;
+
+              return GridView.builder(
+                shrinkWrap: true,
+                physics: const NeverScrollableScrollPhysics(),
+                gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                  crossAxisCount: columns,
+                  crossAxisSpacing: 24.w,
+                  mainAxisSpacing: 24.h,
+                  childAspectRatio: aspectRatio,
+                ),
+                itemCount: ResumeData.projects.length,
+                itemBuilder: (context, index) {
+                  return _buildProjectCard(ResumeData.projects[index], context);
+                },
+              );
             },
           ),
         ],
@@ -49,7 +60,7 @@ class ProjectsSection extends StatelessWidget {
   }
 
   Widget _buildProjectCard(ProjectModel project, BuildContext context) {
-    bool isMobile = MediaQuery.of(context).size.width < 600;
+    final isMobile = context.isMobile;
     return HoverScale(
       scale: 1.02,
       child: InkWell(
@@ -154,7 +165,7 @@ class ProjectsSection extends StatelessWidget {
 
 
   Widget _buildTechChip(String text, BuildContext context) {
-    bool isMobile = MediaQuery.of(context).size.width < 600;
+    final isMobile = context.isMobile;
     return Container(
       padding: EdgeInsets.symmetric(horizontal: isMobile ? 8 : 10.w, vertical: 4.h),
       decoration: BoxDecoration(

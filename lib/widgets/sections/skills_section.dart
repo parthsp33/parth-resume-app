@@ -4,14 +4,14 @@ import '../../config/resume_data.dart';
 import '../../const/color.dart';
 import '../section_reveal.dart';
 import 'package:fl_chart/fl_chart.dart';
+import '../../utils/responsive_utils.dart';
 
 class SkillsSection extends StatelessWidget {
   const SkillsSection({super.key});
 
   @override
   Widget build(BuildContext context) {
-    double screenWidth = MediaQuery.of(context).size.width;
-    bool isMobile = screenWidth < 800;
+    final isMobile = context.isMobile;
 
     return Container(
       padding: EdgeInsets.symmetric(horizontal: isMobile ? 20.w : 40.w),
@@ -67,7 +67,7 @@ class SkillsSection extends StatelessWidget {
   }
 
   Widget _buildSkillCategory(String title, List<String> skills, BuildContext context) {
-    bool isMobile = MediaQuery.of(context).size.width < 800;
+    final isMobile = context.isMobile;
     return Padding(
       padding: EdgeInsets.only(bottom: 48.h),
       child: Column(

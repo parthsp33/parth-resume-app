@@ -6,16 +6,21 @@ import '../../const/color.dart';
 import '../section_reveal.dart';
 import '../hover_scale.dart';
 import '../visitor_counter.dart';
+import '../../utils/responsive_utils.dart';
 
 class ContactSection extends StatelessWidget {
   const ContactSection({super.key});
 
   @override
   Widget build(BuildContext context) {
-    bool isMobile = MediaQuery.of(context).size.width < 700;
+    final isMobile = context.isMobile;
 
     return Container(
-      padding: EdgeInsets.symmetric(vertical: 100.h, horizontal: isMobile ? 20.w : 60.w),
+      padding: EdgeInsets.symmetric(
+        vertical: 100.h,
+        // Avoid .w on mobile with desktop designSize (prevents tiny padding).
+        horizontal: context.responsiveValue(mobile: 20.0, tablet: 40.w, desktop: 60.w),
+      ),
       child: SectionReveal(
         child: Column(
           children: [
@@ -77,20 +82,36 @@ class ContactSection extends StatelessWidget {
              color: Theme.of(context).textTheme.bodyLarge?.color?.withValues(alpha: 0.05),
           ),
           SizedBox(height: 32.h),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            crossAxisAlignment: CrossAxisAlignment.center,
-            children: [
-              Text(
-                '© 2025 ${ResumeData.name}. All rights reserved.',
-                style: TextStyle(
-                  color: Theme.of(context).textTheme.bodyLarge?.color?.withValues(alpha: 0.3),
-                  fontSize: isMobile ? 12 : 12.sp,
+          if (isMobile)
+            Column(
+              children: [
+                const VisitorCounter(),
+                SizedBox(height: 12.h),
+                Text(
+                  '© 2025 ${ResumeData.name}. All rights reserved.',
+                  textAlign: TextAlign.center,
+                  style: TextStyle(
+                    color: Theme.of(context).textTheme.bodyLarge?.color?.withValues(alpha: 0.3),
+                    fontSize: 12,
+                  ),
                 ),
-              ),
-              const VisitorCounter(),
-            ],
-          ),
+              ],
+            )
+          else
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: [
+                Text(
+                  '© 2025 ${ResumeData.name}. All rights reserved.',
+                  style: TextStyle(
+                    color: Theme.of(context).textTheme.bodyLarge?.color?.withValues(alpha: 0.3),
+                    fontSize: 12.sp,
+                  ),
+                ),
+                const VisitorCounter(),
+              ],
+            ),
         ],
       ),
       ),
@@ -138,7 +159,7 @@ class ContactSection extends StatelessWidget {
   }
 
   Widget _buildLogo(BuildContext context) {
-    bool isMobile = MediaQuery.of(context).size.width < 700;
+    final isMobile = context.isMobile;
     return RichText(
       text: TextSpan(
         children: [
@@ -162,7 +183,7 @@ class ContactSection extends StatelessWidget {
   }
 
   Widget _buildFooterLink(String label, String url, BuildContext context) {
-    bool isMobile = MediaQuery.of(context).size.width < 700;
+    final isMobile = context.isMobile;
     return InkWell(
       onTap: () async {
         final Uri uri = url.startsWith('http')

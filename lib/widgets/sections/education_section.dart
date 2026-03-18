@@ -3,13 +3,13 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import '../../config/resume_data.dart';
 import '../../const/color.dart';
 import '../section_reveal.dart';
+import '../../utils/responsive_utils.dart';
 
 class EducationSection extends StatelessWidget {
   const EducationSection({super.key});
 
   @override
   Widget build(BuildContext context) {
-    double screenWidth = MediaQuery.of(context).size.width;
     int index = ResumeData.experience.length + 1;
 
     return SectionReveal(
@@ -18,15 +18,15 @@ class EducationSection extends StatelessWidget {
         children: [
         ...ResumeData.education.asMap().entries.map((entry) {
           int currentIndex = index + entry.key;
-          return _buildEducationItem(entry.value, currentIndex, screenWidth, context);
+          return _buildEducationItem(entry.value, currentIndex, context);
         }),
       ],
       ),
     );
   }
 
-  Widget _buildEducationItem(Map<String, dynamic> edu, int index, double screenWidth, BuildContext context) {
-    bool isMobile = screenWidth < 600;
+  Widget _buildEducationItem(Map<String, dynamic> edu, int index, BuildContext context) {
+    final isMobile = context.isMobile;
     String indexStr = index.toString().padLeft(2, '0');
 
     return Container(

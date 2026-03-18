@@ -3,14 +3,14 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import '../../config/resume_data.dart';
 import '../../const/color.dart';
 import '../section_reveal.dart';
+import '../../utils/responsive_utils.dart';
 
 class AboutSection extends StatelessWidget {
   const AboutSection({super.key});
 
   @override
   Widget build(BuildContext context) {
-    double screenWidth = MediaQuery.of(context).size.width;
-    bool isMobile = screenWidth < 1000;
+    final isMobile = context.isMobile;
 
     return Container(
       padding: EdgeInsets.symmetric(horizontal: isMobile ? 20.w : 40.w),
@@ -89,7 +89,7 @@ class AboutSection extends StatelessWidget {
   }
 
   Widget _buildBio(BuildContext context) {
-    bool isMobile = MediaQuery.of(context).size.width < 800;
+    final isMobile = context.isMobile;
     return Text(
       ResumeData.experienceSummary,
       style: Theme.of(context).textTheme.bodyLarge?.copyWith(
@@ -111,7 +111,7 @@ class AboutSection extends StatelessWidget {
   }
 
   Widget _buildStatItem(String val, String label, BuildContext context) {
-    bool isMobile = MediaQuery.of(context).size.width < 800;
+    final isMobile = context.isMobile;
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
@@ -136,7 +136,7 @@ class AboutSection extends StatelessWidget {
   }
 
   Widget _buildEducationAndInterests(BuildContext context) {
-    bool isMobile = MediaQuery.of(context).size.width < 800;
+    final isMobile = context.isMobile;
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
@@ -221,7 +221,7 @@ class AboutSection extends StatelessWidget {
   }
 
   Widget _buildInterestChip(String label, BuildContext context) {
-    bool isMobile = MediaQuery.of(context).size.width < 800;
+    final isMobile = context.isMobile;
     return Container(
       padding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 8.h),
       decoration: BoxDecoration(

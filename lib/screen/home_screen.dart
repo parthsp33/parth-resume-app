@@ -8,6 +8,7 @@ import '../widgets/sections/projects_section.dart';
 import '../widgets/sections/contact_section.dart';
 import '../widgets/sections/achievements_section.dart';
 import '../services/visitor_service.dart';
+import '../utils/responsive_utils.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
@@ -18,6 +19,7 @@ class HomeScreen extends StatefulWidget {
 
 class _HomeScreenState extends State<HomeScreen> {
   final ScrollController _scrollController = ScrollController();
+  final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
   
   // Section Keys
   final GlobalKey _aboutKey = GlobalKey();
@@ -55,19 +57,114 @@ class _HomeScreenState extends State<HomeScreen> {
     super.dispose();
   }
 
+  void _openMobileNav() {
+    _scaffoldKey.currentState?.openDrawer();
+  }
+
+  Widget _mobileNavItem(String title, VoidCallback onTap) {
+    return ListTile(
+      title: Text(
+        title,
+        style: Theme.of(context).textTheme.titleMedium?.copyWith(
+              fontWeight: FontWeight.w600,
+            ),
+      ),
+      trailing: Icon(
+        Icons.chevron_right,
+        color: Theme.of(context).textTheme.bodyLarge?.color?.withValues(alpha: 0.6),
+      ),
+      iconColor: Theme.of(context).colorScheme.primary,
+      onTap: () {
+        Navigator.of(context).maybePop(); // close drawer
+        onTap();
+      },
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
-    double screenWidth = MediaQuery.of(context).size.width;
-    bool isMobile = screenWidth < 800;
+    final isMobile = context.isMobile;
 
     return Scaffold(
+      key: _scaffoldKey,
       backgroundColor: Theme.of(context).scaffoldBackgroundColor,
+      drawer: isMobile
+          ? Drawer(
+              backgroundColor: Colors.transparent,
+              elevation: 0,
+              child: SafeArea(
+                child: Container(
+                  margin: const EdgeInsets.all(12),
+                  decoration: BoxDecoration(
+                    gradient: LinearGradient(
+                      begin: Alignment.topLeft,
+                      end: Alignment.bottomRight,
+                      colors: [
+                        Theme.of(context).scaffoldBackgroundColor.withValues(alpha: 0.98),
+                        Theme.of(context).scaffoldBackgroundColor.withValues(alpha: 0.92),
+                      ],
+                    ),
+                    borderRadius: BorderRadius.circular(18),
+                    border: Border.all(
+                      color: Theme.of(context).colorScheme.primary.withValues(alpha: 0.25),
+                      width: 1,
+                    ),
+                    boxShadow: [
+                      BoxShadow(
+                        color: Colors.black.withValues(alpha: 0.25),
+                        blurRadius: 24,
+                        offset: const Offset(0, 10),
+                      ),
+                    ],
+                  ),
+                  child: ListView(
+                    padding: EdgeInsets.zero,
+                    children: [
+                      Padding(
+                        padding: const EdgeInsets.fromLTRB(16, 18, 16, 10),
+                        child: Row(
+                          children: [
+                            Icon(
+                              Icons.menu,
+                              color: Theme.of(context).colorScheme.primary.withValues(alpha: 0.9),
+                            ),
+                            const SizedBox(width: 10),
+                            Text(
+                              'Menu',
+                              style: Theme.of(context).textTheme.titleLarge?.copyWith(
+                                    fontWeight: FontWeight.w800,
+                                  ),
+                            ),
+                          ],
+                        ),
+                      ),
+                      Divider(
+                        height: 1,
+                        color: Theme.of(context).dividerColor.withValues(alpha: 0.25),
+                      ),
+                      _mobileNavItem('About', () => _scrollToSection(_aboutKey)),
+                      _mobileNavItem('Experience', () => _scrollToSection(_experienceKey)),
+                      _mobileNavItem('Achievements', () => _scrollToSection(_achievementsKey)),
+                      _mobileNavItem('Projects', () => _scrollToSection(_projectsKey)),
+                      _mobileNavItem('Skills', () => _scrollToSection(_skillsKey)),
+                      _mobileNavItem('Contact', () => _scrollToSection(_contactKey)),
+                      const SizedBox(height: 8),
+                    ],
+                  ),
+                ),
+              ),
+            )
+          : null,
       body: SingleChildScrollView(
         controller: _scrollController,
         child: Column(
           children: [
             Padding(
-              padding: EdgeInsets.symmetric(horizontal: isMobile ? 20.w : 60.w, vertical: 40.h),
+              padding: EdgeInsets.symmetric(
+                // Avoid .w on mobile with desktop designSize (prevents tiny padding).
+                horizontal: context.responsiveValue(mobile: 20.0, tablet: 40.w, desktop: 60.w),
+                vertical: 40.h,
+              ),
               child: Row(
                 children: [
                   RichText(
@@ -90,7 +187,13 @@ class _HomeScreenState extends State<HomeScreen> {
                     ),
                   ),
                   const Spacer(),
-                  if (!isMobile)
+                  if (isMobile)
+                    IconButton(
+                      onPressed: _openMobileNav,
+                      icon: const Icon(Icons.menu),
+                      tooltip: 'Menu',
+                    )
+                  else ...[
                     Row(
                       children: [
                         _navItem('ABOUT', () => _scrollToSection(_aboutKey), context),
@@ -102,7 +205,8 @@ class _HomeScreenState extends State<HomeScreen> {
                         _navItem('CONTACT', () => _scrollToSection(_contactKey), context),
                       ],
                     ),
-                  if (!isMobile) const Spacer(),
+                    const Spacer(),
+                  ],
                 ],
               ),
             ),
@@ -113,7 +217,9 @@ class _HomeScreenState extends State<HomeScreen> {
             ),
             
             Padding(
-              padding: EdgeInsets.symmetric(horizontal: isMobile ? 16.w : 150.w),
+              padding: EdgeInsets.symmetric(
+                horizontal: context.responsiveValue(mobile: 16.0, tablet: 64.w, desktop: 150.w),
+              ),
               child: Column(
                 children: [
                   SizedBox(height: isMobile ? 60.h : 100.h),

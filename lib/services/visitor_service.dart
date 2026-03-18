@@ -2,12 +2,24 @@ import 'package:flutter/foundation.dart';
 import 'package:firebase_database/firebase_database.dart';
 
 class VisitorService {
-  final DatabaseReference _dbRef = FirebaseDatabase.instance.ref('visitor_count');
+  DatabaseReference? _tryGetRef() {
+    try {
+      return FirebaseDatabase.instance.ref('visitor_count');
+    } catch (e) {
+      // In widget tests (or if Firebase isn't initialized yet), accessing
+      // FirebaseDatabase.instance can throw (e.g. core/no-app).
+      debugPrint('VisitorService not available: $e');
+      return null;
+    }
+  }
 
   /// Safely increments the visitor count by 1 using a transaction.
   Future<void> incrementVisitorCount() async {
     try {
-      await _dbRef.runTransaction((Object? currentData) {
+      final ref = _tryGetRef();
+      if (ref == null) return;
+
+      await ref.runTransaction((Object? currentData) {
         if (currentData == null) {
           return Transaction.success(1); // Initialize if it doesn't exist
         }
@@ -28,7 +40,10 @@ class VisitorService {
 
   /// Returns a stream of the current visitor count.
   Stream<int> getVisitorCountStream() {
-    return _dbRef.onValue.map((event) {
+    final ref = _tryGetRef();
+    if (ref == null) return Stream<int>.value(0);
+
+    return ref.onValue.map((event) {
       final data = event.snapshot.value;
       if (data is int) {
         return data;

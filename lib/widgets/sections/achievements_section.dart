@@ -3,14 +3,14 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import '../../config/resume_data.dart';
 import '../../const/color.dart';
 import '../section_reveal.dart';
+import '../../utils/responsive_utils.dart';
 
 class AchievementsSection extends StatelessWidget {
   const AchievementsSection({super.key});
 
   @override
   Widget build(BuildContext context) {
-    double screenWidth = MediaQuery.of(context).size.width;
-    bool isMobile = screenWidth < 600;
+    final isMobile = context.isMobile;
     
     return Container(
       margin: EdgeInsets.only(bottom: 100.h),
@@ -52,7 +52,7 @@ class AchievementsSection extends StatelessWidget {
   }
 
   Widget _buildAchievementItem(String title, String date, String description, BuildContext context) {
-    bool isMobile = MediaQuery.of(context).size.width < 600;
+    final isMobile = context.isMobile;
     return Padding(
       padding: EdgeInsets.only(bottom: 40.h),
       child: Column(

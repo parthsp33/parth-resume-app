@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 import '../../const/color.dart';
+import '../../utils/responsive_utils.dart';
 
 class CustomButton extends StatelessWidget {
   final String text;
@@ -17,53 +18,11 @@ class CustomButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    // Get screen width to determine device type
-    double screenWidth = MediaQuery.of(context).size.width;
-
-    // Define sizes for different screen widths
-    double getButtonWidth() {
-      if (screenWidth < 600) {
-        return 200.w; // Mobile
-      } else if (screenWidth < 1100) {
-        return 180.w; // Tablet
-      } else {
-        return 160.w; // Desktop
-      }
-    }
-
-    double getButtonHeight() {
-      if (screenWidth < 600) {
-        return 50.h; // Mobile
-      } else if (screenWidth < 1100) {
-        return 45.h; // Tablet
-      } else {
-        return 40.h; // Desktop
-      }
-    }
-
-    double getFontSize() {
-      if (screenWidth < 600) {
-        return 16.sp; // Mobile
-      } else if (screenWidth < 1100) {
-        return 14.sp; // Tablet
-      } else {
-        return 12.sp; // Desktop
-      }
-    }
-
-    double getBorderRadius() {
-      if (screenWidth < 600) {
-        return 8.r; // Mobile
-      } else if (screenWidth < 1100) {
-        return 6.r; // Tablet
-      } else {
-        return 4.r; // Desktop
-      }
-    }
+    final isMobile = context.isMobile;
 
     return SizedBox(
-      width: getButtonWidth(),
-      height: getButtonHeight(),
+      width: context.responsiveValue(mobile: 200.w, tablet: 180.w, desktop: 160.w),
+      height: context.responsiveValue(mobile: 50.h, tablet: 45.h, desktop: 40.h),
       child: ElevatedButton(
         onPressed: onPressed,
         style: ElevatedButton.styleFrom(
@@ -71,18 +30,20 @@ class CustomButton extends StatelessWidget {
           foregroundColor: isOutlined ? AppColors.primary : Colors.white,
           side: isOutlined ? BorderSide(color: AppColors.primary) : null,
           shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(getBorderRadius()),
+            borderRadius: BorderRadius.circular(
+              context.responsiveValue(mobile: 8.r, tablet: 6.r, desktop: 4.r),
+            ),
           ),
           padding: EdgeInsets.symmetric(
-            horizontal: screenWidth < 600 ? 20.w : 16.w,
-            vertical: screenWidth < 600 ? 10.h : 8.h,
+            horizontal: isMobile ? 20.w : 16.w,
+            vertical: isMobile ? 10.h : 8.h,
           ),
         ),
         child: Text(
           text,
           style: TextStyle(
-            fontSize: getFontSize(),
-            fontWeight: screenWidth < 600 ? FontWeight.w600 : FontWeight.w500,
+            fontSize: context.responsiveValue(mobile: 16.sp, tablet: 14.sp, desktop: 12.sp),
+            fontWeight: isMobile ? FontWeight.w600 : FontWeight.w500,
           ),
         ),
       ),

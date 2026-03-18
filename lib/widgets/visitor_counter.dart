@@ -1,15 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import '../../services/visitor_service.dart';
-import '../../const/color.dart';
+import '../services/visitor_service.dart';
+import '../const/color.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import '../utils/responsive_utils.dart';
 
 class VisitorCounter extends StatelessWidget {
   const VisitorCounter({super.key});
 
   @override
   Widget build(BuildContext context) {
-    bool isMobile = MediaQuery.of(context).size.width < 700;
+    final isMobile = context.isMobile;
 
     return StreamBuilder<int>(
       stream: VisitorService().getVisitorCountStream(),

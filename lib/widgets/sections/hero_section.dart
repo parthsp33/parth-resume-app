@@ -6,6 +6,7 @@ import 'package:url_launcher/url_launcher.dart';
 import 'package:flutter_animate/flutter_animate.dart';
 import '../../main.dart'; // Import themeNotifier
 import '../hover_scale.dart';
+import '../../utils/responsive_utils.dart';
 
 class HeroSection extends StatelessWidget {
   final VoidCallback? onViewWork;
@@ -19,8 +20,7 @@ class HeroSection extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    double screenWidth = MediaQuery.of(context).size.width;
-    bool isMobile = screenWidth < 600;
+    final isMobile = context.isMobile;
 
     return ValueListenableBuilder<ThemeMode>(
       valueListenable: themeNotifier,
@@ -37,7 +37,7 @@ class HeroSection extends StatelessWidget {
               // Theme Toggle
               Positioned(
                 top: 40.h,
-                right: 40.w,
+                right: isMobile ? 16.w : 40.w,
                 child: IconButton(
                   icon: Icon(
                     mode == ThemeMode.light ? Icons.dark_mode_outlined : Icons.light_mode_outlined,
@@ -81,73 +81,87 @@ class HeroSection extends StatelessWidget {
               // Main Content
               Center(
                 child: Container(
-                  padding: EdgeInsets.symmetric(horizontal: 20.w),
+                  padding: EdgeInsets.symmetric(horizontal: isMobile ? 20.0 : 20.w),
                   constraints: BoxConstraints(maxWidth: 1200.w),
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.center,
                     crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      // Sub-header with line
-                      Row(
-                        children: [
-                          Container(
-                            width: isMobile ? 24.w : 32.w,
-                            height: 2,
-                            color: AppColors.primary,
+                    children: () {
+                      final children = <Widget>[
+                        // Sub-header with line
+                        Row(
+                          children: [
+                            Container(
+                              width: isMobile ? 24.0 : 32.w,
+                              height: 2,
+                              color: AppColors.primary,
+                            ),
+                            SizedBox(width: isMobile ? 8.0 : 16.w),
+                            Text(
+                              ResumeData.role.split('|').first.trim().toUpperCase(),
+                              style: Theme.of(context).textTheme.labelLarge?.copyWith(
+                                fontSize: isMobile ? 14 : 12.sp,
+                                letterSpacing: isMobile ? 1.5 : 3,
+                              ),
+                            ),
+                          ],
+                        ),
+                        SizedBox(height: 48.h),
+                        // Massive Bold Title
+                        Text(
+                          "${ResumeData.name.split(' ').first}\n${ResumeData.name.split(' ').last}",
+                          style: Theme.of(context).textTheme.displayLarge?.copyWith(
+                            fontSize: isMobile ? 56 : 120.sp,
+                            color: Theme.of(context).textTheme.displayLarge?.color,
+                            height: 1.1,
                           ),
-                          SizedBox(width: isMobile ? 8.w : 16.w),
-                          Text(
-                            ResumeData.role.split('|').first.trim().toUpperCase(),
-                            style: Theme.of(context).textTheme.labelLarge?.copyWith(
-                              fontSize: isMobile ? 14 : 12.sp,
-                              letterSpacing: isMobile ? 1.5 : 3,
+                        ),
+                        SizedBox(height: 48.h),
+                        // Introduction text
+                        Container(
+                          constraints: BoxConstraints(maxWidth: isMobile ? double.infinity : 500.w),
+                          child: Text(
+                            "Building robust, scalable, and user-centric mobile applications with Flutter and Swift.",
+                            style: Theme.of(context).textTheme.bodyLarge?.copyWith(
+                              fontSize: isMobile ? 16 : 18.sp,
+                              height: 1.6,
                             ),
                           ),
-                        ],
-                      ),
-                      SizedBox(height: 48.h),
-                      // Massive Bold Title
-                      Text(
-                        "${ResumeData.name.split(' ').first}\n${ResumeData.name.split(' ').last}",
-                        style: Theme.of(context).textTheme.displayLarge?.copyWith(
-                          fontSize: isMobile ? 56 : 120.sp,
-                          color: Theme.of(context).textTheme.displayLarge?.color,
-                          height: 1.1,
                         ),
-                      ),
-                      SizedBox(height: 48.h),
-                      // Introduction text
-                      Container(
-                        constraints: BoxConstraints(maxWidth: isMobile ? double.infinity : 500.w),
-                        child: Text(
-                          "Building robust, scalable, and user-centric mobile applications with Flutter and Swift.",
-                          style: Theme.of(context).textTheme.bodyLarge?.copyWith(
-                            fontSize: isMobile ? 16 : 18.sp,
-                            height: 1.6,
-                          ),
+                        SizedBox(height: 64.h),
+                        // Action Buttons
+                        Wrap(
+                          spacing: 24.w,
+                          runSpacing: 16.h,
+                          children: [
+                            _buildActionButton(
+                              'View Portfolio',
+                              true,
+                              context,
+                              onPressed: onViewWork ?? () {},
+                            ),
+                            _buildActionButton(
+                              'Contact Me',
+                              false,
+                              context,
+                              onPressed: onContactMe ?? () {},
+                            ),
+                          ],
                         ),
-                      ),
-                      SizedBox(height: 64.h),
-                      // Action Buttons
-                      Wrap(
-                        spacing: 24.w,
-                        runSpacing: 16.h,
-                        children: [
-                          _buildActionButton(
-                            'View Portfolio',
-                            true,
-                            context,
-                            onPressed: onViewWork ?? () {},
-                          ),
-                          _buildActionButton(
-                            'Contact Me',
-                            false,
-                            context,
-                            onPressed: onContactMe ?? () {},
-                          ),
-                        ],
-                      ),
-                    ].animate(interval: 150.ms).fade(duration: 800.ms).slideY(begin: 0.1, end: 0, duration: 800.ms, curve: Curves.easeOutCubic),
+                      ];
+
+                      if (isMobile) return children;
+
+                      return children
+                          .animate(interval: 150.ms)
+                          .fade(duration: 800.ms)
+                          .slideY(
+                            begin: 0.1,
+                            end: 0,
+                            duration: 800.ms,
+                            curve: Curves.easeOutCubic,
+                          );
+                    }(),
                   ),
                 ),
               ),
@@ -159,7 +173,7 @@ class HeroSection extends StatelessWidget {
   }
 
   Widget _buildActionButton(String label, bool isPrimary, BuildContext context, {required VoidCallback onPressed}) {
-    bool isMobile = MediaQuery.of(context).size.width < 600;
+    final isMobile = context.isMobile;
     final bgColor = isPrimary ? Colors.white : Colors.transparent;
     final textColor = isPrimary ? Colors.black : Theme.of(context).textTheme.bodyLarge?.color;
     final borderColor = isPrimary ? Colors.white : Theme.of(context).textTheme.bodyLarge?.color?.withValues(alpha: 0.2);
