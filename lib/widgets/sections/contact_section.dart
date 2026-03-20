@@ -7,7 +7,6 @@ import '../section_reveal.dart';
 import '../hover_scale.dart';
 import '../visitor_counter.dart';
 import '../../utils/responsive_utils.dart';
-import '../inquiry_form.dart';
 
 class ContactSection extends StatelessWidget {
   const ContactSection({super.key});
@@ -68,10 +67,6 @@ class ContactSection extends StatelessWidget {
             ),
             ),
           ),
-          SizedBox(height: 120.h),
-
-          // Inquiry Form
-          const InquiryForm(),
           SizedBox(height: 120.h),
 
           // Footer
