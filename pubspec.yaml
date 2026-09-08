@@ -31,15 +31,14 @@ dependencies:
   flutter:
     sdk: flutter
 
-  # The following adds the Cupertino Icons font to your application.
-  # Use with the CupertinoIcons class for iOS style icons.
+  # Not imported anywhere in lib/, but the Flutter framework still references
+  # CupertinoIcons glyphs, and dropping it makes the build warn about missing
+  # fonts. It tree-shakes down to about 1.5 KB, so keeping it is cheap.
   cupertino_icons: ^1.0.8
   firebase_core: ^4.5.0
-  flutter_lints: ^5.0.0
   flutter_screenutil: ^5.9.3
   google_fonts: ^8.0.2    # For custom fonts
   url_launcher: ^6.3.1    # For launching URLs, emails, phone numbers
-  flutter_svg: ^2.0.17     # For SVG icons and images
   font_awesome_flutter: ^11.0.0  # For social media and other icons
   fl_chart: ^1.2.0
   flutter_animate: ^4.5.2
@@ -49,6 +48,7 @@ dependencies:
 dev_dependencies:
   flutter_test:
     sdk: flutter
+  flutter_lints: ^5.0.0
 
 # For information on the generic Dart part of this file, see the
 # following page: https://dart.dev/tools/pub/pubspec
@@ -60,8 +60,6 @@ flutter:
   # included with your application, so that you can use the icons in
   # the material Icons class.
   uses-material-design: true
-  assets:
-    - assets/
   # To add assets to your application, add an assets section, like this:
   # assets:
   #   - images/a_dot_burr.jpeg

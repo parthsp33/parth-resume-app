@@ -46,3 +46,6 @@ app.*.map.json
 
 # Firebase Hosting deploy cache
 .firebase/
+
+# Saved `flutter analyze` output. Build tool stdout, not source.
+analysis_output*.txt
