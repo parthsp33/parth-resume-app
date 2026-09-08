@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://parth-prajapati-resume.web.app/sitemap.xml
