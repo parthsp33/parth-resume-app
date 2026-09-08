@@ -18,7 +18,7 @@
 
   <meta charset="UTF-8">
   <meta content="IE=Edge" http-equiv="X-UA-Compatible">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, user-scalable=yes">
 
   <title>Parth Prajapati | Software Engineer - React Native &amp; Flutter Developer</title>
   <meta name="description" content="Parth Prajapati is a Software Engineer with 4.5+ years of experience building Android and iOS apps with React Native, Expo, Flutter, Dart and Swift. See portfolio, projects, skills and experience.">
@@ -151,10 +151,37 @@
     </div>
   </noscript>
 
-  <!-- Add Firebase SDKs manually to ensure web plugin registration -->
-  <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-app-compat.js"></script>
-  <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-database-compat.js"></script>
+  <!--
+    The Firebase SDK is loaded by the firebase_core / firebase_database Flutter
+    plugins themselves. Loading firebase-*-compat.js here as well shipped the
+    same code twice and blocked first render, so it was removed.
+  -->
 
   <script src="flutter_bootstrap.js" async></script>
+
+  <script>
+    // The Flutter engine rewrites the viewport meta tag at boot and adds
+    // user-scalable=no, which blocks pinch zoom. Put a zoomable viewport back
+    // once the engine has finished touching it.
+    (function () {
+      var restore = function () {
+        var meta = document.querySelector('meta[name="viewport"]');
+        if (!meta) return;
+        var wanted = 'width=device-width, initial-scale=1.0, maximum-scale=5.0, user-scalable=yes';
+        if (meta.getAttribute('content') !== wanted) {
+          meta.setAttribute('content', wanted);
+        }
+      };
+      var head = document.querySelector('head');
+      if (window.MutationObserver && head) {
+        new MutationObserver(restore).observe(head, {
+          subtree: true,
+          attributes: true,
+          attributeFilter: ['content'],
+        });
+      }
+      window.addEventListener('load', restore);
+    })();
+  </script>
 </body>
 </html>

@@ -1,13 +1,16 @@
 import 'package:flutter/foundation.dart';
 import 'package:firebase_database/firebase_database.dart';
+import 'package:my_resume_app/main.dart' show firebaseReady;
 
 class VisitorService {
-  DatabaseReference? _tryGetRef() {
+  /// Waits for Firebase to finish starting up, then hands back the counter
+  /// reference. Returns null when Firebase is not available, for example in
+  /// widget tests.
+  Future<DatabaseReference?> _tryGetRef() async {
     try {
+      await firebaseReady;
       return FirebaseDatabase.instance.ref('visitor_count');
     } catch (e) {
-      // In widget tests (or if Firebase isn't initialized yet), accessing
-      // FirebaseDatabase.instance can throw (e.g. core/no-app).
       debugPrint('VisitorService not available: $e');
       return null;
     }
@@ -16,14 +19,14 @@ class VisitorService {
   /// Safely increments the visitor count by 1 using a transaction.
   Future<void> incrementVisitorCount() async {
     try {
-      final ref = _tryGetRef();
+      final ref = await _tryGetRef();
       if (ref == null) return;
 
       await ref.runTransaction((Object? currentData) {
         if (currentData == null) {
           return Transaction.success(1); // Initialize if it doesn't exist
         }
-        
+
         if (currentData is int) {
           return Transaction.success(currentData + 1);
         } else if (currentData is Map) {
@@ -34,16 +37,17 @@ class VisitorService {
         return Transaction.success(1); // Fallback
       });
     } catch (e) {
-      debugPrint('Error incrementing visitor count: \$e');
+      debugPrint('Error incrementing visitor count: $e');
     }
   }
 
-  /// Returns a stream of the current visitor count.
-  Stream<int> getVisitorCountStream() {
-    final ref = _tryGetRef();
-    if (ref == null) return Stream<int>.value(0);
+  /// Returns a stream of the current visitor count. The stream stays empty
+  /// until Firebase is ready, so the counter simply does not show up yet.
+  Stream<int> getVisitorCountStream() async* {
+    final ref = await _tryGetRef();
+    if (ref == null) return;
 
-    return ref.onValue.map((event) {
+    yield* ref.onValue.map((event) {
       final data = event.snapshot.value;
       if (data is int) {
         return data;

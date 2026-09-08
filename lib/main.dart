@@ -8,12 +8,19 @@ import 'package:my_resume_app/screen/home_screen.dart';
 
 final ValueNotifier<ThemeMode> themeNotifier = ValueNotifier(ThemeMode.dark);
 
+/// Completes once Firebase has started up. Anything that talks to Firebase
+/// should await this instead of assuming the app is already connected.
+final Future<void> firebaseReady = Firebase.initializeApp(
+  options: DefaultFirebaseOptions.currentPlatform,
+).then((_) {}, onError: (Object e) {
+  debugPrint('Firebase init failed: $e');
+});
+
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  await Firebase.initializeApp(
-    options: DefaultFirebaseOptions.currentPlatform,
-  );
   await ScreenUtil.ensureScreenSize();
+  // Firebase is only needed for the visitor counter, so we do not block the
+  // first frame on it. It keeps warming up in the background.
   runApp(const MyApp());
 }
 
