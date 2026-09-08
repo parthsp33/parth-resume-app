@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
 import '../../config/resume_data.dart';
 import '../../const/color.dart';
 import '../section_reveal.dart';
@@ -10,102 +9,94 @@ class EducationSection extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    int index = ResumeData.experience.length + 1;
+    final isMobile = context.isMobile;
 
     return SectionReveal(
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-        ...ResumeData.education.asMap().entries.map((entry) {
-          int currentIndex = index + entry.key;
-          return _buildEducationItem(entry.value, currentIndex, context);
-        }),
-      ],
+          Row(
+            children: [
+              Container(
+                width: isMobile ? 40 : 72,
+                height: 2,
+                color: AppColors.primary,
+              ),
+              SizedBox(width: isMobile ? 12 : 24),
+              Text(
+                'BACKGROUND',
+                style: Theme.of(context).textTheme.labelLarge,
+              ),
+            ],
+          ),
+          const SizedBox(height: 20),
+          Text(
+            'Education',
+            style: Theme.of(context).textTheme.displayMedium,
+          ),
+          SizedBox(height: context.headingGap),
+          ...ResumeData.education.map((edu) => _buildEducationItem(edu, context)),
+        ],
       ),
     );
   }
 
-  Widget _buildEducationItem(Map<String, dynamic> edu, int index, BuildContext context) {
-    final isMobile = context.isMobile;
-    String indexStr = index.toString().padLeft(2, '0');
+  Widget _buildEducationItem(Map<String, dynamic> edu, BuildContext context) {
+    final bodyColor = Theme.of(context).textTheme.bodyLarge?.color;
 
-    return Container(
-      margin: EdgeInsets.only(bottom: 150.h),
-      child: Stack(
+    return Padding(
+      padding: EdgeInsets.only(bottom: context.space(40)),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Positioned(
-            top: -40.h,
-            left: -20.w,
-            child: Opacity(
-              opacity: 0.1,
-              child: Text(
-                indexStr,
-                style: Theme.of(context).textTheme.displayLarge?.copyWith(
-                  fontSize: isMobile ? 120.sp : 240.sp,
-                  fontWeight: FontWeight.w900,
-                  color: Theme.of(context).textTheme.displayLarge?.color?.withValues(alpha: 0.08),
+          Text(
+            '${edu['degree']}',
+            style: Theme.of(context).textTheme.titleLarge?.copyWith(
+                  color: Theme.of(context).textTheme.displayLarge?.color,
+                  fontWeight: FontWeight.w700,
+                  fontSize: context.fontSize(mobile: 18, tablet: 20, desktop: 22),
                 ),
-              ),
-            ),
           ),
-          
-          Padding(
-            padding: EdgeInsets.only(top: 60.h, left: isMobile ? 0 : 80.w),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Row(
-                  children: [
-                    Container(
-                      width: 72.w,
-                      height: 2,
-                      color: AppColors.primary,
-                    ),
-                    SizedBox(width: 24.w),
-                    Text(
-                      'STATION $indexStr',
-                      style: Theme.of(context).textTheme.labelLarge,
-                    ),
-                  ],
+          const SizedBox(height: 8),
+          Text(
+            '${edu['institution']}',
+            style: Theme.of(context).textTheme.bodyLarge?.copyWith(
+                  fontWeight: FontWeight.w600,
                 ),
-                SizedBox(height: 24.h),
-                Text(
-                  '${edu['degree']} at\n${edu['institution']}',
-                  style: Theme.of(context).textTheme.displayMedium,
-                ),
-                SizedBox(height: 16.h),
-                Text(
-                  '${edu['period']} | ${edu['location']}',
-                  style: TextStyle(
-                    color: AppColors.primary,
-                    fontSize: 16.sp,
-                    fontWeight: FontWeight.w700,
-                    letterSpacing: 2,
-                  ),
-                ),
-                SizedBox(height: 32.h),
-                _buildGradeBadge(edu['grade'], context),
-              ],
-            ),
           ),
+          const SizedBox(height: 8),
+          Text(
+            '${edu['period']}  |  ${edu['location']}',
+            style: Theme.of(context).textTheme.bodyMedium?.copyWith(
+                  color: bodyColor?.withValues(alpha: 0.7),
+                  letterSpacing: 1,
+                ),
+          ),
+          SizedBox(height: context.space(20)),
+          _buildGradeBadge('${edu['grade']}', context),
         ],
       ),
     );
   }
 
   Widget _buildGradeBadge(String grade, BuildContext context) {
+    final isLight = Theme.of(context).brightness == Brightness.light;
+    // The brand red is under the contrast minimum as text on white, so the
+    // light theme uses the darkened variant.
+    final labelColor = isLight ? AppColors.primaryOnLight : AppColors.primary;
+
     return Container(
-      padding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 8.h),
+      padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
       decoration: BoxDecoration(
         color: AppColors.primary.withValues(alpha: 0.08),
-        borderRadius: BorderRadius.circular(4.r),
+        borderRadius: BorderRadius.circular(4),
         border: Border.all(color: AppColors.primary.withValues(alpha: 0.2)),
       ),
       child: Text(
         grade,
         style: TextStyle(
-          color: AppColors.primary,
-          fontSize: 14.sp,
+          color: labelColor,
+          fontSize: context.fontSize(mobile: 13, tablet: 14, desktop: 14),
           fontWeight: FontWeight.w700,
           letterSpacing: 1,
         ),
@@ -113,4 +104,3 @@ class EducationSection extends StatelessWidget {
     );
   }
 }
-

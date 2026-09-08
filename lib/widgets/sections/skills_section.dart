@@ -73,7 +73,10 @@ class SkillsSection extends StatelessWidget {
           Text(
             title.toUpperCase(),
             style: TextStyle(
-              color: AppColors.primary,
+              // Darker red on light backgrounds, for contrast. See AppColors.
+              color: Theme.of(context).brightness == Brightness.light
+                  ? AppColors.primaryOnLight
+                  : AppColors.primary,
               fontSize: context.fontSize(mobile: 11, desktop: 12),
               fontWeight: FontWeight.bold,
               letterSpacing: 2,

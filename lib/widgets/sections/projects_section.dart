@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'package:url_launcher/url_launcher.dart';
+import '../../utils/external_links.dart';
 import '../../config/resume_data.dart';
 import '../../models/project_model.dart';
 import '../../const/color.dart';
@@ -55,16 +55,19 @@ class ProjectsSection extends StatelessWidget {
 
   Widget _buildProjectCard(ProjectModel project, BuildContext context) {
     final isMobile = context.isMobile;
+    final storeLink = project.playStoreLink ?? project.appStoreLink;
+
     return HoverScale(
       scale: 1.02,
-      child: InkWell(
-        onTap: () {
-          if (project.playStoreLink != null) {
-          _launchURL(project.playStoreLink!);
-        } else if (project.appStoreLink != null) {
-          _launchURL(project.appStoreLink!);
-        }
-      },
+      child: Semantics(
+        button: storeLink != null,
+        label: storeLink != null
+            ? '${project.name}, open the app store listing'
+            : project.name,
+        child: InkWell(
+        onTap: storeLink == null
+            ? null
+            : () => ExternalLinks.openOrNotify(context, Uri.parse(storeLink)),
       child: Container(
         padding: EdgeInsets.all(isMobile ? 16 : 24),
         decoration: BoxDecoration(
@@ -175,6 +178,7 @@ class ProjectsSection extends StatelessWidget {
         ),
       ),
       ),
+      ),
     );
   }
 
@@ -210,7 +214,7 @@ class ProjectsSection extends StatelessWidget {
     return Tooltip(
       message: tooltip,
       child: InkWell(
-        onTap: () => _launchURL(url),
+        onTap: () => ExternalLinks.openOrNotify(context, Uri.parse(url)),
         borderRadius: BorderRadius.circular(8),
         child: _buildIconBox(
           context,
@@ -226,11 +230,17 @@ class ProjectsSection extends StatelessWidget {
 
   Widget _buildStatusPill(BuildContext context, String status) {
     final bool isLive = status.toLowerCase() == 'complete';
+    final bool isDark = Theme.of(context).brightness == Brightness.dark;
+
+    // Two shades per state. The light-theme greens and ambers are darkened
+    // because the originals were well under 4.5:1 as 10px text on a 12% tint
+    // of themselves, which was the weakest contrast in the app.
     final Color accent = isLive
-        ? const Color(0xFF22C55E)
-        : const Color(0xFFF59E0B);
+        ? (isDark ? const Color(0xFF22C55E) : const Color(0xFF15803D))
+        : (isDark ? const Color(0xFFF59E0B) : const Color(0xFF9A5B00));
+
     return Container(
-      padding: EdgeInsets.symmetric(
+      padding: const EdgeInsets.symmetric(
         horizontal: 10,
         vertical: 5,
       ),
@@ -252,7 +262,7 @@ class ProjectsSection extends StatelessWidget {
             status.toUpperCase(),
             style: TextStyle(
               color: accent,
-              fontSize: 10,
+              fontSize: 11,
               fontWeight: FontWeight.bold,
               letterSpacing: 1.2,
             ),
@@ -279,19 +289,12 @@ class ProjectsSection extends StatelessWidget {
       child: Text(
         text,
         style: TextStyle(
-          color: Theme.of(context).textTheme.bodyLarge?.color?.withValues(alpha: 0.5),
+          // Was alpha 0.5 at 11px, under the contrast minimum.
+          color: Theme.of(context).textTheme.bodyLarge?.color?.withValues(alpha: 0.8),
           fontSize: 11,
           fontWeight: FontWeight.w600,
         ),
       ),
     );
-  }
-
-
-  void _launchURL(String url) async {
-    final Uri uri = Uri.parse(url);
-    if (await canLaunchUrl(uri)) {
-      await launchUrl(uri);
-    }
   }
 }

@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import '../../const/color.dart';
 import '../../config/resume_data.dart';
-import 'package:url_launcher/url_launcher.dart';
 import 'package:flutter_animate/flutter_animate.dart';
+import '../../utils/external_links.dart';
 import '../../main.dart'; // Import themeNotifier
 import '../hover_scale.dart';
 import '../../utils/responsive_utils.dart';
@@ -50,9 +50,14 @@ class HeroSection extends StatelessWidget {
                 top: topPadding + 8,
                 right: context.gutter,
                 child: IconButton(
+                  // Names the state it switches to, which is what a screen
+                  // reader user needs to hear. The bare icon said nothing.
+                  tooltip: mode == ThemeMode.light
+                      ? 'Switch to dark theme'
+                      : 'Switch to light theme',
                   icon: Icon(
                     mode == ThemeMode.light ? Icons.dark_mode_outlined : Icons.light_mode_outlined,
-                    color: Theme.of(context).textTheme.bodyLarge?.color?.withValues(alpha: 0.5),
+                    color: Theme.of(context).textTheme.bodyLarge?.color?.withValues(alpha: 0.75),
                     size: 24,
                   ),
                   onPressed: () {
@@ -71,15 +76,18 @@ class HeroSection extends StatelessWidget {
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
                       _buildEmailIcon(Icons.email_outlined, ResumeData.email, context),
-                      const SizedBox(height: 24),
-                      _buildSocialIcon(Icons.link, ResumeData.linkedin, context),
-                      const SizedBox(height: 24),
-                      _buildSocialIcon(Icons.code, ResumeData.github, context),
-                      const SizedBox(height: 24),
-                      _buildSocialIcon(Icons.public, ResumeData.website, context),
-                      const SizedBox(height: 24),
+                      const SizedBox(height: 12),
+                      _buildSocialIcon(
+                          Icons.link, ResumeData.linkedin, 'LinkedIn profile', context),
+                      const SizedBox(height: 12),
+                      _buildSocialIcon(
+                          Icons.code, ResumeData.github, 'GitHub profile', context),
+                      const SizedBox(height: 12),
+                      _buildSocialIcon(
+                          Icons.public, ResumeData.website, 'Personal website', context),
+                      const SizedBox(height: 12),
                       _buildPhoneIcon(Icons.phone_outlined, ResumeData.mobile, context),
-                      const SizedBox(height: 32),
+                      const SizedBox(height: 24),
                       Container(
                         width: 1,
                         height: 120,
@@ -225,53 +233,67 @@ class HeroSection extends StatelessWidget {
 
 
 
-  Widget _buildSocialIcon(IconData icon, String url, BuildContext context) {
-    return InkWell(
-      onTap: () async {
-        final Uri uri = Uri.parse(url);
-        if (await canLaunchUrl(uri)) {
-          await launchUrl(uri);
-        }
-      },
-      child: Icon(
-        icon,
-        color: Theme.of(context).textTheme.bodyLarge?.color?.withValues(alpha: 0.6),
-        size: 22,
+  /// One labelled, 44px-minimum tap target for every sidebar icon.
+  ///
+  /// The icons carry no text, so without an explicit label a screen reader
+  /// announces nothing useful. 22px on its own is also well under the
+  /// recommended touch size, hence the padding.
+  Widget _buildIconLink({
+    required IconData icon,
+    required String label,
+    required Uri uri,
+    required BuildContext context,
+  }) {
+    return Semantics(
+      button: true,
+      label: label,
+      child: Tooltip(
+        message: label,
+        child: InkWell(
+          onTap: () => ExternalLinks.openOrNotify(context, uri),
+          customBorder: const CircleBorder(),
+          child: Padding(
+            padding: const EdgeInsets.all(11),
+            child: Icon(
+              icon,
+              color: Theme.of(context)
+                  .textTheme
+                  .bodyLarge
+                  ?.color
+                  ?.withValues(alpha: 0.75),
+              size: 22,
+            ),
+          ),
+        ),
       ),
+    );
+  }
+
+  Widget _buildSocialIcon(
+      IconData icon, String url, String label, BuildContext context) {
+    return _buildIconLink(
+      icon: icon,
+      label: label,
+      uri: Uri.parse(url),
+      context: context,
     );
   }
 
   Widget _buildEmailIcon(IconData icon, String email, BuildContext context) {
-    return InkWell(
-      onTap: () async {
-        final Uri uri = Uri.parse(
-          "https://mail.google.com/mail/?view=cm&fs=1&to=$email&su=Contact from Website&body=Hello",
-        );
-        if (await canLaunchUrl(uri)) {
-          await launchUrl(uri);
-        }
-      },
-      child: Icon(
-        icon,
-        color: Theme.of(context).textTheme.bodyLarge?.color?.withValues(alpha: 0.6),
-        size: 22,
-      ),
+    return _buildIconLink(
+      icon: icon,
+      label: 'Email $email',
+      uri: ExternalLinks.gmailCompose(to: email),
+      context: context,
     );
   }
 
   Widget _buildPhoneIcon(IconData icon, String phone, BuildContext context) {
-    return InkWell(
-      onTap: () async {
-        final Uri uri = Uri.parse('tel:$phone');
-        if (await canLaunchUrl(uri)) {
-          await launchUrl(uri);
-        }
-      },
-      child: Icon(
-        icon,
-        color: Theme.of(context).textTheme.bodyLarge?.color?.withValues(alpha: 0.6),
-        size: 22,
-      ),
+    return _buildIconLink(
+      icon: icon,
+      label: 'Call $phone',
+      uri: ExternalLinks.phone(phone),
+      context: context,
     );
   }
 }

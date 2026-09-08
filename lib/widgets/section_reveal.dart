@@ -21,10 +21,17 @@ class SectionReveal extends StatefulWidget {
 class _SectionRevealState extends State<SectionReveal> {
   bool _isVisible = false;
 
+  /// Created once per State, never per build.
+  ///
+  /// VisibilityDetector keys its global registry by this value. Building a
+  /// fresh UniqueKey inside build() registered a new entry and disposed the
+  /// old one on every rebuild, for every section, on every scroll.
+  late final Key _detectorKey = widget.key ?? UniqueKey();
+
   @override
   Widget build(BuildContext context) {
     return VisibilityDetector(
-      key: widget.key ?? UniqueKey(),
+      key: _detectorKey,
       onVisibilityChanged: (info) {
         if (!_isVisible && info.visibleFraction >= widget.threshold) {
           setState(() {

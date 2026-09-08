@@ -84,7 +84,11 @@ class AppTheme {
         labelLarge: GoogleFonts.inter(
           fontSize: _size(width, mobile: 13, tablet: 14, desktop: 14),
           fontWeight: FontWeight.w700,
-          color: AppColors.primary,
+          // The brand red is only about 3.7:1 on white, under the 4.5:1
+          // minimum for normal text, so the light theme uses the darker shade.
+          color: brightness == Brightness.light
+              ? AppColors.primaryOnLight
+              : AppColors.primary,
           letterSpacing: 2.0,
         ),
         // Main Body Text

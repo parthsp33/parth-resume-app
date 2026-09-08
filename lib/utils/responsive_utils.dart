@@ -18,7 +18,10 @@ class Breakpoints {
   static const double mobile = 650;
 
   /// Below this width the horizontal nav is replaced by the drawer.
-  static const double compactNav = 900;
+  ///
+  /// Raised from 900 when Education became the seventh nav entry. Seven labels
+  /// plus the logo overflow the row below this width; a widget test pins it.
+  static const double compactNav = 1280;
 
   /// At or above this width the full desktop layout is used.
   static const double tablet = 1100;

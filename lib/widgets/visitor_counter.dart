@@ -4,15 +4,28 @@ import '../const/color.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import '../utils/responsive_utils.dart';
 
-class VisitorCounter extends StatelessWidget {
+class VisitorCounter extends StatefulWidget {
   const VisitorCounter({super.key});
+
+  @override
+  State<VisitorCounter> createState() => _VisitorCounterState();
+}
+
+class _VisitorCounterState extends State<VisitorCounter> {
+  /// Opened once, not in build().
+  ///
+  /// StreamBuilder compares streams by identity, so creating the stream inline
+  /// in build() tore down the Firebase listener and opened a new one on every
+  /// rebuild of the surrounding section.
+  late final Stream<int> _countStream =
+      VisitorService().getVisitorCountStream();
 
   @override
   Widget build(BuildContext context) {
     final isMobile = context.isMobile;
 
     return StreamBuilder<int>(
-      stream: VisitorService().getVisitorCountStream(),
+      stream: _countStream,
       builder: (context, snapshot) {
         if (snapshot.hasError) {
           debugPrint('VisitorCounter Error: ${snapshot.error}');

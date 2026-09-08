@@ -3,6 +3,18 @@ import 'package:firebase_database/firebase_database.dart';
 import 'package:my_resume_app/main.dart' show firebaseReady;
 
 class VisitorService {
+  /// Reads a count out of whatever the database hands back.
+  ///
+  /// Realtime Database can return an int, a double, or a string depending on
+  /// how the value was written. A plain `as int` throws on the last two, and
+  /// inside a stream map that error escapes to the listener.
+  static int _toCount(Object? value) {
+    if (value is int) return value;
+    if (value is num) return value.toInt();
+    if (value is String) return int.tryParse(value) ?? 0;
+    return 0;
+  }
+
   /// Waits for Firebase to finish starting up, then hands back the counter
   /// reference. Returns null when Firebase is not available, for example in
   /// widget tests.
@@ -27,14 +39,12 @@ class VisitorService {
           return Transaction.success(1); // Initialize if it doesn't exist
         }
 
-        if (currentData is int) {
-          return Transaction.success(currentData + 1);
-        } else if (currentData is Map) {
-          // Sometimes Firebase returns it as a map, handling safety
-          return Transaction.success((currentData['count'] ?? 0) + 1);
-        }
+        // Sometimes Firebase returns the value wrapped in a map.
+        final current = currentData is Map
+            ? _toCount(currentData['count'])
+            : _toCount(currentData);
 
-        return Transaction.success(1); // Fallback
+        return Transaction.success(current + 1);
       });
     } catch (e) {
       debugPrint('Error incrementing visitor count: $e');
@@ -49,12 +59,10 @@ class VisitorService {
 
     yield* ref.onValue.map((event) {
       final data = event.snapshot.value;
-      if (data is int) {
-        return data;
-      } else if (data is Map) {
-        return (data['count'] ?? 0) as int;
-      }
-      return 0; // Default if null or unknown format
+      if (data is Map) return _toCount(data['count']);
+      return _toCount(data);
+    }).handleError((Object e) {
+      debugPrint('Visitor count stream error: $e');
     });
   }
 }

@@ -8,6 +8,7 @@ import '../widgets/sections/skills_section.dart';
 import '../widgets/sections/projects_section.dart';
 import '../widgets/sections/contact_section.dart';
 import '../widgets/sections/achievements_section.dart';
+import '../widgets/sections/education_section.dart';
 import '../services/visitor_service.dart';
 import '../utils/responsive_utils.dart';
 import '../widgets/common/content_shell.dart';
@@ -35,6 +36,7 @@ class _HomeScreenState extends State<HomeScreen> {
   // Section Keys
   final GlobalKey _aboutKey = GlobalKey();
   final GlobalKey _experienceKey = GlobalKey();
+  final GlobalKey _educationKey = GlobalKey();
   final GlobalKey _achievementsKey = GlobalKey();
   final GlobalKey _projectsKey = GlobalKey();
   final GlobalKey _skillsKey = GlobalKey();
@@ -43,6 +45,7 @@ class _HomeScreenState extends State<HomeScreen> {
   late final List<_NavSection> _navSections = [
     _NavSection('About', _aboutKey),
     _NavSection('Experience', _experienceKey),
+    _NavSection('Education', _educationKey),
     _NavSection('Achievements', _achievementsKey),
     _NavSection('Projects', _projectsKey),
     _NavSection('Skills', _skillsKey),
@@ -152,10 +155,15 @@ class _HomeScreenState extends State<HomeScreen> {
                 ContentShell(
                   child: Column(
                     children: [
-                      SizedBox(height: sectionGap),
+                      // The hero already leaves slack under its buttons
+                      // because it centres inside a minimum height, so a full
+                      // sectionGap here reads as a large empty band.
+                      SizedBox(height: context.space(32)),
                       AboutSection(key: _aboutKey),
                       SizedBox(height: sectionGap),
                       ExperienceSection(key: _experienceKey),
+                      SizedBox(height: sectionGap),
+                      EducationSection(key: _educationKey),
                       SizedBox(height: sectionGap),
                       AchievementsSection(key: _achievementsKey),
                       SizedBox(height: sectionGap),
@@ -335,15 +343,23 @@ class _HomeScreenState extends State<HomeScreen> {
   }
 
   Widget _navItem(String title, VoidCallback onTap, BuildContext context) {
-    return InkWell(
-      onTap: onTap,
-      child: Text(
-        title,
-        style: TextStyle(
-          color: Theme.of(context).textTheme.bodyLarge?.color,
-          fontSize: context.fontSize(mobile: 12, tablet: 12, desktop: 13),
-          fontWeight: FontWeight.w600,
-          letterSpacing: 1,
+    return Semantics(
+      button: true,
+      label: 'Go to $title section',
+      child: InkWell(
+        onTap: onTap,
+        child: Padding(
+          // Was a bare Text, so the tap target was only as tall as the glyphs.
+          padding: const EdgeInsets.symmetric(vertical: 12, horizontal: 4),
+          child: Text(
+            title,
+            style: TextStyle(
+              color: Theme.of(context).textTheme.bodyLarge?.color,
+              fontSize: context.fontSize(mobile: 12, tablet: 12, desktop: 13),
+              fontWeight: FontWeight.w600,
+              letterSpacing: 1,
+            ),
+          ),
         ),
       ),
     );

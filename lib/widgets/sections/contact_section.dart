@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:url_launcher/url_launcher.dart';
 import '../../config/resume_data.dart';
+import '../../utils/external_links.dart';
 import '../../const/color.dart';
 import '../section_reveal.dart';
 import '../hover_scale.dart';
@@ -29,15 +29,14 @@ class ContactSection extends StatelessWidget {
           ),
           SizedBox(height: context.space(44)),
           HoverScale(
-            child: InkWell(
-              onTap: () async {
-                final Uri uri = Uri.parse(
-                  "https://mail.google.com/mail/?view=cm&fs=1&to=${ResumeData.email}&su=Contact from Website&body=Hello",
-                );
-                if (await canLaunchUrl(uri)) {
-                  await launchUrl(uri);
-                }
-              },
+            child: Semantics(
+              button: true,
+              label: 'Get in touch by email',
+              child: InkWell(
+                onTap: () => ExternalLinks.openOrNotify(
+                  context,
+                  ExternalLinks.gmailCompose(),
+                ),
             child: Container(
               padding: EdgeInsets.symmetric(horizontal: isMobile ? 32 : 44, vertical: 20),
               decoration: BoxDecoration(
@@ -60,6 +59,7 @@ class ContactSection extends StatelessWidget {
                 ],
               ),
             ),
+              ),
             ),
           ),
           SizedBox(height: context.space(100)),
@@ -82,14 +82,7 @@ class ContactSection extends StatelessWidget {
               children: [
                 const VisitorCounter(),
                 const SizedBox(height: 12),
-                Text(
-                  '© 2025 ${ResumeData.name}. All rights reserved.',
-                  textAlign: TextAlign.center,
-                  style: TextStyle(
-                    color: Theme.of(context).textTheme.bodyLarge?.color?.withValues(alpha: 0.3),
-                    fontSize: 12,
-                  ),
-                ),
+                _buildCopyright(context, TextAlign.center),
               ],
             )
           else
@@ -97,19 +90,33 @@ class ContactSection extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
-                Text(
-                  '© 2025 ${ResumeData.name}. All rights reserved.',
-                  style: TextStyle(
-                    color: Theme.of(context).textTheme.bodyLarge?.color?.withValues(alpha: 0.3),
-                    fontSize: 12,
-                  ),
-                ),
+                _buildCopyright(context, TextAlign.start),
                 const VisitorCounter(),
               ],
             ),
         ],
       ),
       ),
+      ),
+    );
+  }
+
+  /// One copyright line for both footers.
+  ///
+  /// Was written out twice, and the year was hardcoded to 2025 so it would
+  /// have gone stale on its own.
+  Widget _buildCopyright(BuildContext context, TextAlign align) {
+    return Text(
+      '© ${DateTime.now().year} ${ResumeData.name}. All rights reserved.',
+      textAlign: align,
+      style: TextStyle(
+        // Was alpha 0.3, which is far below the 4.5:1 contrast minimum.
+        color: Theme.of(context)
+            .textTheme
+            .bodyLarge
+            ?.color
+            ?.withValues(alpha: 0.7),
+        fontSize: 12,
       ),
     );
   }
@@ -178,22 +185,32 @@ class ContactSection extends StatelessWidget {
   }
 
   Widget _buildFooterLink(String label, String url, BuildContext context) {
-    return InkWell(
-      onTap: () async {
-        final Uri uri = url.startsWith('http')
-            ? Uri.parse(url)
-            : Uri.parse("https://mail.google.com/mail/?view=cm&fs=1&to=$url&su=Contact from Website&body=Hello");
-        if (await canLaunchUrl(uri)) {
-          await launchUrl(uri);
-        }
-      },
-      child: Text(
-        label,
-        style: TextStyle(
-          color: Theme.of(context).textTheme.bodyLarge?.color?.withValues(alpha: 0.5),
-          fontSize: context.fontSize(mobile: 11, desktop: 12),
-          fontWeight: FontWeight.bold,
-          letterSpacing: 2,
+    final uri = url.startsWith('http')
+        ? Uri.parse(url)
+        : ExternalLinks.gmailCompose(to: url);
+
+    return Semantics(
+      link: true,
+      label: '$label, opens in a new tab',
+      child: InkWell(
+        onTap: () => ExternalLinks.openOrNotify(context, uri),
+        child: Padding(
+          // Was a bare Text, so the tap target was only as tall as the glyphs.
+          padding: const EdgeInsets.symmetric(vertical: 12),
+          child: Text(
+            label,
+            style: TextStyle(
+              // Was alpha 0.5 at 11px bold, under the contrast minimum.
+              color: Theme.of(context)
+                  .textTheme
+                  .bodyLarge
+                  ?.color
+                  ?.withValues(alpha: 0.8),
+              fontSize: context.fontSize(mobile: 11, desktop: 12),
+              fontWeight: FontWeight.bold,
+              letterSpacing: 2,
+            ),
+          ),
         ),
       ),
     );
