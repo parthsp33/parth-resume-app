@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:url_launcher/url_launcher.dart';
 import '../../config/resume_data.dart';
@@ -99,35 +100,40 @@ class ProjectsSection extends StatelessWidget {
           children: [
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Container(
-                  padding: EdgeInsets.all(isMobile ? 8 : 10.r),
-                  decoration: BoxDecoration(
-                    color: Theme.of(context).brightness == Brightness.dark 
-                        ? Colors.white.withValues(alpha: 0.03) 
-                        : AppColors.primary.withValues(alpha: 0.05),
-                    borderRadius: BorderRadius.circular(8.r),
-                    border: Border.all(
-                      color: Theme.of(context).brightness == Brightness.dark 
-                          ? Colors.white.withValues(alpha: 0.1) 
-                          : AppColors.primary.withValues(alpha: 0.1)
-                    ),
-                  ),
-                  child: Icon(
-                    Icons.launch, 
-                    color: Theme.of(context).brightness == Brightness.dark ? Colors.white : AppColors.primary, 
-                    size: isMobile ? 18 : 20.sp
-                  ),
+                Row(
+                  children: [
+                    if (project.appStoreLink != null)
+                      _buildStoreIcon(
+                        context,
+                        FontAwesomeIcons.appStoreIos,
+                        project.appStoreLink!,
+                        'View on App Store',
+                      ),
+                    if (project.appStoreLink != null && project.playStoreLink != null)
+                      SizedBox(width: isMobile ? 8 : 8.w),
+                    if (project.playStoreLink != null)
+                      _buildStoreIcon(
+                        context,
+                        FontAwesomeIcons.googlePlay,
+                        project.playStoreLink!,
+                        'View on Google Play',
+                      ),
+                    if (project.appStoreLink == null && project.playStoreLink == null)
+                      _buildIconBox(
+                        context,
+                        Icon(
+                          Icons.folder_open_rounded,
+                          color: Theme.of(context).brightness == Brightness.dark
+                              ? Colors.white
+                              : AppColors.primary,
+                          size: isMobile ? 18 : 20.sp,
+                        ),
+                      ),
+                  ],
                 ),
-                Text(
-                   project.status.toUpperCase(),
-                   style: TextStyle(
-                     color: Theme.of(context).textTheme.bodyLarge?.color?.withValues(alpha: 0.4),
-                     fontSize: isMobile ? 10 : 10.sp,
-                     fontWeight: FontWeight.bold,
-                     letterSpacing: 2,
-                   ),
-                ),
+                _buildStatusPill(context, project.status),
               ],
             ),
             const Spacer(),
@@ -151,10 +157,25 @@ class ProjectsSection extends StatelessWidget {
               ),
             ),
             const Spacer(),
-            Wrap(
-              spacing: 8.w,
-              runSpacing: 8.h,
-              children: project.tools.split(',').take(3).map((tool) => _buildTechChip(tool.trim(), context)).toList(),
+            Builder(
+              builder: (context) {
+                final tools = project.tools
+                    .split(',')
+                    .map((t) => t.trim())
+                    .where((t) => t.isNotEmpty)
+                    .toList();
+                final visible = tools.take(3).toList();
+                final remaining = tools.length - visible.length;
+                return Wrap(
+                  spacing: 8.w,
+                  runSpacing: 8.h,
+                  children: [
+                    ...visible.map((tool) => _buildTechChip(tool, context)),
+                    if (remaining > 0)
+                      _buildTechChip('+\$remaining more', context),
+                  ],
+                );
+              },
             ),
           ],
         ),
@@ -163,6 +184,90 @@ class ProjectsSection extends StatelessWidget {
     );
   }
 
+
+  Widget _buildIconBox(BuildContext context, Widget child) {
+    final isMobile = context.isMobile;
+    final isDark = Theme.of(context).brightness == Brightness.dark;
+    return Container(
+      padding: EdgeInsets.all(isMobile ? 8 : 10.r),
+      decoration: BoxDecoration(
+        color: isDark
+            ? Colors.white.withValues(alpha: 0.03)
+            : AppColors.primary.withValues(alpha: 0.05),
+        borderRadius: BorderRadius.circular(8.r),
+        border: Border.all(
+          color: isDark
+              ? Colors.white.withValues(alpha: 0.1)
+              : AppColors.primary.withValues(alpha: 0.1),
+        ),
+      ),
+      child: child,
+    );
+  }
+
+  Widget _buildStoreIcon(
+    BuildContext context,
+    FaIconData icon,
+    String url,
+    String tooltip,
+  ) {
+    final isMobile = context.isMobile;
+    final isDark = Theme.of(context).brightness == Brightness.dark;
+    return Tooltip(
+      message: tooltip,
+      child: InkWell(
+        onTap: () => _launchURL(url),
+        borderRadius: BorderRadius.circular(8.r),
+        child: _buildIconBox(
+          context,
+          FaIcon(
+            icon,
+            color: isDark ? Colors.white : AppColors.primary,
+            size: isMobile ? 16 : 18.sp,
+          ),
+        ),
+      ),
+    );
+  }
+
+  Widget _buildStatusPill(BuildContext context, String status) {
+    final isMobile = context.isMobile;
+    final bool isLive = status.toLowerCase() == 'complete';
+    final Color accent = isLive
+        ? const Color(0xFF22C55E)
+        : const Color(0xFFF59E0B);
+    return Container(
+      padding: EdgeInsets.symmetric(
+        horizontal: isMobile ? 10 : 10.w,
+        vertical: isMobile ? 5 : 5.h,
+      ),
+      decoration: BoxDecoration(
+        color: accent.withValues(alpha: 0.12),
+        borderRadius: BorderRadius.circular(20.r),
+        border: Border.all(color: accent.withValues(alpha: 0.35)),
+      ),
+      child: Row(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          Container(
+            width: 6,
+            height: 6,
+            decoration: BoxDecoration(color: accent, shape: BoxShape.circle),
+          ),
+          SizedBox(width: isMobile ? 6 : 6.w),
+          Text(
+            status.toUpperCase(),
+            style: TextStyle(
+              color: accent,
+              fontSize: isMobile ? 10 : 10.sp,
+              fontWeight: FontWeight.bold,
+              letterSpacing: 1.2,
+            ),
+          ),
+        ],
+      ),
+    );
+  }
 
   Widget _buildTechChip(String text, BuildContext context) {
     final isMobile = context.isMobile;

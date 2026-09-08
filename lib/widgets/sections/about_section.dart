@@ -90,12 +90,55 @@ class AboutSection extends StatelessWidget {
 
   Widget _buildBio(BuildContext context) {
     final isMobile = context.isMobile;
-    return Text(
-      ResumeData.experienceSummary,
-      style: Theme.of(context).textTheme.bodyLarge?.copyWith(
-        height: 1.8,
-        fontSize: isMobile ? 16 : 18.sp,
-      ),
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Text(
+          ResumeData.experienceSummary,
+          style: Theme.of(context).textTheme.bodyLarge?.copyWith(
+            height: 1.8,
+            fontSize: isMobile ? 16 : 18.sp,
+            fontWeight: FontWeight.w600,
+          ),
+        ),
+        SizedBox(height: isMobile ? 24.h : 32.h),
+        ...ResumeData.summaryPoints.map(
+          (point) => Padding(
+            padding: EdgeInsets.only(bottom: isMobile ? 14.h : 16.h),
+            child: Row(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Padding(
+                  padding: EdgeInsets.only(top: isMobile ? 8.h : 10.h),
+                  child: Container(
+                    width: 6.w,
+                    height: 6.w,
+                    decoration: BoxDecoration(
+                      color: AppColors.primary.withValues(alpha: 0.7),
+                      shape: BoxShape.circle,
+                    ),
+                  ),
+                ),
+                SizedBox(width: isMobile ? 12.w : 16.w),
+                Expanded(
+                  child: Text(
+                    point,
+                    style: Theme.of(context).textTheme.bodyLarge?.copyWith(
+                      height: 1.7,
+                      fontSize: isMobile ? 14 : 16.sp,
+                      color: Theme.of(context)
+                          .textTheme
+                          .bodyLarge
+                          ?.color
+                          ?.withValues(alpha: 0.75),
+                    ),
+                  ),
+                ),
+              ],
+            ),
+          ),
+        ),
+      ],
     );
   }
 

@@ -39,7 +39,12 @@ class ExperienceSection extends StatelessWidget {
               ),
               Column(
                 children: ResumeData.experience.asMap().entries.map((entry) {
-                  return _buildExperienceItem(entry.value, isMobile, context);
+                  return _buildExperienceItem(
+                    entry.value,
+                    isMobile,
+                    context,
+                    isCurrent: entry.key == 0,
+                  );
                 }).toList(),
               ),
             ],
@@ -50,7 +55,12 @@ class ExperienceSection extends StatelessWidget {
     );
   }
 
-  Widget _buildExperienceItem(Map<String, dynamic> exp, bool isMobile, BuildContext context) {
+  Widget _buildExperienceItem(
+    Map<String, dynamic> exp,
+    bool isMobile,
+    BuildContext context, {
+    bool isCurrent = false,
+  }) {
     return Padding(
       padding: EdgeInsets.only(bottom: 64.h),
       child: Row(
@@ -84,6 +94,19 @@ class ExperienceSection extends StatelessWidget {
                     ),
                     textAlign: TextAlign.right,
                   ),
+                  SizedBox(height: 6.h),
+                  Text(
+                    exp['location'] ?? '',
+                    style: TextStyle(
+                      fontSize: 13.sp,
+                      color: Theme.of(context)
+                          .textTheme
+                          .bodyLarge
+                          ?.color
+                          ?.withValues(alpha: 0.45),
+                    ),
+                    textAlign: TextAlign.right,
+                  ),
                 ],
               ),
             ),
@@ -96,9 +119,19 @@ class ExperienceSection extends StatelessWidget {
               child: Container(
                 width: 10.r,
                 height: 10.r,
-                decoration: const BoxDecoration(
-                  color: AppColors.primary,
+                decoration: BoxDecoration(
+                  color: isCurrent ? AppColors.primary : Colors.transparent,
                   shape: BoxShape.circle,
+                  border: Border.all(color: AppColors.primary, width: 2),
+                  boxShadow: isCurrent
+                      ? [
+                          BoxShadow(
+                            color: AppColors.primary.withValues(alpha: 0.4),
+                            blurRadius: 10,
+                            spreadRadius: 3,
+                          )
+                        ]
+                      : null,
                 ),
               ),
             ),
@@ -128,6 +161,18 @@ class ExperienceSection extends StatelessWidget {
                         fontWeight: FontWeight.w600,
                         color: AppColors.primary,
                         letterSpacing: 1,
+                      ),
+                    ),
+                    SizedBox(height: 4.h),
+                    Text(
+                      exp['location'] ?? '',
+                      style: TextStyle(
+                        fontSize: 13,
+                        color: Theme.of(context)
+                            .textTheme
+                            .bodyLarge
+                            ?.color
+                            ?.withValues(alpha: 0.45),
                       ),
                     ),
                     SizedBox(height: 16.h),

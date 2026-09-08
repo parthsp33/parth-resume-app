@@ -2,9 +2,18 @@ import '../models/project_model.dart';
 
 class ResumeData {
   static const String name = "Parth Prajapati";
-  static const String role = "Mobile Application Developer | Flutter & Swift";
+  static const String role =
+      "Software Engineer | React Native, Flutter & Swift";
   static const String experienceSummary =
-      "Experienced Flutter Developer with 4 years of expertise in building robust, scalable, and user-centric mobile applications. Proficient in advanced architecture components such as BLoC and GetX, with a strong focus on clean project structures and maintainable code. Skilled in implementing local databases, LiveData, Data Binding, and seamlessly integrating third-party APIs (e.g., Google Maps, payment gateways, and more). Recently expanded my skill set to include iOS development with Swift, further enhancing my ability to deliver cross-platform solutions. Known for delivering high-performance applications that prioritize user experience and scalability, I consistently meet project deadlines while maintaining a sharp focus on quality.";
+      "Software Engineer with 4.5+ years of professional experience in mobile application development, with strong hands-on expertise in React Native, TypeScript, JavaScript, Expo, Flutter, Dart, and iOS Swift.";
+
+  static const List<String> summaryPoints = [
+    "Experienced in developing robust, scalable, and user-centric Android and iOS applications, including production applications and end-to-end ownership from development through deployment.",
+    "Strong knowledge of modern React Native development using React Hooks, functional components, React Navigation, Zustand, TanStack Query, Axios, Expo Dev Client, and Metro Bundler.",
+    "Experienced with application architecture and state management including BLoC/Cubit, GetX, MVVM, MVC, Clean Architecture, and Dependency Injection.",
+    "Skilled in REST API integration, JSON serialization/deserialization, API error handling and interceptors, Firebase services, local data handling, analytics, crash monitoring, debugging, QA, CI/CD, and app-store releases.",
+    "Comfortable working directly with clients, backend teams, QA teams, and stakeholders, with a focus on clean code, reusable components, performance, maintainability, and delivery quality.",
+  ];
 
   static const String mobile = "7383493845";
   static const String email = "bantiprajapati33@gmail.com";
@@ -14,22 +23,36 @@ class ResumeData {
 
   static const List<Map<String, dynamic>> experience = [
     {
-      "company": "Yudiz Solution LTD",
-      "role": "Sr Mobile Application Developer",
-      "period": "12/2021 - Present",
-      "location": "Ahmedabad",
+      "company": "E2Logy",
+      "role": "Software Engineer",
+      "period": "May 2026 - Present",
+      "location": "Ahmedabad, Gujarat",
       "responsibilities": [
-        "Participating in the development and maintenance of mobile applications.",
-        "Staying updated with the latest trends and technologies in mobile app development.",
-        "Proficient in Git versioning, ensuring effective collaboration and version control.",
-        "Advancing expertise in Flutter and iOS Swift through continuous learning and skill development.",
-        "Improved app stability and performance through code optimization.",
-        "Collaborated with backend teams to ensure seamless API integration.",
-        "Reduced bugs and crashes by following best practices and QA processes.",
-        "Dedicated communication with clients to understand requirements and provide updates on project progress.",
-        "End-to-end app ownership (design → development → deployment).",
-        "Solo developer on multiple production apps.",
-        "Experience working directly with clients and stakeholders."
+        "Developing and enhancing the Cinch POS App and Cinch Subscription App using React Native and Expo.",
+        "Building cross-platform Android and iOS features with TypeScript, JavaScript, React Hooks, and functional components.",
+        "Implementing application state management with Zustand and server-state management, caching, queries, and mutations with TanStack Query.",
+        "Building navigation flows with React Navigation and integrating REST APIs using Axios.",
+        "Working with Expo Dev Client and Metro Bundler while developing reusable and maintainable mobile components.",
+        "Contributing to application debugging, testing, API integration, issue resolution, and release workflows.",
+        "Working on retail/POS workflows where the retail solution provides devices to customers and the POS application serves as the sales-end application."
+      ]
+    },
+    {
+      "company": "Yudiz Solution LTD",
+      "role": "Sr. Mobile Application Developer",
+      "period": "Dec. 2021 - Apr. 2026",
+      "location": "Ahmedabad, Gujarat",
+      "responsibilities": [
+        "Participated in the development and maintenance of production-grade mobile applications.",
+        "Developed and maintained applications using Flutter and iOS Swift, focusing on clean architecture, performance, stability, and maintainability.",
+        "Integrated REST APIs and third-party services while collaborating closely with backend teams.",
+        "Implemented application features, UI flows, local data handling, API communication, and production fixes.",
+        "Improved application stability and performance through code optimization and development best practices.",
+        "Reduced bugs and crashes by following QA processes, debugging practices, and release-quality checks.",
+        "Used Git versioning and CI/CD practices, including Dev/QA/Prod build flavors and store deployment workflows.",
+        "Worked directly with clients and stakeholders to understand requirements, provide updates, and deliver features.",
+        "Handled end-to-end application ownership across design, development, testing, debugging, and deployment.",
+        "Worked as a solo developer on multiple production applications."
       ]
     }
   ];
@@ -56,6 +79,15 @@ class ResumeData {
   ];
 
   static const Map<String, List<String>> skills = {
+    "React Native": [
+      "TypeScript & JavaScript",
+      "Expo & Expo Dev Client, Metro Bundler",
+      "React Hooks & Functional Components",
+      "State Management with Zustand",
+      "Server State, Caching & Mutations with TanStack Query",
+      "React Navigation",
+      "REST API Integration with Axios"
+    ],
     "Flutter": [
       "Dart",
       "State Management (Bloc/Cubit, Getx)",
@@ -82,6 +114,7 @@ class ResumeData {
   };
 
   static const Map<String, double> proficiency = {
+    "React Native": 0.85,
     "Flutter": 0.95,
     "Dart": 0.90,
     "Swift": 0.75,
@@ -90,10 +123,44 @@ class ResumeData {
   };
 
   // Stats
-  static const String totalExperience = "4+";
+  static const String totalExperience = "4.5+";
   static const String totalProjects = "12+";
 
   static final List<ProjectModel> projects = [
+    ProjectModel(
+      name: "Cinch Retail & POS App",
+      shortDescription:
+          "A retail technology solution focused on providing retail devices to customers and supporting the POS application as the sales end. The mobile solution includes customer-facing and sales-oriented workflows and is developed for Android and iOS.",
+      status: "In Progress",
+      tools:
+          "React Native, Expo, TypeScript, JavaScript, React Hooks, Functional Components, Zustand, TanStack Query, React Navigation, Axios, Expo Dev Client, Metro Bundler",
+      keyFeatures: [
+        "Retail device/customer workflow support",
+        "POS sales-end application functionality",
+        "Cross-platform Android and iOS development",
+        "Application state management with Zustand",
+        "Server-state caching, queries and mutations with TanStack Query",
+        "REST API integration using Axios",
+        "Reusable mobile components and navigation flows"
+      ],
+      teamSize: 1,
+      appStoreLink: "https://apps.apple.com/sg/app/cinch-tech/id6786142725",
+    ),
+    ProjectModel(
+      name: "Cinch Subscription App",
+      shortDescription:
+          "A subscription-focused mobile application developed alongside the Cinch POS solution using React Native and Expo.",
+      status: "In Progress",
+      tools:
+          "React Native, Expo, TypeScript, JavaScript, Zustand, TanStack Query, React Navigation, Axios",
+      keyFeatures: [
+        "Subscription-related mobile workflows",
+        "Cross-platform Android and iOS features",
+        "API integration and server-state management",
+        "Reusable React Native components"
+      ],
+      teamSize: 1,
+    ),
     ProjectModel(
       name: "BASMA",
       shortDescription: "Simple property booking platform with two apps: one for tenants and one for landlords.",
