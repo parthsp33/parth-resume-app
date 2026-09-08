@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
 import '../../config/resume_data.dart';
 import '../../const/color.dart';
 import '../section_reveal.dart';
@@ -10,26 +9,24 @@ class ExperienceSection extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final isMobile = context.isMobile;
+    // The two-column timeline needs real desktop width. Below that the fixed
+    // date gutter collides with the role text, so stack instead.
+    final isStacked = !context.isDesktop;
 
-    return Container(
-      padding: EdgeInsets.symmetric(horizontal: isMobile ? 20.w : 40.w),
-      child: SectionReveal(
+    return SectionReveal(
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
           Text(
             'Experience',
-            style: Theme.of(context).textTheme.displayMedium?.copyWith(
-              fontSize: isMobile ? 32 : 48.sp,
-            ),
+            style: Theme.of(context).textTheme.displayMedium,
           ),
-          SizedBox(height: 64.h),
+          SizedBox(height: context.headingGap),
           Stack(
             children: [
               // Vertical Timeline Line
               Positioned(
-                left: isMobile ? 7.w : 250.w,
+                left: isStacked ? 8 : _dateColumnWidth + 20,
                 top: 0,
                 bottom: 0,
                 child: Container(
@@ -41,7 +38,7 @@ class ExperienceSection extends StatelessWidget {
                 children: ResumeData.experience.asMap().entries.map((entry) {
                   return _buildExperienceItem(
                     entry.value,
-                    isMobile,
+                    isStacked,
                     context,
                     isCurrent: entry.key == 0,
                   );
@@ -51,54 +48,57 @@ class ExperienceSection extends StatelessWidget {
           ),
         ],
       ),
-      ),
     );
   }
 
+  /// Width of the date/company column in the desktop two-column layout.
+  static const double _dateColumnWidth = 220;
+
   Widget _buildExperienceItem(
     Map<String, dynamic> exp,
-    bool isMobile,
+    bool isStacked,
     BuildContext context, {
     bool isCurrent = false,
   }) {
     return Padding(
-      padding: EdgeInsets.only(bottom: 64.h),
+      padding: EdgeInsets.only(bottom: context.space(56)),
       child: Row(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           // Left Side (Date & Company)
-          if (!isMobile)
-            Container(
-              width: 230.w,
-              padding: EdgeInsets.only(right: 20.w),
+          if (!isStacked)
+            SizedBox(
+              width: _dateColumnWidth,
+              child: Padding(
+              padding: const EdgeInsets.only(right: 20),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.end,
                 children: [
                    Text(
                     exp['company'],
                     style: TextStyle(
-                      fontSize: isMobile ? 16 : 18.sp,
+                      fontSize: 18,
                       fontWeight: FontWeight.w700,
                       color: Theme.of(context).textTheme.displayMedium?.color,
                     ),
-                    textAlign: isMobile ? TextAlign.left : TextAlign.right,
+                    textAlign: TextAlign.right,
                   ),
-                  SizedBox(height: 8.h),
+                  const SizedBox(height: 8),
                   Text(
                     exp['period'],
-                    style: TextStyle(
-                      fontSize: 14.sp,
+                    style: const TextStyle(
+                      fontSize: 14,
                       fontWeight: FontWeight.w600,
                       color: AppColors.primary,
                       letterSpacing: 1,
                     ),
                     textAlign: TextAlign.right,
                   ),
-                  SizedBox(height: 6.h),
+                  const SizedBox(height: 6),
                   Text(
                     exp['location'] ?? '',
                     style: TextStyle(
-                      fontSize: 13.sp,
+                      fontSize: 13,
                       color: Theme.of(context)
                           .textTheme
                           .bodyLarge
@@ -110,15 +110,16 @@ class ExperienceSection extends StatelessWidget {
                 ],
               ),
             ),
+            ),
 
           // Timeline Dot
           Container(
-            width: isMobile ? 15.w : 40.w,
-            padding: EdgeInsets.only(top: 8.h),
+            width: isStacked ? 16 : 40,
+            padding: const EdgeInsets.only(top: 8),
             child: Center(
               child: Container(
-                width: 10.r,
-                height: 10.r,
+                width: 10,
+                height: 10,
                 decoration: BoxDecoration(
                   color: isCurrent ? AppColors.primary : Colors.transparent,
                   shape: BoxShape.circle,
@@ -140,30 +141,30 @@ class ExperienceSection extends StatelessWidget {
           // Right Side (Role & Responsibilities)
           Expanded(
             child: Padding(
-              padding: EdgeInsets.only(left: isMobile ? 12.w : 20.w),
+              padding: EdgeInsets.only(left: isStacked ? 12 : 20),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  if (isMobile) ...[
+                  if (isStacked) ...[
                     Text(
                       exp['company'],
                       style: TextStyle(
-                        fontSize: isMobile ? 18 : 18.sp,
+                        fontSize: context.fontSize(mobile: 17, desktop: 18),
                         fontWeight: FontWeight.w700,
                         color: Theme.of(context).textTheme.displayMedium?.color,
                       ),
                     ),
-                    SizedBox(height: 4.h),
+                    const SizedBox(height: 4),
                     Text(
                       exp['period'],
-                      style: TextStyle(
-                        fontSize: isMobile ? 14 : 14.sp,
+                      style: const TextStyle(
+                        fontSize: 14,
                         fontWeight: FontWeight.w600,
                         color: AppColors.primary,
                         letterSpacing: 1,
                       ),
                     ),
-                    SizedBox(height: 4.h),
+                    const SizedBox(height: 4),
                     Text(
                       exp['location'] ?? '',
                       style: TextStyle(
@@ -175,40 +176,38 @@ class ExperienceSection extends StatelessWidget {
                             ?.withValues(alpha: 0.45),
                       ),
                     ),
-                    SizedBox(height: 16.h),
+                    const SizedBox(height: 16),
                   ],
                   Text(
                     exp['role'],
                     style: TextStyle(
-                      fontSize: isMobile ? 18 : 20.sp,
+                      fontSize: context.fontSize(mobile: 18, desktop: 20),
                       fontWeight: FontWeight.w700,
                       color: Theme.of(context).textTheme.displayMedium?.color,
                     ),
                   ),
-                  SizedBox(height: 24.h),
+                  const SizedBox(height: 20),
                   ... (exp['responsibilities'] as List).map((res) => Padding(
-                    padding: EdgeInsets.only(bottom: 12.h),
+                    padding: const EdgeInsets.only(bottom: 12),
                     child: Row(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                          Padding(
-                           padding: EdgeInsets.only(top: 8.h),
+                           padding: const EdgeInsets.only(top: 8),
                            child: Container(
-                             width: 4.w,
-                             height: 4.h,
+                             width: 4,
+                             height: 4,
                              decoration: BoxDecoration(
                                color: Theme.of(context).textTheme.bodyLarge?.color?.withValues(alpha: 0.3),
                                shape: BoxShape.circle,
                              ),
                            ),
                          ),
-                         SizedBox(width: 16.w),
+                         const SizedBox(width: 16),
                          Expanded(
                            child: Text(
                              res,
-                             style: Theme.of(context).textTheme.bodyMedium?.copyWith(
-                               fontSize: isMobile ? 14 : 16.sp,
-                             ),
+                             style: Theme.of(context).textTheme.bodyMedium,
                            ),
                          ),
                       ],

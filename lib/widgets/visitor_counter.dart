@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
 import '../services/visitor_service.dart';
 import '../const/color.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
@@ -28,7 +27,7 @@ class VisitorCounter extends StatelessWidget {
         final int count = snapshot.data ?? 0;
 
         return Container(
-          padding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 8.h),
+          padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 8),
           decoration: BoxDecoration(
             color: Theme.of(context).cardColor,
             borderRadius: BorderRadius.circular(100),
@@ -42,15 +41,15 @@ class VisitorCounter extends StatelessWidget {
             children: [
               FaIcon(
                 FontAwesomeIcons.eye,
-                size: isMobile ? 12.sp : 14.sp,
+                size: isMobile ? 12 : 14,
                 color: AppColors.primary,
               ),
-              SizedBox(width: 8.w),
+              const SizedBox(width: 8),
               Text(
                 '$count Views',
                 style: Theme.of(context).textTheme.bodyMedium?.copyWith(
                   fontWeight: FontWeight.bold,
-                  fontSize: isMobile ? 12 : 14.sp,
+                  fontSize: isMobile ? 12 : 13,
                   color: Theme.of(context).textTheme.bodyLarge?.color,
                 ),
               ),

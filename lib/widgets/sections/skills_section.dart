@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
 import '../../config/resume_data.dart';
 import '../../const/color.dart';
 import '../section_reveal.dart';
@@ -11,65 +10,63 @@ class SkillsSection extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final isMobile = context.isMobile;
+    // Below desktop width the 3:2 split squeezes the radar chart until its
+    // axis labels overlap, so stack the chart under the skill list instead.
+    final isStacked = !context.isDesktop;
 
-    return Container(
-      padding: EdgeInsets.symmetric(horizontal: isMobile ? 20.w : 40.w),
-      child: SectionReveal(
+    final skillList = Column(
+      children: ResumeData.skills.entries.map((entry) {
+        return _buildSkillCategory(entry.key, entry.value, context);
+      }).toList(),
+    );
+
+    // AspectRatio keeps the radar square whatever width it is given, instead
+    // of a fixed height that overflows on narrow screens.
+    final radar = AspectRatio(
+      aspectRatio: 1,
+      child: _buildRadarChart(context),
+    );
+
+    return SectionReveal(
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
           Text(
             'Technical Arsenal',
-            style: Theme.of(context).textTheme.displayMedium?.copyWith(
-              fontSize: isMobile ? 32 : 48.sp,
-            ),
+            style: Theme.of(context).textTheme.displayMedium,
           ),
-          SizedBox(height: 64.h),
-          Row(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              // Left: Categorized Skills
-              Expanded(
-                flex: 3,
-                child: Column(
-                  children: ResumeData.skills.entries.map((entry) {
-                    return _buildSkillCategory(entry.key, entry.value, context);
-                  }).toList(),
-                ),
+          SizedBox(height: context.headingGap),
+          if (isStacked) ...[
+            skillList,
+            SizedBox(height: context.space(40)),
+            Center(
+              child: ConstrainedBox(
+                constraints: const BoxConstraints(maxWidth: 360),
+                child: radar,
               ),
-
-              // Right: Radar Chart (Desktop Only)
-              if (!isMobile)
+            ),
+          ] else
+            Row(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Expanded(flex: 3, child: skillList),
                 Expanded(
                   flex: 2,
                   child: Padding(
-                    padding: EdgeInsets.only(left: 60.w, top: 40.h),
-                    child: SizedBox(
-                      height: 450.h,
-                      child: _buildRadarChart(context),
-                    ),
+                    padding: const EdgeInsets.only(left: 48, top: 32),
+                    child: radar,
                   ),
                 ),
-            ],
-          ),
-          if (isMobile) ...[
-             SizedBox(height: 64.h),
-             SizedBox(
-               height: 300.h,
-               child: _buildRadarChart(context),
-             ),
-          ],
+              ],
+            ),
         ],
-      ),
       ),
     );
   }
 
   Widget _buildSkillCategory(String title, List<String> skills, BuildContext context) {
-    final isMobile = context.isMobile;
     return Padding(
-      padding: EdgeInsets.only(bottom: 48.h),
+      padding: EdgeInsets.only(bottom: context.space(40)),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
@@ -77,25 +74,25 @@ class SkillsSection extends StatelessWidget {
             title.toUpperCase(),
             style: TextStyle(
               color: AppColors.primary,
-              fontSize: isMobile ? 11 : 12.sp,
+              fontSize: context.fontSize(mobile: 11, desktop: 12),
               fontWeight: FontWeight.bold,
               letterSpacing: 2,
             ),
           ),
-          SizedBox(height: 16.h),
+          const SizedBox(height: 16),
           Wrap(
-            spacing: 24.w,
-            runSpacing: 12.h,
+            spacing: 20,
+            runSpacing: 12,
             children: skills.map((skill) => Text(
               skill,
               style: TextStyle(
-                fontSize: isMobile ? 16 : 18.sp,
+                fontSize: context.fontSize(mobile: 15, tablet: 16, desktop: 17),
                 fontWeight: FontWeight.w500,
                 color: Theme.of(context).textTheme.displayMedium?.color,
               ),
             )).toList(),
           ),
-          SizedBox(height: 24.h),
+          const SizedBox(height: 20),
           Container(
             width: double.infinity,
             height: 1,

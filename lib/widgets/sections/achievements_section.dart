@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
 import '../../config/resume_data.dart';
 import '../../const/color.dart';
 import '../section_reveal.dart';
@@ -12,32 +11,30 @@ class AchievementsSection extends StatelessWidget {
   Widget build(BuildContext context) {
     final isMobile = context.isMobile;
     
-    return Container(
-      margin: EdgeInsets.only(bottom: 100.h),
-      child: SectionReveal(
+    return SectionReveal(
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
           Row(
             children: [
-              Container(width: isMobile ? 40 : 72.w, height: 2, color: AppColors.primary),
-              SizedBox(width: isMobile ? 12 : 24.w),
+              Container(
+                width: isMobile ? 40 : 72,
+                height: 2,
+                color: AppColors.primary,
+              ),
+              SizedBox(width: isMobile ? 12 : 24),
               Text(
-                'MILESTONES', 
-                style: Theme.of(context).textTheme.labelLarge?.copyWith(
-                  fontSize: isMobile ? 12 : 14.sp,
-                )
+                'MILESTONES',
+                style: Theme.of(context).textTheme.labelLarge,
               ),
             ],
           ),
-          SizedBox(height: 24.h),
+          const SizedBox(height: 20),
           Text(
             'Awards & Recognition',
-            style: Theme.of(context).textTheme.displayMedium?.copyWith(
-              fontSize: isMobile ? 36 : 56.sp,
-            ),
+            style: Theme.of(context).textTheme.displayMedium,
           ),
-          SizedBox(height: isMobile ? 40.h : 60.h),
+          SizedBox(height: context.headingGap),
 
           ...ResumeData.achievements.map((achievement) => _buildAchievementItem(
             achievement['title'],
@@ -47,14 +44,12 @@ class AchievementsSection extends StatelessWidget {
           )),
         ],
       ),
-      ),
     );
   }
 
   Widget _buildAchievementItem(String title, String date, String description, BuildContext context) {
-    final isMobile = context.isMobile;
     return Padding(
-      padding: EdgeInsets.only(bottom: 40.h),
+      padding: EdgeInsets.only(bottom: context.space(40)),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
@@ -63,22 +58,25 @@ class AchievementsSection extends StatelessWidget {
             style: Theme.of(context).textTheme.titleLarge?.copyWith(
               color: Theme.of(context).textTheme.displayLarge?.color,
               fontWeight: FontWeight.w700,
-              fontSize: isMobile ? 18 : 20.sp,
+              fontSize: context.fontSize(mobile: 17, tablet: 19, desktop: 20),
             ),
           ),
           if (date.isNotEmpty) ...[
-            SizedBox(height: 5.h),
+            const SizedBox(height: 5),
             Text(
               date,
-              style: TextStyle(color: AppColors.primary, fontWeight: FontWeight.w600, fontSize: isMobile ? 12 : 13.sp),
+              style: TextStyle(
+                color: AppColors.primary,
+                fontWeight: FontWeight.w600,
+                fontSize: context.fontSize(mobile: 12, desktop: 13),
+              ),
             ),
           ],
-          SizedBox(height: 12.h),
+          const SizedBox(height: 12),
           Text(
             description,
             style: Theme.of(context).textTheme.bodyLarge?.copyWith(
               height: 1.6,
-              fontSize: isMobile ? 15 : 18.sp,
               color: Theme.of(context).textTheme.bodyLarge?.color?.withValues(alpha: 0.8),
             ),
           ),

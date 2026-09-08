@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 import '../../const/color.dart';
 import '../../utils/responsive_utils.dart';
@@ -20,9 +19,14 @@ class CustomButton extends StatelessWidget {
   Widget build(BuildContext context) {
     final isMobile = context.isMobile;
 
-    return SizedBox(
-      width: context.responsiveValue(mobile: 200.w, tablet: 180.w, desktop: 160.w),
-      height: context.responsiveValue(mobile: 50.h, tablet: 45.h, desktop: 40.h),
+    // Sizes to its label between a sensible min and max. A hard width is
+    // itself an overflow source once the label changes.
+    return ConstrainedBox(
+      constraints: BoxConstraints(
+        minWidth: context.responsiveValue(mobile: 150, tablet: 160, desktop: 170),
+        minHeight: context.responsiveValue(mobile: 46, tablet: 46, desktop: 44),
+        maxWidth: 260,
+      ),
       child: ElevatedButton(
         onPressed: onPressed,
         style: ElevatedButton.styleFrom(
@@ -30,19 +34,17 @@ class CustomButton extends StatelessWidget {
           foregroundColor: isOutlined ? AppColors.primary : Colors.white,
           side: isOutlined ? BorderSide(color: AppColors.primary) : null,
           shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(
-              context.responsiveValue(mobile: 8.r, tablet: 6.r, desktop: 4.r),
-            ),
+            borderRadius: BorderRadius.circular(8),
           ),
           padding: EdgeInsets.symmetric(
-            horizontal: isMobile ? 20.w : 16.w,
-            vertical: isMobile ? 10.h : 8.h,
+            horizontal: isMobile ? 20 : 24,
+            vertical: isMobile ? 12 : 14,
           ),
         ),
         child: Text(
           text,
           style: TextStyle(
-            fontSize: context.responsiveValue(mobile: 16.sp, tablet: 14.sp, desktop: 12.sp),
+            fontSize: context.fontSize(mobile: 15, tablet: 15, desktop: 14),
             fontWeight: isMobile ? FontWeight.w600 : FontWeight.w500,
           ),
         ),

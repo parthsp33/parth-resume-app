@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
 import '../../config/resume_data.dart';
 import '../../const/color.dart';
 import '../section_reveal.dart';
@@ -12,9 +11,7 @@ class AboutSection extends StatelessWidget {
   Widget build(BuildContext context) {
     final isMobile = context.isMobile;
 
-    return Container(
-      padding: EdgeInsets.symmetric(horizontal: isMobile ? 20.w : 40.w),
-      child: SectionReveal(
+    return SectionReveal(
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
@@ -25,26 +22,24 @@ class AboutSection extends StatelessWidget {
                 '01 — ',
                 style: TextStyle(
                   color: AppColors.primary,
-                  fontSize: isMobile ? 14 : 16.sp,
+                  fontSize: context.fontSize(mobile: 13, desktop: 15),
                   fontWeight: FontWeight.bold,
                   letterSpacing: 2,
                 ),
               ),
               Container(
-                width: 40.w,
+                width: 40,
                 height: 1,
                 color: AppColors.primary.withValues(alpha: 0.3),
               ),
             ],
           ),
-          SizedBox(height: 16.h),
+          const SizedBox(height: 16),
           Text(
             'About Me',
-            style: Theme.of(context).textTheme.displayMedium?.copyWith(
-              fontSize: isMobile ? 32 : 48.sp,
-            ),
+            style: Theme.of(context).textTheme.displayMedium,
           ),
-          SizedBox(height: 64.h),
+          SizedBox(height: context.headingGap),
 
           // Main Content Grid
           if (isMobile)
@@ -52,9 +47,9 @@ class AboutSection extends StatelessWidget {
                crossAxisAlignment: CrossAxisAlignment.start,
                children: [
                  _buildBio(context),
-                 SizedBox(height: 64.h),
+                 SizedBox(height: context.space(56)),
                  _buildStats(context),
-                 SizedBox(height: 64.h),
+                 SizedBox(height: context.space(56)),
                  _buildEducationAndInterests(context),
                ],
             )
@@ -69,12 +64,12 @@ class AboutSection extends StatelessWidget {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       _buildBio(context),
-                      SizedBox(height: 80.h),
+                      SizedBox(height: context.space(72)),
                       _buildStats(context),
                     ],
                   ),
                 ),
-                SizedBox(width: 100.w),
+                SizedBox(width: context.space(80)),
                 // Right Column: Education & Interests
                 Expanded(
                   flex: 2,
@@ -83,7 +78,6 @@ class AboutSection extends StatelessWidget {
               ],
             ),
         ],
-      ),
       ),
     );
   }
@@ -97,35 +91,33 @@ class AboutSection extends StatelessWidget {
           ResumeData.experienceSummary,
           style: Theme.of(context).textTheme.bodyLarge?.copyWith(
             height: 1.8,
-            fontSize: isMobile ? 16 : 18.sp,
             fontWeight: FontWeight.w600,
           ),
         ),
-        SizedBox(height: isMobile ? 24.h : 32.h),
+        SizedBox(height: context.space(28)),
         ...ResumeData.summaryPoints.map(
           (point) => Padding(
-            padding: EdgeInsets.only(bottom: isMobile ? 14.h : 16.h),
+            padding: const EdgeInsets.only(bottom: 14),
             child: Row(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Padding(
-                  padding: EdgeInsets.only(top: isMobile ? 8.h : 10.h),
+                  padding: const EdgeInsets.only(top: 8),
                   child: Container(
-                    width: 6.w,
-                    height: 6.w,
+                    width: 6,
+                    height: 6,
                     decoration: BoxDecoration(
                       color: AppColors.primary.withValues(alpha: 0.7),
                       shape: BoxShape.circle,
                     ),
                   ),
                 ),
-                SizedBox(width: isMobile ? 12.w : 16.w),
+                SizedBox(width: isMobile ? 12 : 16),
                 Expanded(
                   child: Text(
                     point,
-                    style: Theme.of(context).textTheme.bodyLarge?.copyWith(
+                    style: Theme.of(context).textTheme.bodyMedium?.copyWith(
                       height: 1.7,
-                      fontSize: isMobile ? 14 : 16.sp,
                       color: Theme.of(context)
                           .textTheme
                           .bodyLarge
@@ -144,8 +136,8 @@ class AboutSection extends StatelessWidget {
 
   Widget _buildStats(BuildContext context) {
     return Wrap(
-      spacing: 60.w,
-      runSpacing: 32.h,
+      spacing: 48,
+      runSpacing: 28,
       children: [
         _buildStatItem(ResumeData.totalExperience, 'YEARS EXPERIENCE', context),
         _buildStatItem(ResumeData.totalProjects, 'PROJECTS COMPLETED', context),
@@ -154,21 +146,20 @@ class AboutSection extends StatelessWidget {
   }
 
   Widget _buildStatItem(String val, String label, BuildContext context) {
-    final isMobile = context.isMobile;
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Text(
           val,
           style: Theme.of(context).textTheme.displayLarge?.copyWith(
-            fontSize: isMobile ? 40 : 48.sp,
+            fontSize: context.fontSize(mobile: 36, tablet: 42, desktop: 48),
           ),
         ),
-        SizedBox(height: 8.h),
+        const SizedBox(height: 8),
         Text(
           label,
           style: TextStyle(
-            fontSize: isMobile ? 11 : 12.sp,
+            fontSize: context.fontSize(mobile: 11, desktop: 12),
             color: Theme.of(context).textTheme.bodyLarge?.color?.withValues(alpha: 0.5),
             fontWeight: FontWeight.bold,
             letterSpacing: 1,
@@ -179,52 +170,40 @@ class AboutSection extends StatelessWidget {
   }
 
   Widget _buildEducationAndInterests(BuildContext context) {
-    final isMobile = context.isMobile;
+    // Heading colour comes from the theme. It used to be hardcoded white,
+    // which made these headings invisible in the light theme.
+    final headingColor = Theme.of(context).textTheme.displayMedium?.color;
+
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        // Education
-        Text(
-          'Education',
-          style: TextStyle(
-            fontSize: isMobile ? 18 : 20.sp,
-            fontWeight: FontWeight.w700,
-            color: Colors.white,
-          ),
-        ),
-        SizedBox(height: 16.h),
-        Container(
-          width: double.infinity,
-          height: 1,
-          color: Theme.of(context).textTheme.bodyLarge?.color?.withValues(alpha: 0.1),
-        ),
-        SizedBox(height: 32.h),
+        _buildBlockHeading('Education', context),
         ...ResumeData.education.map((edu) => Padding(
-          padding: EdgeInsets.only(bottom: 32.h),
+          padding: const EdgeInsets.only(bottom: 28),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Text(
                 edu['degree'],
                 style: TextStyle(
-                  fontSize: isMobile ? 15 : 16.sp,
+                  fontSize: context.fontSize(mobile: 15, desktop: 16),
                   fontWeight: FontWeight.w700,
-                  color: Colors.white,
+                  color: headingColor,
                 ),
               ),
-              SizedBox(height: 4.h),
+              const SizedBox(height: 4),
               Text(
                 '${edu['institution']} (${edu['location']})',
                 style: TextStyle(
-                  fontSize: isMobile ? 13 : 14.sp,
+                  fontSize: context.fontSize(mobile: 13, desktop: 14),
                   color: Theme.of(context).textTheme.bodyLarge?.color?.withValues(alpha: 0.6),
                 ),
               ),
-              SizedBox(height: 4.h),
+              const SizedBox(height: 4),
               Text(
                 edu['period'],
                 style: TextStyle(
-                  fontSize: isMobile ? 12 : 12.sp,
+                  fontSize: 12,
                   color: Theme.of(context).textTheme.bodyLarge?.color?.withValues(alpha: 0.4),
                 ),
               ),
@@ -232,26 +211,11 @@ class AboutSection extends StatelessWidget {
           ),
         )),
 
-        SizedBox(height: 48.h),
-        // Interests
-        Text(
-          'Interests',
-          style: TextStyle(
-            fontSize: isMobile ? 18 : 20.sp,
-            fontWeight: FontWeight.w700,
-            color: Colors.white,
-          ),
-        ),
-        SizedBox(height: 16.h),
-        Container(
-          width: double.infinity,
-          height: 1,
-          color: Theme.of(context).textTheme.bodyLarge?.color?.withValues(alpha: 0.1),
-        ),
-        SizedBox(height: 32.h),
+        SizedBox(height: context.space(40)),
+        _buildBlockHeading('Interests', context),
         Wrap(
-          spacing: 12.w,
-          runSpacing: 12.h,
+          spacing: 12,
+          runSpacing: 12,
           children: [
             _buildInterestChip('Traveling', context),
             _buildInterestChip('Gaming', context),
@@ -263,20 +227,44 @@ class AboutSection extends StatelessWidget {
     );
   }
 
+  Widget _buildBlockHeading(String title, BuildContext context) {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Text(
+          title,
+          style: TextStyle(
+            fontSize: context.fontSize(mobile: 18, desktop: 20),
+            fontWeight: FontWeight.w700,
+            color: Theme.of(context).textTheme.displayMedium?.color,
+          ),
+        ),
+        const SizedBox(height: 16),
+        Container(
+          width: double.infinity,
+          height: 1,
+          color: Theme.of(context).textTheme.bodyLarge?.color?.withValues(alpha: 0.1),
+        ),
+        const SizedBox(height: 28),
+      ],
+    );
+  }
+
   Widget _buildInterestChip(String label, BuildContext context) {
-    final isMobile = context.isMobile;
+    final onSurface =
+        Theme.of(context).textTheme.bodyLarge?.color ?? Colors.grey;
     return Container(
-      padding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 8.h),
+      padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
       decoration: BoxDecoration(
-        color: Colors.white.withValues(alpha: 0.03),
+        color: onSurface.withValues(alpha: 0.04),
         borderRadius: BorderRadius.circular(100),
-        border: Border.all(color: Colors.white.withValues(alpha: 0.05)),
+        border: Border.all(color: onSurface.withValues(alpha: 0.12)),
       ),
       child: Text(
         label,
         style: TextStyle(
-          fontSize: isMobile ? 13 : 13.sp,
-          color: Theme.of(context).textTheme.bodyLarge?.color?.withValues(alpha: 0.6),
+          fontSize: 13,
+          color: onSurface.withValues(alpha: 0.7),
         ),
       ),
     );

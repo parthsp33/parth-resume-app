@@ -27,16 +27,23 @@ class MyApp extends StatelessWidget {
       minTextAdapt: true,
       splitScreenMode: true,
       builder: (context, child) {
-        return ValueListenableBuilder<ThemeMode>(
-          valueListenable: themeNotifier,
-          builder: (context, currentMode, _) {
-            return MaterialApp(
-              debugShowCheckedModeBanner: false,
-              title: 'Parth Prajapati | Resume',
-              theme: AppTheme.lightTheme,
-              darkTheme: AppTheme.darkTheme,
-              themeMode: currentMode,
-              home: const HomeScreen(),
+        // LayoutBuilder so the theme is rebuilt with the new width whenever the
+        // browser window is resized.
+        return LayoutBuilder(
+          builder: (context, constraints) {
+            final width = constraints.maxWidth;
+            return ValueListenableBuilder<ThemeMode>(
+              valueListenable: themeNotifier,
+              builder: (context, currentMode, _) {
+                return MaterialApp(
+                  debugShowCheckedModeBanner: false,
+                  title: 'Parth Prajapati | Resume',
+                  theme: AppTheme.light(width),
+                  darkTheme: AppTheme.dark(width),
+                  themeMode: currentMode,
+                  home: const HomeScreen(),
+                );
+              },
             );
           },
         );

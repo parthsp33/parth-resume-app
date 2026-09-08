@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:url_launcher/url_launcher.dart';
 import '../../config/resume_data.dart';
 import '../../const/color.dart';
@@ -7,6 +6,7 @@ import '../section_reveal.dart';
 import '../hover_scale.dart';
 import '../visitor_counter.dart';
 import '../../utils/responsive_utils.dart';
+import '../common/content_shell.dart';
 
 class ContactSection extends StatelessWidget {
   const ContactSection({super.key});
@@ -15,24 +15,19 @@ class ContactSection extends StatelessWidget {
   Widget build(BuildContext context) {
     final isMobile = context.isMobile;
 
-    return Container(
-      padding: EdgeInsets.symmetric(
-        vertical: 100.h,
-        // Avoid .w on mobile with desktop designSize (prevents tiny padding).
-        horizontal: context.responsiveValue(mobile: 20.0, tablet: 40.w, desktop: 60.w),
-      ),
-      child: SectionReveal(
+    return Padding(
+      padding: EdgeInsets.symmetric(vertical: context.sectionGap),
+      child: ContentShell(
+        child: SectionReveal(
         child: Column(
           children: [
           // Large CTA
           Text(
             'Ready to build something together?',
             textAlign: TextAlign.center,
-            style: Theme.of(context).textTheme.displayMedium?.copyWith(
-              fontSize: isMobile ? 32 : 56.sp,
-            ),
+            style: Theme.of(context).textTheme.displayMedium,
           ),
-          SizedBox(height: 48.h),
+          SizedBox(height: context.space(44)),
           HoverScale(
             child: InkWell(
               onTap: () async {
@@ -44,7 +39,7 @@ class ContactSection extends StatelessWidget {
                 }
               },
             child: Container(
-              padding: EdgeInsets.symmetric(horizontal: 48.w, vertical: 24.h),
+              padding: EdgeInsets.symmetric(horizontal: isMobile ? 32 : 44, vertical: 20),
               decoration: BoxDecoration(
                 color: AppColors.primary,
                 borderRadius: BorderRadius.circular(100),
@@ -56,18 +51,18 @@ class ContactSection extends StatelessWidget {
                     'Get in Touch',
                     style: TextStyle(
                       color: Colors.white,
-                      fontSize: isMobile ? 18 : 20.sp,
+                      fontSize: context.fontSize(mobile: 17, desktop: 19),
                       fontWeight: FontWeight.bold,
                     ),
                   ),
-                  SizedBox(width: 12.w),
-                  Icon(Icons.arrow_forward, color: Colors.white, size: isMobile ? 20 : 24.sp),
+                  const SizedBox(width: 12),
+                  const Icon(Icons.arrow_forward, color: Colors.white, size: 22),
                 ],
               ),
             ),
             ),
           ),
-          SizedBox(height: 120.h),
+          SizedBox(height: context.space(100)),
 
           // Footer
           if (isMobile)
@@ -75,18 +70,18 @@ class ContactSection extends StatelessWidget {
           else
              _buildDesktopFooter(context),
 
-          SizedBox(height: 64.h),
+          SizedBox(height: context.space(56)),
           Container(
              width: double.infinity,
              height: 1,
              color: Theme.of(context).textTheme.bodyLarge?.color?.withValues(alpha: 0.05),
           ),
-          SizedBox(height: 32.h),
+          const SizedBox(height: 28),
           if (isMobile)
             Column(
               children: [
                 const VisitorCounter(),
-                SizedBox(height: 12.h),
+                const SizedBox(height: 12),
                 Text(
                   '© 2025 ${ResumeData.name}. All rights reserved.',
                   textAlign: TextAlign.center,
@@ -106,13 +101,14 @@ class ContactSection extends StatelessWidget {
                   '© 2025 ${ResumeData.name}. All rights reserved.',
                   style: TextStyle(
                     color: Theme.of(context).textTheme.bodyLarge?.color?.withValues(alpha: 0.3),
-                    fontSize: 12.sp,
+                    fontSize: 12,
                   ),
                 ),
                 const VisitorCounter(),
               ],
             ),
         ],
+      ),
       ),
       ),
     );
@@ -126,11 +122,11 @@ class ContactSection extends StatelessWidget {
         Row(
            children: [
              _buildFooterLink('EMAIL', ResumeData.email, context),
-             SizedBox(width: 32.w),
+             const SizedBox(width: 28),
              _buildFooterLink('LINKEDIN', ResumeData.linkedin, context),
-             SizedBox(width: 32.w),
+             const SizedBox(width: 28),
              _buildFooterLink('GITHUB', ResumeData.github, context),
-             SizedBox(width: 32.w),
+             const SizedBox(width: 28),
              _buildFooterLink('WEBSITE', ResumeData.website, context),
            ],
         ),
@@ -142,10 +138,10 @@ class ContactSection extends StatelessWidget {
     return Column(
       children: [
         _buildLogo(context),
-        SizedBox(height: 32.h),
+        const SizedBox(height: 28),
         Wrap(
-          spacing: 24.w,
-          runSpacing: 16.h,
+          spacing: 24,
+          runSpacing: 16,
           alignment: WrapAlignment.center,
           children: [
             _buildFooterLink('EMAIL', ResumeData.email, context),
@@ -159,22 +155,21 @@ class ContactSection extends StatelessWidget {
   }
 
   Widget _buildLogo(BuildContext context) {
-    final isMobile = context.isMobile;
     return RichText(
       text: TextSpan(
         children: [
           TextSpan(
             text: 'P',
             style: Theme.of(context).textTheme.displaySmall?.copyWith(
-              color: Colors.white,
-              fontSize: isMobile ? 24 : 28.sp,
+              color: Theme.of(context).textTheme.displayMedium?.color,
+              fontSize: context.fontSize(mobile: 22, desktop: 26),
             ),
           ),
           TextSpan(
             text: 'P',
             style: Theme.of(context).textTheme.displaySmall?.copyWith(
               color: AppColors.primary,
-              fontSize: isMobile ? 24 : 28.sp,
+              fontSize: context.fontSize(mobile: 22, desktop: 26),
             ),
           ),
         ],
@@ -183,7 +178,6 @@ class ContactSection extends StatelessWidget {
   }
 
   Widget _buildFooterLink(String label, String url, BuildContext context) {
-    final isMobile = context.isMobile;
     return InkWell(
       onTap: () async {
         final Uri uri = url.startsWith('http')
@@ -197,7 +191,7 @@ class ContactSection extends StatelessWidget {
         label,
         style: TextStyle(
           color: Theme.of(context).textTheme.bodyLarge?.color?.withValues(alpha: 0.5),
-          fontSize: isMobile ? 11 : 12.sp,
+          fontSize: context.fontSize(mobile: 11, desktop: 12),
           fontWeight: FontWeight.bold,
           letterSpacing: 2,
         ),

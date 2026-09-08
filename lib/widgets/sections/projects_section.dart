@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:url_launcher/url_launcher.dart';
 import '../../config/resume_data.dart';
 import '../../models/project_model.dart';
@@ -14,48 +13,42 @@ class ProjectsSection extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final isMobile = context.isMobile;
-
-    return Container(
-      padding: EdgeInsets.symmetric(horizontal: isMobile ? 12.0 : 40.w),
-      child: SectionReveal(
+    return SectionReveal(
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
           Text(
             'Portfolio',
-            style: Theme.of(context).textTheme.displayMedium?.copyWith(
-              fontSize: isMobile ? 36 : 48.sp,
-            ),
+            style: Theme.of(context).textTheme.displayMedium,
           ),
-          SizedBox(height: isMobile ? 32.h : 64.h),
+          SizedBox(height: context.headingGap),
           LayoutBuilder(
             builder: (context, constraints) {
               final w = constraints.maxWidth;
+              // Cards need roughly 300px to read well; derive columns from that
+              // rather than a magic width threshold.
               final int columns = w < Breakpoints.mobile
                   ? 1
-                  : (w < 980 ? 2 : 3);
+                  : (w < Breakpoints.tablet ? 2 : 3);
 
-              final double aspectRatio = columns == 1 ? 1.05 : 1.35;
+              const double spacing = 20;
+              final double cardWidth =
+                  (w - spacing * (columns - 1)) / columns;
 
-              return GridView.builder(
-                shrinkWrap: true,
-                physics: const NeverScrollableScrollPhysics(),
-                gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                  crossAxisCount: columns,
-                  crossAxisSpacing: 24.w,
-                  mainAxisSpacing: 24.h,
-                  childAspectRatio: aspectRatio,
-                ),
-                itemCount: ResumeData.projects.length,
-                itemBuilder: (context, index) {
-                  return _buildProjectCard(ResumeData.projects[index], context);
-                },
+              return Wrap(
+                spacing: spacing,
+                runSpacing: spacing,
+                children: [
+                  for (final project in ResumeData.projects)
+                    SizedBox(
+                      width: cardWidth,
+                      child: _buildProjectCard(project, context),
+                    ),
+                ],
               );
             },
           ),
         ],
-      ),
       ),
     );
   }
@@ -73,12 +66,12 @@ class ProjectsSection extends StatelessWidget {
         }
       },
       child: Container(
-        padding: EdgeInsets.all(isMobile ? 16 : 24.r),
+        padding: EdgeInsets.all(isMobile ? 16 : 24),
         decoration: BoxDecoration(
           color: Theme.of(context).brightness == Brightness.dark 
               ? AppColors.surfaceDark.withValues(alpha: 0.4) 
               : Colors.white,
-          borderRadius: BorderRadius.circular(16.r),
+          borderRadius: BorderRadius.circular(16),
           border: Border.all(
             color: Theme.of(context).brightness == Brightness.dark 
                 ? Colors.white.withValues(alpha: 0.05) 
@@ -97,6 +90,7 @@ class ProjectsSection extends StatelessWidget {
         ),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
+          mainAxisSize: MainAxisSize.min,
           children: [
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -112,7 +106,7 @@ class ProjectsSection extends StatelessWidget {
                         'View on App Store',
                       ),
                     if (project.appStoreLink != null && project.playStoreLink != null)
-                      SizedBox(width: isMobile ? 8 : 8.w),
+                      const SizedBox(width: 8),
                     if (project.playStoreLink != null)
                       _buildStoreIcon(
                         context,
@@ -128,7 +122,7 @@ class ProjectsSection extends StatelessWidget {
                           color: Theme.of(context).brightness == Brightness.dark
                               ? Colors.white
                               : AppColors.primary,
-                          size: isMobile ? 18 : 20.sp,
+                          size: isMobile ? 18 : 20,
                         ),
                       ),
                   ],
@@ -136,27 +130,27 @@ class ProjectsSection extends StatelessWidget {
                 _buildStatusPill(context, project.status),
               ],
             ),
-            const Spacer(),
+            const SizedBox(height: 24),
             Text(
               project.name,
               style: TextStyle(
-                fontSize: isMobile ? 22 : 24.sp,
+                fontSize: context.fontSize(mobile: 20, tablet: 22, desktop: 23),
                 fontWeight: FontWeight.w700,
                 color: Theme.of(context).brightness == Brightness.dark ? Colors.white : Colors.black87,
               ),
             ),
-            SizedBox(height: isMobile ? 8.h : 12.h),
+            const SizedBox(height: 10),
             Text(
               project.shortDescription,
-              maxLines: 2,
+              maxLines: 3,
               overflow: TextOverflow.ellipsis,
               style: TextStyle(
-                fontSize: isMobile ? 15 : 14.sp,
+                fontSize: context.fontSize(mobile: 14, desktop: 14),
                 color: Theme.of(context).textTheme.bodyLarge?.color?.withValues(alpha: 0.6),
                 height: 1.5,
               ),
             ),
-            const Spacer(),
+            const SizedBox(height: 20),
             Builder(
               builder: (context) {
                 final tools = project.tools
@@ -167,12 +161,12 @@ class ProjectsSection extends StatelessWidget {
                 final visible = tools.take(3).toList();
                 final remaining = tools.length - visible.length;
                 return Wrap(
-                  spacing: 8.w,
-                  runSpacing: 8.h,
+                  spacing: 8,
+                  runSpacing: 8,
                   children: [
                     ...visible.map((tool) => _buildTechChip(tool, context)),
                     if (remaining > 0)
-                      _buildTechChip('+\$remaining more', context),
+                      _buildTechChip('+$remaining more', context),
                   ],
                 );
               },
@@ -189,12 +183,12 @@ class ProjectsSection extends StatelessWidget {
     final isMobile = context.isMobile;
     final isDark = Theme.of(context).brightness == Brightness.dark;
     return Container(
-      padding: EdgeInsets.all(isMobile ? 8 : 10.r),
+      padding: EdgeInsets.all(isMobile ? 8 : 10),
       decoration: BoxDecoration(
         color: isDark
             ? Colors.white.withValues(alpha: 0.03)
             : AppColors.primary.withValues(alpha: 0.05),
-        borderRadius: BorderRadius.circular(8.r),
+        borderRadius: BorderRadius.circular(8),
         border: Border.all(
           color: isDark
               ? Colors.white.withValues(alpha: 0.1)
@@ -217,13 +211,13 @@ class ProjectsSection extends StatelessWidget {
       message: tooltip,
       child: InkWell(
         onTap: () => _launchURL(url),
-        borderRadius: BorderRadius.circular(8.r),
+        borderRadius: BorderRadius.circular(8),
         child: _buildIconBox(
           context,
           FaIcon(
             icon,
             color: isDark ? Colors.white : AppColors.primary,
-            size: isMobile ? 16 : 18.sp,
+            size: isMobile ? 16 : 18,
           ),
         ),
       ),
@@ -231,19 +225,18 @@ class ProjectsSection extends StatelessWidget {
   }
 
   Widget _buildStatusPill(BuildContext context, String status) {
-    final isMobile = context.isMobile;
     final bool isLive = status.toLowerCase() == 'complete';
     final Color accent = isLive
         ? const Color(0xFF22C55E)
         : const Color(0xFFF59E0B);
     return Container(
       padding: EdgeInsets.symmetric(
-        horizontal: isMobile ? 10 : 10.w,
-        vertical: isMobile ? 5 : 5.h,
+        horizontal: 10,
+        vertical: 5,
       ),
       decoration: BoxDecoration(
         color: accent.withValues(alpha: 0.12),
-        borderRadius: BorderRadius.circular(20.r),
+        borderRadius: BorderRadius.circular(20),
         border: Border.all(color: accent.withValues(alpha: 0.35)),
       ),
       child: Row(
@@ -254,12 +247,12 @@ class ProjectsSection extends StatelessWidget {
             height: 6,
             decoration: BoxDecoration(color: accent, shape: BoxShape.circle),
           ),
-          SizedBox(width: isMobile ? 6 : 6.w),
+          const SizedBox(width: 6),
           Text(
             status.toUpperCase(),
             style: TextStyle(
               color: accent,
-              fontSize: isMobile ? 10 : 10.sp,
+              fontSize: 10,
               fontWeight: FontWeight.bold,
               letterSpacing: 1.2,
             ),
@@ -270,14 +263,13 @@ class ProjectsSection extends StatelessWidget {
   }
 
   Widget _buildTechChip(String text, BuildContext context) {
-    final isMobile = context.isMobile;
     return Container(
-      padding: EdgeInsets.symmetric(horizontal: isMobile ? 8 : 10.w, vertical: 4.h),
+      padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 4),
       decoration: BoxDecoration(
         color: Theme.of(context).brightness == Brightness.dark 
             ? Colors.white.withValues(alpha: 0.03) 
             : AppColors.primary.withValues(alpha: 0.05),
-        borderRadius: BorderRadius.circular(4.r),
+        borderRadius: BorderRadius.circular(4),
         border: Border.all(
           color: Theme.of(context).brightness == Brightness.dark 
               ? Colors.white.withValues(alpha: 0.05) 
@@ -288,7 +280,7 @@ class ProjectsSection extends StatelessWidget {
         text,
         style: TextStyle(
           color: Theme.of(context).textTheme.bodyLarge?.color?.withValues(alpha: 0.5),
-          fontSize: isMobile ? 12 : 11.sp,
+          fontSize: 11,
           fontWeight: FontWeight.w600,
         ),
       ),
