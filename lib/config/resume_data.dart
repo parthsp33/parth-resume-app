@@ -109,12 +109,13 @@ class ResumeData {
       "ChatGPT (GPT)",
       "Cursor",
       "Codex",
+      "Claude",
       "Antigravity"
     ],
   };
 
   static const Map<String, double> proficiency = {
-    "React Native": 0.85,
+    "React Native": 0.50,
     "Flutter": 0.95,
     "Dart": 0.90,
     "Swift": 0.75,
