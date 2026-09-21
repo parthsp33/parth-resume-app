@@ -4,6 +4,7 @@ import '../../config/resume_data.dart';
 import 'package:flutter_animate/flutter_animate.dart';
 import '../../utils/external_links.dart';
 import '../../main.dart'; // Import themeNotifier
+import '../../services/analytics_service.dart';
 import '../hover_scale.dart';
 import '../../utils/responsive_utils.dart';
 import '../common/content_shell.dart';
@@ -56,16 +57,26 @@ class HeroSection extends StatelessWidget {
                       ? 'Switch to dark theme'
                       : 'Switch to light theme',
                   icon: Icon(
-                    mode == ThemeMode.light ? Icons.dark_mode_outlined : Icons.light_mode_outlined,
-                    color: Theme.of(context).textTheme.bodyLarge?.color?.withValues(alpha: 0.75),
+                    mode == ThemeMode.light
+                        ? Icons.dark_mode_outlined
+                        : Icons.light_mode_outlined,
+                    color: Theme.of(context)
+                        .textTheme
+                        .bodyLarge
+                        ?.color
+                        ?.withValues(alpha: 0.75),
                     size: 24,
                   ),
                   onPressed: () {
-                    themeNotifier.value = mode == ThemeMode.light ? ThemeMode.dark : ThemeMode.light;
+                    final nextMode = mode == ThemeMode.light
+                        ? ThemeMode.dark
+                        : ThemeMode.light;
+                    themeNotifier.value = nextMode;
+                    AnalyticsService.logThemeToggle(nextMode.name);
                   },
                 ),
               ),
-              
+
               // Side Social Sidebar
               if (context.isDesktop)
                 Positioned(
@@ -75,23 +86,29 @@ class HeroSection extends StatelessWidget {
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
-                      _buildEmailIcon(Icons.email_outlined, ResumeData.email, context),
+                      _buildEmailIcon(
+                          Icons.email_outlined, ResumeData.email, context),
                       const SizedBox(height: 12),
-                      _buildSocialIcon(
-                          Icons.link, ResumeData.linkedin, 'LinkedIn profile', context),
+                      _buildSocialIcon(Icons.link, ResumeData.linkedin,
+                          'LinkedIn profile', context),
                       const SizedBox(height: 12),
-                      _buildSocialIcon(
-                          Icons.code, ResumeData.github, 'GitHub profile', context),
+                      _buildSocialIcon(Icons.code, ResumeData.github,
+                          'GitHub profile', context),
                       const SizedBox(height: 12),
-                      _buildSocialIcon(
-                          Icons.public, ResumeData.website, 'Personal website', context),
+                      _buildSocialIcon(Icons.public, ResumeData.website,
+                          'Personal website', context),
                       const SizedBox(height: 12),
-                      _buildPhoneIcon(Icons.phone_outlined, ResumeData.mobile, context),
+                      _buildPhoneIcon(
+                          Icons.phone_outlined, ResumeData.mobile, context),
                       const SizedBox(height: 24),
                       Container(
                         width: 1,
                         height: 120,
-                        color: Theme.of(context).textTheme.bodyLarge?.color?.withValues(alpha: 0.1),
+                        color: Theme.of(context)
+                            .textTheme
+                            .bodyLarge
+                            ?.color
+                            ?.withValues(alpha: 0.1),
                       ),
                     ],
                   ),
@@ -117,10 +134,17 @@ class HeroSection extends StatelessWidget {
                             ),
                             SizedBox(width: isMobile ? 8.0 : 16.0),
                             Text(
-                              ResumeData.role.split('|').first.trim().toUpperCase(),
-                              style: Theme.of(context).textTheme.labelLarge?.copyWith(
-                                letterSpacing: isMobile ? 1.5 : 3,
-                              ),
+                              ResumeData.role
+                                  .split('|')
+                                  .first
+                                  .trim()
+                                  .toUpperCase(),
+                              style: Theme.of(context)
+                                  .textTheme
+                                  .labelLarge
+                                  ?.copyWith(
+                                    letterSpacing: isMobile ? 1.5 : 3,
+                                  ),
                             ),
                           ],
                         ),
@@ -128,10 +152,16 @@ class HeroSection extends StatelessWidget {
                         // Massive Bold Title
                         Text(
                           "${ResumeData.name.split(' ').first}\n${ResumeData.name.split(' ').last}",
-                          style: Theme.of(context).textTheme.displayLarge?.copyWith(
-                            color: Theme.of(context).textTheme.displayLarge?.color,
-                            height: 1.1,
-                          ),
+                          style: Theme.of(context)
+                              .textTheme
+                              .displayLarge
+                              ?.copyWith(
+                                color: Theme.of(context)
+                                    .textTheme
+                                    .displayLarge
+                                    ?.color,
+                                height: 1.1,
+                              ),
                         ),
                         SizedBox(height: context.space(40)),
                         // Introduction text
@@ -141,9 +171,10 @@ class HeroSection extends StatelessWidget {
                           ),
                           child: Text(
                             "Building robust, scalable, and user-centric mobile applications with Flutter and Swift.",
-                            style: Theme.of(context).textTheme.bodyLarge?.copyWith(
-                              height: 1.6,
-                            ),
+                            style:
+                                Theme.of(context).textTheme.bodyLarge?.copyWith(
+                                      height: 1.6,
+                                    ),
                           ),
                         ),
                         SizedBox(height: context.space(56)),
@@ -190,48 +221,52 @@ class HeroSection extends StatelessWidget {
     );
   }
 
-  Widget _buildActionButton(String label, bool isPrimary, BuildContext context, {required VoidCallback onPressed}) {
+  Widget _buildActionButton(String label, bool isPrimary, BuildContext context,
+      {required VoidCallback onPressed}) {
     final isMobile = context.isMobile;
     final bgColor = isPrimary ? Colors.white : Colors.transparent;
-    final textColor = isPrimary ? Colors.black : Theme.of(context).textTheme.bodyLarge?.color;
-    final borderColor = isPrimary ? Colors.white : Theme.of(context).textTheme.bodyLarge?.color?.withValues(alpha: 0.2);
+    final textColor =
+        isPrimary ? Colors.black : Theme.of(context).textTheme.bodyLarge?.color;
+    final borderColor = isPrimary
+        ? Colors.white
+        : Theme.of(context).textTheme.bodyLarge?.color?.withValues(alpha: 0.2);
 
     return HoverScale(
       child: InkWell(
         onTap: onPressed,
         child: Container(
-        padding: EdgeInsets.symmetric(
-          horizontal: isMobile ? 24 : 32,
-          vertical: isMobile ? 14 : 16,
-        ),
-        decoration: BoxDecoration(
-          color: bgColor,
-          borderRadius: BorderRadius.circular(100),
-          border: isPrimary ? null : Border.all(color: borderColor ?? Colors.grey),
-        ),
-        child: Row(
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            Text(
-              label,
-              style: TextStyle(
-                color: textColor,
-                fontSize: context.fontSize(mobile: 15, desktop: 16),
-                fontWeight: FontWeight.w700,
+          padding: EdgeInsets.symmetric(
+            horizontal: isMobile ? 24 : 32,
+            vertical: isMobile ? 14 : 16,
+          ),
+          decoration: BoxDecoration(
+            color: bgColor,
+            borderRadius: BorderRadius.circular(100),
+            border: isPrimary
+                ? null
+                : Border.all(color: borderColor ?? Colors.grey),
+          ),
+          child: Row(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              Text(
+                label,
+                style: TextStyle(
+                  color: textColor,
+                  fontSize: context.fontSize(mobile: 15, desktop: 16),
+                  fontWeight: FontWeight.w700,
+                ),
               ),
-            ),
-            if (isPrimary) ...[
-               const SizedBox(width: 8),
-               Icon(Icons.arrow_forward, color: textColor, size: 18),
+              if (isPrimary) ...[
+                const SizedBox(width: 8),
+                Icon(Icons.arrow_forward, color: textColor, size: 18),
+              ],
             ],
-          ],
+          ),
         ),
-      ),
       ),
     );
   }
-
-
 
   /// One labelled, 44px-minimum tap target for every sidebar icon.
   ///
@@ -297,5 +332,3 @@ class HeroSection extends StatelessWidget {
     );
   }
 }
-
-

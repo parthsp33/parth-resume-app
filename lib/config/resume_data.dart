@@ -5,7 +5,7 @@ class ResumeData {
   static const String role =
       "Software Engineer | React Native, Flutter & Swift";
   static const String experienceSummary =
-      "Software Engineer with 4.5+ years of professional experience in mobile application development, with strong hands-on expertise in React Native, TypeScript, JavaScript, Expo, Flutter, Dart, and iOS Swift.";
+      "Software Engineer with 4.8+ years of professional experience in mobile application development, with strong hands-on expertise in React Native, TypeScript, JavaScript, Expo, Flutter, Dart, and iOS Swift.";
 
   static const List<String> summaryPoints = [
     "Experienced in developing robust, scalable, and user-centric Android and iOS applications, including production applications and end-to-end ownership from development through deployment.",
@@ -16,8 +16,10 @@ class ResumeData {
   ];
 
   static const String mobile = "7383493845";
+  static const String whatsappDisplay = "+91 73834 93845";
   static const String email = "bantiprajapati33@gmail.com";
-  static const String linkedin = "https://www.linkedin.com/in/parth-prajapati-7174b2144";
+  static const String linkedin =
+      "https://www.linkedin.com/in/parth-prajapati-7174b2144";
   static const String github = "https://github.com/parthsp33";
   static const String website = "https://parth-prajapati-resume.web.app/";
 
@@ -70,11 +72,13 @@ class ResumeData {
   static const List<Map<String, dynamic>> achievements = [
     {
       "title": "First Prize, Online Charging Station Hackathon (2022 OCT)",
-      "description": "Developed and presented a winning solution for an online charging station, showcasing innovation and problem-solving skills. Implemented features to enable users to find and book available charging slots efficiently."
+      "description":
+          "Developed and presented a winning solution for an online charging station, showcasing innovation and problem-solving skills. Implemented features to enable users to find and book available charging slots efficiently."
     },
     {
       "title": "Runner-Up, AI-Thon Treasure Hunt (Jan 2024)",
-      "description": "Successfully participated in an AI-themed treasure hunt, showcasing teamwork, analytical skills, and adaptability. Demonstrated an aptitude for problem-solving within a competitive environment."
+      "description":
+          "Successfully participated in an AI-themed treasure hunt, showcasing teamwork, analytical skills, and adaptability. Demonstrated an aptitude for problem-solving within a competitive environment."
     }
   ];
 
@@ -124,7 +128,7 @@ class ResumeData {
   };
 
   // Stats
-  static const String totalExperience = "4.5+";
+  static const String totalExperience = "4.8+";
   static const String totalProjects = "12+";
 
   static final List<ProjectModel> projects = [
@@ -164,7 +168,8 @@ class ResumeData {
     ),
     ProjectModel(
       name: "BASMA",
-      shortDescription: "Simple property booking platform with two apps: one for tenants and one for landlords.",
+      shortDescription:
+          "Simple property booking platform with two apps: one for tenants and one for landlords.",
       status: "Complete",
       tools: "Flutter 3.35, Android Studio, Xcode",
       keyFeatures: [
@@ -176,7 +181,8 @@ class ResumeData {
     ),
     ProjectModel(
       name: "MASHLife",
-      shortDescription: "Dance event booking platform for searching and exploring events worldwide via interactive maps.",
+      shortDescription:
+          "Dance event booking platform for searching and exploring events worldwide via interactive maps.",
       status: "Complete",
       tools: "Flutter 3.35, Android Studio, Xcode",
       keyFeatures: [
@@ -185,12 +191,15 @@ class ResumeData {
         "Vendor section for listing products in a shop environment"
       ],
       teamSize: 1,
-      appStoreLink: "https://apps.apple.com/app/id1591731993",
-      playStoreLink: "https://play.google.com/store/apps/details?id=com.mashlife.app&hl=en_IN",
+      appStoreLink:
+          "https://apps.apple.com/us/app/mashlife-social-dance-events/id6747416288",
+      playStoreLink:
+          "https://play.google.com/store/apps/details?id=com.mashlife.app&hl=en_IN",
     ),
     ProjectModel(
       name: "Greyy8",
-      shortDescription: "Two-app platform (Vendor/User) connecting businesses with users via deals, coins, and cashback rewards.",
+      shortDescription:
+          "Two-app platform (Vendor/User) connecting businesses with users via deals, coins, and cashback rewards.",
       status: "Complete",
       tools: "Flutter 3.16.5, Android Studio, Xcode",
       keyFeatures: [
@@ -199,11 +208,14 @@ class ResumeData {
         "Push notifications and detailed user engagement tracking"
       ],
       teamSize: 1,
-      playStoreLink: "https://play.google.com/store/apps/details?id=com.amar.shopme",
+      appStoreLink: "https://apps.apple.com/us/app/grey8/id6748338667",
+      playStoreLink:
+          "https://play.google.com/store/apps/details?id=com.Greyy8.user",
     ),
     ProjectModel(
       name: "Reseda Church",
-      shortDescription: "Management app for church services, facility rentals, Bible reading, and donations.",
+      shortDescription:
+          "Management app for church services, facility rentals, Bible reading, and donations.",
       status: "Complete",
       tools: "Flutter 3.16.5, Android Studio, Xcode",
       keyFeatures: [
@@ -215,7 +227,8 @@ class ResumeData {
     ),
     ProjectModel(
       name: "Stacked Up",
-      shortDescription: "All-in-one social media platform for marketers to plan, schedule, and analyze content directly.",
+      shortDescription:
+          "All-in-one social media platform for marketers to plan, schedule, and analyze content directly.",
       status: "Complete",
       tools: "Flutter 2.8, Android Studio, Xcode",
       keyFeatures: [
@@ -226,7 +239,8 @@ class ResumeData {
     ),
     ProjectModel(
       name: "Q-Club",
-      shortDescription: "Golf-focused app for team selection and live scoreboard management.",
+      shortDescription:
+          "Golf-focused app for team selection and live scoreboard management.",
       status: "Complete",
       tools: "Flutter 3.0, Android Studio, Xcode",
       keyFeatures: [
@@ -237,7 +251,8 @@ class ResumeData {
     ),
     ProjectModel(
       name: "Pick Up My Things",
-      shortDescription: "E-commerce platform for ordering groceries, fresh produce, and drinks with same-day delivery.",
+      shortDescription:
+          "E-commerce platform for ordering groceries, fresh produce, and drinks with same-day delivery.",
       status: "Complete",
       tools: "Flutter 2.5, Android Studio, Xcode",
       keyFeatures: [
@@ -246,11 +261,13 @@ class ResumeData {
         "Two apps: Store app and Delivery app for end-to-end logistics"
       ],
       teamSize: 1,
-      appStoreLink: "https://apps.apple.com/us/app/pick-up-my-things/id1563413994",
+      appStoreLink:
+          "https://apps.apple.com/us/app/pick-up-my-things/id1563413994",
     ),
     ProjectModel(
       name: "Shop & Me",
-      shortDescription: "Hyperlocal grocery application for fast food and vegetable delivery.",
+      shortDescription:
+          "Hyperlocal grocery application for fast food and vegetable delivery.",
       status: "Complete",
       tools: "Flutter 2.5, Android Studio, Xcode",
       keyFeatures: [
@@ -259,7 +276,8 @@ class ResumeData {
         "Order tracking and location management"
       ],
       teamSize: 3,
-      playStoreLink: "https://play.google.com/store/apps/details?id=com.amar.shopme",
+      playStoreLink:
+          "https://play.google.com/store/apps/details?id=com.amar.shopme",
     ),
   ];
 }

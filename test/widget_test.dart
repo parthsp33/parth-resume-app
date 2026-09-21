@@ -4,6 +4,7 @@ import 'package:visibility_detector/visibility_detector.dart';
 
 import 'package:my_resume_app/main.dart';
 import 'package:my_resume_app/utils/responsive_utils.dart';
+import 'package:my_resume_app/utils/external_links.dart';
 
 /// Pumps the whole app at a fixed logical size.
 ///
@@ -29,6 +30,9 @@ void main() {
     // Section headings are present.
     expect(find.text('Portfolio'), findsWidgets);
     expect(find.text('Education'), findsWidgets);
+    expect(find.text('Built with Flutter'), findsOneWidget);
+    expect(find.textContaining('Connect on WhatsApp'), findsOneWidget);
+    expect(find.textContaining('All rights reserved'), findsNothing);
 
     // Below compactNav the horizontal row is gone and the drawer button is
     // shown instead. The drawer itself uses title-case labels, the desktop row
@@ -62,5 +66,12 @@ void main() {
     await _pumpAppAt(tester, const Size(Breakpoints.compactNav, 900));
     expect(find.byIcon(Icons.menu), findsNothing);
     expect(find.text('EDUCATION'), findsOneWidget);
+  });
+
+  test('WhatsApp link contains the configured number and message', () {
+    final uri = ExternalLinks.whatsapp(message: 'Hello from the portfolio');
+
+    expect(uri.toString(),
+        'https://wa.me/917383493845?text=Hello+from+the+portfolio');
   });
 }

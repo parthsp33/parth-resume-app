@@ -33,6 +33,10 @@ class ExternalLinks {
   static Uri phone(String number) =>
       Uri(scheme: 'tel', path: number.replaceAll(' ', ''));
 
+  static Uri whatsapp({String message = 'Hello'}) {
+    return Uri.https('wa.me', '/917383493845', {'text': message});
+  }
+
   /// Opens [uri]. Returns false when it could not be opened, so the caller can
   /// tell the visitor instead of leaving them looking at a dead control.
   static Future<bool> open(Uri uri) async {

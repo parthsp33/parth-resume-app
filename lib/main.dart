@@ -4,7 +4,7 @@ import 'package:firebase_core/firebase_core.dart';
 import 'firebase_options.dart';
 import 'package:my_resume_app/config/theme.dart';
 import 'package:my_resume_app/screen/home_screen.dart';
-
+import 'package:my_resume_app/services/analytics_service.dart';
 
 final ValueNotifier<ThemeMode> themeNotifier = ValueNotifier(ThemeMode.dark);
 
@@ -22,6 +22,7 @@ void main() async {
   // Firebase is only needed for the visitor counter, so we do not block the
   // first frame on it. It keeps warming up in the background.
   runApp(const MyApp());
+  AnalyticsService.logPortfolioView();
 }
 
 class MyApp extends StatelessWidget {
@@ -58,4 +59,3 @@ class MyApp extends StatelessWidget {
     );
   }
 }
-
