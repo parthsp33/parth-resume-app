@@ -31,4 +31,7 @@ class AnalyticsService {
 
   static void logThemeToggle(String theme) =>
       _log('theme_toggle', {'theme': theme});
+
+  static void logResumeDownload(String source) =>
+      _log('resume_download', {'source': source});
 }

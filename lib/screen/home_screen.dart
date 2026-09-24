@@ -1,6 +1,7 @@
 import 'dart:ui';
 
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import '../widgets/sections/about_section.dart';
 import '../widgets/sections/experience_section.dart';
 import '../widgets/sections/hero_section.dart';
@@ -9,6 +10,7 @@ import '../widgets/sections/projects_section.dart';
 import '../widgets/sections/contact_section.dart';
 import '../widgets/sections/achievements_section.dart';
 import '../widgets/sections/education_section.dart';
+import '../services/prefs_service.dart';
 import '../services/visitor_service.dart';
 import '../utils/responsive_utils.dart';
 import '../widgets/common/content_shell.dart';
@@ -62,11 +64,59 @@ class _HomeScreenState extends State<HomeScreen> {
     super.initState();
     _scrollController.addListener(_onScroll);
     _initVisitorCount();
+    _openLinkedSection();
   }
 
   Future<void> _initVisitorCount() async {
-    // Only increment once per session load
+    // Count each browser once per day, so reloading the page does not keep
+    // adding to the counter.
+    if (!await PrefsService.isFirstVisitToday()) return;
     await VisitorService().incrementVisitorCount();
+  }
+
+  /// The section named in the link, for example `/#/?section=projects`.
+  ///
+  /// The app uses hash URLs, so the query normally sits inside the fragment.
+  /// A plain `/?section=projects` typed by hand is accepted too.
+  String? _linkedSectionName() {
+    final base = Uri.base;
+    final fromQuery = base.queryParameters['section'];
+    if (fromQuery != null) return fromQuery;
+    try {
+      return Uri.parse(base.fragment).queryParameters['section'];
+    } on FormatException {
+      return null;
+    }
+  }
+
+  /// Scrolls to the section from the link, if there is one.
+  void _openLinkedSection() {
+    final name = _linkedSectionName()?.toLowerCase();
+    if (name == null) return;
+
+    final match = _navSections.where((s) => s.label.toLowerCase() == name);
+    if (match.isEmpty) return;
+    final key = match.first.key;
+
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      // Short wait so web fonts can load and settle the layout first.
+      Future.delayed(const Duration(milliseconds: 400), () {
+        if (mounted) _scrollToSection(key);
+      });
+    });
+  }
+
+  /// Nav click: scroll there and put the section in the address bar, so the
+  /// visitor can copy a link straight to it.
+  void _goToSection(_NavSection section) {
+    _scrollToSection(section.key);
+    SystemNavigator.routeInformationUpdated(
+      uri: Uri(
+        path: '/',
+        queryParameters: {'section': section.label.toLowerCase()},
+      ),
+      replace: true,
+    );
   }
 
   void _onScroll() {
@@ -130,7 +180,7 @@ class _HomeScreenState extends State<HomeScreen> {
 
   @override
   Widget build(BuildContext context) {
-    // Below this width six nav labels no longer fit next to the logo.
+    // Below this width seven nav labels no longer fit next to the logo.
     final useDrawer = context.useCompactNav;
     final sectionGap = context.sectionGap;
 
@@ -224,12 +274,10 @@ class _HomeScreenState extends State<HomeScreen> {
                 RichText(
                   text: TextSpan(
                     children: [
+                      // Theme colour, not white, so it shows in light mode.
                       TextSpan(
                         text: 'P',
-                        style:
-                            Theme.of(context).textTheme.displaySmall?.copyWith(
-                                  color: Colors.white,
-                                ),
+                        style: Theme.of(context).textTheme.displaySmall,
                       ),
                       TextSpan(
                         text: 'P',
@@ -253,7 +301,7 @@ class _HomeScreenState extends State<HomeScreen> {
                           padding: EdgeInsets.only(left: context.space(28)),
                           child: _navItem(
                             section.label.toUpperCase(),
-                            () => _scrollToSection(section.key),
+                            () => _goToSection(section),
                             context,
                           ),
                         ),
@@ -332,7 +380,7 @@ class _HomeScreenState extends State<HomeScreen> {
               for (final section in _navSections)
                 _mobileNavItem(
                   section.label,
-                  () => _scrollToSection(section.key),
+                  () => _goToSection(section),
                 ),
               const SizedBox(height: 8),
             ],

@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:visibility_detector/visibility_detector.dart';
 
+import 'package:my_resume_app/config/resume_data.dart';
 import 'package:my_resume_app/main.dart';
 import 'package:my_resume_app/utils/responsive_utils.dart';
 import 'package:my_resume_app/utils/external_links.dart';
@@ -13,6 +15,8 @@ import 'package:my_resume_app/utils/external_links.dart';
 Future<void> _pumpAppAt(WidgetTester tester, Size logicalSize) async {
   // Avoid pending timers from visibility_detector in widget tests.
   VisibilityDetectorController.instance.updateInterval = Duration.zero;
+  // In-memory storage, so the theme and visit-day code has a real store.
+  SharedPreferences.setMockInitialValues({});
 
   tester.view.devicePixelRatio = 1.0;
   tester.view.physicalSize = logicalSize;
@@ -31,7 +35,9 @@ void main() {
     expect(find.text('Portfolio'), findsWidgets);
     expect(find.text('Education'), findsWidgets);
     expect(find.text('Built with Flutter'), findsOneWidget);
-    expect(find.textContaining('Connect on WhatsApp'), findsOneWidget);
+    // WhatsApp is icon only, and the number is never shown as text.
+    expect(find.byTooltip('Chat on WhatsApp'), findsWidgets);
+    expect(find.textContaining('73834'), findsNothing);
     expect(find.textContaining('All rights reserved'), findsNothing);
 
     // Below compactNav the horizontal row is gone and the drawer button is
@@ -71,7 +77,8 @@ void main() {
   test('WhatsApp link contains the configured number and message', () {
     final uri = ExternalLinks.whatsapp(message: 'Hello from the portfolio');
 
+    const number = '${ResumeData.countryCode}${ResumeData.mobile}';
     expect(uri.toString(),
-        'https://wa.me/917383493845?text=Hello+from+the+portfolio');
+        'https://wa.me/$number?text=Hello+from+the+portfolio');
   });
 }

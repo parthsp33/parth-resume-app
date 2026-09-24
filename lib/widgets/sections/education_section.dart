@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import '../../config/resume_data.dart';
 import '../../const/color.dart';
+import '../../models/education_model.dart';
 import '../section_reveal.dart';
 import '../../utils/responsive_utils.dart';
 
@@ -41,7 +42,7 @@ class EducationSection extends StatelessWidget {
     );
   }
 
-  Widget _buildEducationItem(Map<String, dynamic> edu, BuildContext context) {
+  Widget _buildEducationItem(EducationModel edu, BuildContext context) {
     final bodyColor = Theme.of(context).textTheme.bodyLarge?.color;
 
     return Padding(
@@ -50,7 +51,7 @@ class EducationSection extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Text(
-            '${edu['degree']}',
+            edu.degree,
             style: Theme.of(context).textTheme.titleLarge?.copyWith(
                   color: Theme.of(context).textTheme.displayLarge?.color,
                   fontWeight: FontWeight.w700,
@@ -59,21 +60,21 @@ class EducationSection extends StatelessWidget {
           ),
           const SizedBox(height: 8),
           Text(
-            '${edu['institution']}',
+            edu.institution,
             style: Theme.of(context).textTheme.bodyLarge?.copyWith(
                   fontWeight: FontWeight.w600,
                 ),
           ),
           const SizedBox(height: 8),
           Text(
-            '${edu['period']}  |  ${edu['location']}',
+            '${edu.period}  |  ${edu.location}',
             style: Theme.of(context).textTheme.bodyMedium?.copyWith(
                   color: bodyColor?.withValues(alpha: 0.7),
                   letterSpacing: 1,
                 ),
           ),
           SizedBox(height: context.space(20)),
-          _buildGradeBadge('${edu['grade']}', context),
+          _buildGradeBadge(edu.grade, context),
         ],
       ),
     );

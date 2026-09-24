@@ -5,8 +5,10 @@ import 'firebase_options.dart';
 import 'package:my_resume_app/config/theme.dart';
 import 'package:my_resume_app/screen/home_screen.dart';
 import 'package:my_resume_app/services/analytics_service.dart';
+import 'package:my_resume_app/services/prefs_service.dart';
 
-final ValueNotifier<ThemeMode> themeNotifier = ValueNotifier(ThemeMode.dark);
+/// Follows the system theme until the visitor picks one with the toggle.
+final ValueNotifier<ThemeMode> themeNotifier = ValueNotifier(ThemeMode.system);
 
 /// Completes once Firebase has started up. Anything that talks to Firebase
 /// should await this instead of assuming the app is already connected.
@@ -19,6 +21,10 @@ final Future<void> firebaseReady = Firebase.initializeApp(
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await ScreenUtil.ensureScreenSize();
+  // Read the saved theme before the first frame, so the page does not flash
+  // the wrong theme. This is a local read and is fast.
+  final savedTheme = await PrefsService.loadThemeMode();
+  if (savedTheme != null) themeNotifier.value = savedTheme;
   // Firebase is only needed for the visitor counter, so we do not block the
   // first frame on it. It keeps warming up in the background.
   runApp(const MyApp());
@@ -27,6 +33,9 @@ void main() async {
 
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
+
+  static Route<void> _homeRoute() =>
+      MaterialPageRoute(builder: (_) => const HomeScreen());
 
   @override
   Widget build(BuildContext context) {
@@ -49,7 +58,11 @@ class MyApp extends StatelessWidget {
                   theme: AppTheme.light(width),
                   darkTheme: AppTheme.dark(width),
                   themeMode: currentMode,
-                  home: const HomeScreen(),
+                  // There is only one page. Section links like
+                  // /#/?section=projects must still open it, not report an
+                  // unknown route, so every route name builds the home page.
+                  onGenerateRoute: (_) => _homeRoute(),
+                  onGenerateInitialRoutes: (_) => [_homeRoute()],
                 );
               },
             );

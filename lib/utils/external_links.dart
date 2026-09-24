@@ -34,8 +34,15 @@ class ExternalLinks {
       Uri(scheme: 'tel', path: number.replaceAll(' ', ''));
 
   static Uri whatsapp({String message = 'Hello'}) {
-    return Uri.https('wa.me', '/917383493845', {'text': message});
+    return Uri.https(
+      'wa.me',
+      '/${ResumeData.countryCode}${ResumeData.mobile}',
+      {'text': message},
+    );
   }
+
+  /// The resume PDF on this same site, whatever host it is served from.
+  static Uri resumePdf() => Uri.base.resolve(ResumeData.resumePdfPath);
 
   /// Opens [uri]. Returns false when it could not be opened, so the caller can
   /// tell the visitor instead of leaving them looking at a dead control.

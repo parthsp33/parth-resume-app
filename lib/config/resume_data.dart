@@ -1,9 +1,14 @@
+import '../models/achievement_model.dart';
+import '../models/education_model.dart';
+import '../models/experience_model.dart';
 import '../models/project_model.dart';
 
 class ResumeData {
   static const String name = "Parth Prajapati";
   static const String role =
       "Software Engineer | React Native, Flutter & Swift";
+  static const String tagline =
+      "Building robust, scalable, and user-centric mobile applications with React Native, Flutter and Swift.";
   static const String experienceSummary =
       "Software Engineer with 4.8+ years of professional experience in mobile application development, with strong hands-on expertise in React Native, TypeScript, JavaScript, Expo, Flutter, Dart, and iOS Swift.";
 
@@ -15,21 +20,31 @@ class ResumeData {
     "Comfortable working directly with clients, backend teams, QA teams, and stakeholders, with a focus on clean code, reusable components, performance, maintainability, and delivery quality.",
   ];
 
+  static const String countryCode = "91";
   static const String mobile = "7383493845";
-  static const String whatsappDisplay = "+91 73834 93845";
   static const String email = "bantiprajapati33@gmail.com";
   static const String linkedin =
       "https://www.linkedin.com/in/parth-prajapati-7174b2144";
   static const String github = "https://github.com/parthsp33";
   static const String website = "https://parth-prajapati-resume.web.app/";
 
-  static const List<Map<String, dynamic>> experience = [
-    {
-      "company": "E2Logy",
-      "role": "Software Engineer",
-      "period": "May 2026 - Present",
-      "location": "Ahmedabad, Gujarat",
-      "responsibilities": [
+  /// Served from web/, so the PDF file must be copied there before a build.
+  static const String resumePdfPath = "/Parth_Prajapati_Resume.pdf";
+
+  static const List<String> interests = [
+    "Traveling",
+    "Gaming",
+    "Reading",
+    "Open Source",
+  ];
+
+  static const List<ExperienceModel> experience = [
+    ExperienceModel(
+      company: "E2Logy",
+      role: "Software Engineer",
+      period: "May 2026 - Present",
+      location: "Ahmedabad, Gujarat",
+      responsibilities: [
         "Developing and enhancing the Cinch POS App and Cinch Subscription App using React Native and Expo.",
         "Building cross-platform Android and iOS features with TypeScript, JavaScript, React Hooks, and functional components.",
         "Implementing application state management with Zustand and server-state management, caching, queries, and mutations with TanStack Query.",
@@ -38,13 +53,13 @@ class ResumeData {
         "Contributing to application debugging, testing, API integration, issue resolution, and release workflows.",
         "Working on retail/POS workflows where the retail solution provides devices to customers and the POS application serves as the sales-end application."
       ]
-    },
-    {
-      "company": "Yudiz Solution LTD",
-      "role": "Sr. Mobile Application Developer",
-      "period": "Dec. 2021 - Apr. 2026",
-      "location": "Ahmedabad, Gujarat",
-      "responsibilities": [
+    ),
+    ExperienceModel(
+      company: "Yudiz Solution LTD",
+      role: "Sr. Mobile Application Developer",
+      period: "Dec. 2021 - Apr. 2026",
+      location: "Ahmedabad, Gujarat",
+      responsibilities: [
         "Participated in the development and maintenance of production-grade mobile applications.",
         "Developed and maintained applications using Flutter and iOS Swift, focusing on clean architecture, performance, stability, and maintainability.",
         "Integrated REST APIs and third-party services while collaborating closely with backend teams.",
@@ -56,30 +71,30 @@ class ResumeData {
         "Handled end-to-end application ownership across design, development, testing, debugging, and deployment.",
         "Worked as a solo developer on multiple production applications."
       ]
-    }
+    ),
   ];
 
-  static const List<Map<String, dynamic>> education = [
-    {
-      "institution": "GEC Modasa",
-      "degree": "Bachelor of IT(Information Technology)",
-      "period": "2013-2016",
-      "location": "Modasa, Gujarat",
-      "grade": "7.5 CGPA"
-    }
+  static const List<EducationModel> education = [
+    EducationModel(
+      institution: "GEC Modasa",
+      degree: "Bachelor of IT(Information Technology)",
+      period: "2013-2016",
+      location: "Modasa, Gujarat",
+      grade: "7.5 CGPA"
+    ),
   ];
 
-  static const List<Map<String, dynamic>> achievements = [
-    {
-      "title": "First Prize, Online Charging Station Hackathon (2022 OCT)",
-      "description":
+  static const List<AchievementModel> achievements = [
+    AchievementModel(
+      title: "First Prize, Online Charging Station Hackathon (2022 OCT)",
+      description:
           "Developed and presented a winning solution for an online charging station, showcasing innovation and problem-solving skills. Implemented features to enable users to find and book available charging slots efficiently."
-    },
-    {
-      "title": "Runner-Up, AI-Thon Treasure Hunt (Jan 2024)",
-      "description":
+    ),
+    AchievementModel(
+      title: "Runner-Up, AI-Thon Treasure Hunt (Jan 2024)",
+      description:
           "Successfully participated in an AI-themed treasure hunt, showcasing teamwork, analytical skills, and adaptability. Demonstrated an aptitude for problem-solving within a competitive environment."
-    }
+    ),
   ];
 
   static const Map<String, List<String>> skills = {

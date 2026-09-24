@@ -37,9 +37,9 @@ class AchievementsSection extends StatelessWidget {
           SizedBox(height: context.headingGap),
 
           ...ResumeData.achievements.map((achievement) => _buildAchievementItem(
-            achievement['title'],
+            achievement.title,
             '', // Date is included in title for now based on input
-            achievement['description'],
+            achievement.description,
             context,
           )),
         ],

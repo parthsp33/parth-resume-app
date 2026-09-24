@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import '../../config/resume_data.dart';
 import '../../const/color.dart';
+import '../../models/experience_model.dart';
 import '../section_reveal.dart';
 import '../../utils/responsive_utils.dart';
 
@@ -55,7 +56,7 @@ class ExperienceSection extends StatelessWidget {
   static const double _dateColumnWidth = 220;
 
   Widget _buildExperienceItem(
-    Map<String, dynamic> exp,
+    ExperienceModel exp,
     bool isStacked,
     BuildContext context, {
     bool isCurrent = false,
@@ -75,7 +76,7 @@ class ExperienceSection extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.end,
                 children: [
                    Text(
-                    exp['company'],
+                    exp.company,
                     style: TextStyle(
                       fontSize: 18,
                       fontWeight: FontWeight.w700,
@@ -85,7 +86,7 @@ class ExperienceSection extends StatelessWidget {
                   ),
                   const SizedBox(height: 8),
                   Text(
-                    exp['period'],
+                    exp.period,
                     style: const TextStyle(
                       fontSize: 14,
                       fontWeight: FontWeight.w600,
@@ -96,7 +97,7 @@ class ExperienceSection extends StatelessWidget {
                   ),
                   const SizedBox(height: 6),
                   Text(
-                    exp['location'] ?? '',
+                    exp.location,
                     style: TextStyle(
                       fontSize: 13,
                       color: Theme.of(context)
@@ -147,7 +148,7 @@ class ExperienceSection extends StatelessWidget {
                 children: [
                   if (isStacked) ...[
                     Text(
-                      exp['company'],
+                      exp.company,
                       style: TextStyle(
                         fontSize: context.fontSize(mobile: 17, desktop: 18),
                         fontWeight: FontWeight.w700,
@@ -156,7 +157,7 @@ class ExperienceSection extends StatelessWidget {
                     ),
                     const SizedBox(height: 4),
                     Text(
-                      exp['period'],
+                      exp.period,
                       style: const TextStyle(
                         fontSize: 14,
                         fontWeight: FontWeight.w600,
@@ -166,7 +167,7 @@ class ExperienceSection extends StatelessWidget {
                     ),
                     const SizedBox(height: 4),
                     Text(
-                      exp['location'] ?? '',
+                      exp.location,
                       style: TextStyle(
                         fontSize: 13,
                         color: Theme.of(context)
@@ -179,7 +180,7 @@ class ExperienceSection extends StatelessWidget {
                     const SizedBox(height: 16),
                   ],
                   Text(
-                    exp['role'],
+                    exp.role,
                     style: TextStyle(
                       fontSize: context.fontSize(mobile: 18, desktop: 20),
                       fontWeight: FontWeight.w700,
@@ -187,7 +188,7 @@ class ExperienceSection extends StatelessWidget {
                     ),
                   ),
                   const SizedBox(height: 20),
-                  ... (exp['responsibilities'] as List).map((res) => Padding(
+                  ...exp.responsibilities.map((res) => Padding(
                     padding: const EdgeInsets.only(bottom: 12),
                     child: Row(
                       crossAxisAlignment: CrossAxisAlignment.start,

@@ -2,9 +2,11 @@ import 'package:flutter/material.dart';
 import '../../const/color.dart';
 import '../../config/resume_data.dart';
 import 'package:flutter_animate/flutter_animate.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import '../../utils/external_links.dart';
 import '../../main.dart'; // Import themeNotifier
 import '../../services/analytics_service.dart';
+import '../../services/prefs_service.dart';
 import '../hover_scale.dart';
 import '../../utils/responsive_utils.dart';
 import '../common/content_shell.dart';
@@ -30,6 +32,10 @@ class HeroSection extends StatelessWidget {
     return ValueListenableBuilder<ThemeMode>(
       valueListenable: themeNotifier,
       builder: (context, mode, _) {
+        // Use the theme on screen, not the mode, because the mode can be
+        // "system". Then one click always flips what the visitor sees.
+        final isLight = Theme.of(context).brightness == Brightness.light;
+
         // Fill the viewport, but never demand more height than the screen
         // actually has. A hard 800px minimum breaks short laptop windows and
         // landscape phones.
@@ -53,11 +59,11 @@ class HeroSection extends StatelessWidget {
                 child: IconButton(
                   // Names the state it switches to, which is what a screen
                   // reader user needs to hear. The bare icon said nothing.
-                  tooltip: mode == ThemeMode.light
+                  tooltip: isLight
                       ? 'Switch to dark theme'
                       : 'Switch to light theme',
                   icon: Icon(
-                    mode == ThemeMode.light
+                    isLight
                         ? Icons.dark_mode_outlined
                         : Icons.light_mode_outlined,
                     color: Theme.of(context)
@@ -68,10 +74,9 @@ class HeroSection extends StatelessWidget {
                     size: 24,
                   ),
                   onPressed: () {
-                    final nextMode = mode == ThemeMode.light
-                        ? ThemeMode.dark
-                        : ThemeMode.light;
+                    final nextMode = isLight ? ThemeMode.dark : ThemeMode.light;
                     themeNotifier.value = nextMode;
+                    PrefsService.saveThemeMode(nextMode);
                     AnalyticsService.logThemeToggle(nextMode.name);
                   },
                 ),
@@ -81,29 +86,20 @@ class HeroSection extends StatelessWidget {
               if (context.isDesktop)
                 Positioned(
                   right: context.gutter,
-                  top: 0,
+                  // Start below the theme toggle so the icons never overlap it.
+                  top: topPadding + 56,
                   bottom: 0,
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
-                      _buildEmailIcon(
-                          Icons.email_outlined, ResumeData.email, context),
-                      const SizedBox(height: 12),
-                      _buildSocialIcon(Icons.link, ResumeData.linkedin,
-                          'LinkedIn profile', context),
-                      const SizedBox(height: 12),
-                      _buildSocialIcon(Icons.code, ResumeData.github,
-                          'GitHub profile', context),
-                      const SizedBox(height: 12),
-                      _buildSocialIcon(Icons.public, ResumeData.website,
-                          'Personal website', context),
-                      const SizedBox(height: 12),
-                      _buildPhoneIcon(
-                          Icons.phone_outlined, ResumeData.mobile, context),
-                      const SizedBox(height: 24),
+                      for (final icon in _socialIcons(context)) ...[
+                        icon,
+                        const SizedBox(height: 4),
+                      ],
+                      const SizedBox(height: 20),
                       Container(
                         width: 1,
-                        height: 120,
+                        height: 80,
                         color: Theme.of(context)
                             .textTheme
                             .bodyLarge
@@ -170,7 +166,7 @@ class HeroSection extends StatelessWidget {
                             maxWidth: isMobile ? double.infinity : 560,
                           ),
                           child: Text(
-                            "Building robust, scalable, and user-centric mobile applications with Flutter and Swift.",
+                            ResumeData.tagline,
                             style:
                                 Theme.of(context).textTheme.bodyLarge?.copyWith(
                                       height: 1.6,
@@ -195,8 +191,30 @@ class HeroSection extends StatelessWidget {
                               context,
                               onPressed: onContactMe ?? () {},
                             ),
+                            _buildActionButton(
+                              'Download CV',
+                              false,
+                              context,
+                              onPressed: () {
+                                AnalyticsService.logResumeDownload('hero');
+                                ExternalLinks.openOrNotify(
+                                  context,
+                                  ExternalLinks.resumePdf(),
+                                );
+                              },
+                            ),
                           ],
                         ),
+                        // The side bar only fits on desktop, so smaller
+                        // screens get the same icons in a row here.
+                        if (!context.isDesktop) ...[
+                          SizedBox(height: context.space(32)),
+                          Wrap(
+                            spacing: 4,
+                            runSpacing: 4,
+                            children: _socialIcons(context),
+                          ),
+                        ],
                       ];
 
                       if (isMobile) return children;
@@ -224,12 +242,15 @@ class HeroSection extends StatelessWidget {
   Widget _buildActionButton(String label, bool isPrimary, BuildContext context,
       {required VoidCallback onPressed}) {
     final isMobile = context.isMobile;
-    final bgColor = isPrimary ? Colors.white : Colors.transparent;
-    final textColor =
-        isPrimary ? Colors.black : Theme.of(context).textTheme.bodyLarge?.color;
-    final borderColor = isPrimary
-        ? Colors.white
-        : Theme.of(context).textTheme.bodyLarge?.color?.withValues(alpha: 0.2);
+    final isDark = Theme.of(context).brightness == Brightness.dark;
+    final bodyColor = Theme.of(context).textTheme.bodyLarge?.color;
+    // The primary button used to be white in both themes, which vanished on
+    // the white light-theme background. It now inverts with the theme.
+    final primaryBg = isDark ? Colors.white : (bodyColor ?? Colors.black);
+    final primaryFg = isDark ? Colors.black : Colors.white;
+    final bgColor = isPrimary ? primaryBg : Colors.transparent;
+    final textColor = isPrimary ? primaryFg : bodyColor;
+    final borderColor = bodyColor?.withValues(alpha: 0.2);
 
     return HoverScale(
       child: InkWell(
@@ -268,16 +289,30 @@ class HeroSection extends StatelessWidget {
     );
   }
 
+  /// Every contact and social link, in the order they are shown.
+  List<Widget> _socialIcons(BuildContext context) => [
+        _buildEmailIcon(FontAwesomeIcons.envelope, ResumeData.email, context),
+        _buildSocialIcon(FontAwesomeIcons.linkedinIn, ResumeData.linkedin,
+            'LinkedIn profile', context),
+        _buildSocialIcon(FontAwesomeIcons.github, ResumeData.github,
+            'GitHub profile', context),
+        _buildWhatsAppIcon(context),
+        _buildSocialIcon(FontAwesomeIcons.globe, ResumeData.website,
+            'Personal website', context),
+        _buildPhoneIcon(FontAwesomeIcons.phone, ResumeData.mobile, context),
+      ];
+
   /// One labelled, 44px-minimum tap target for every sidebar icon.
   ///
   /// The icons carry no text, so without an explicit label a screen reader
   /// announces nothing useful. 22px on its own is also well under the
   /// recommended touch size, hence the padding.
   Widget _buildIconLink({
-    required IconData icon,
+    required FaIconData icon,
     required String label,
     required Uri uri,
     required BuildContext context,
+    VoidCallback? onTap,
   }) {
     return Semantics(
       button: true,
@@ -285,11 +320,14 @@ class HeroSection extends StatelessWidget {
       child: Tooltip(
         message: label,
         child: InkWell(
-          onTap: () => ExternalLinks.openOrNotify(context, uri),
+          onTap: () {
+            onTap?.call();
+            ExternalLinks.openOrNotify(context, uri);
+          },
           customBorder: const CircleBorder(),
           child: Padding(
             padding: const EdgeInsets.all(11),
-            child: Icon(
+            child: FaIcon(
               icon,
               color: Theme.of(context)
                   .textTheme
@@ -305,7 +343,7 @@ class HeroSection extends StatelessWidget {
   }
 
   Widget _buildSocialIcon(
-      IconData icon, String url, String label, BuildContext context) {
+      FaIconData icon, String url, String label, BuildContext context) {
     return _buildIconLink(
       icon: icon,
       label: label,
@@ -314,7 +352,7 @@ class HeroSection extends StatelessWidget {
     );
   }
 
-  Widget _buildEmailIcon(IconData icon, String email, BuildContext context) {
+  Widget _buildEmailIcon(FaIconData icon, String email, BuildContext context) {
     return _buildIconLink(
       icon: icon,
       label: 'Email $email',
@@ -323,7 +361,17 @@ class HeroSection extends StatelessWidget {
     );
   }
 
-  Widget _buildPhoneIcon(IconData icon, String phone, BuildContext context) {
+  Widget _buildWhatsAppIcon(BuildContext context) {
+    return _buildIconLink(
+      icon: FontAwesomeIcons.whatsapp,
+      label: 'Chat on WhatsApp',
+      uri: ExternalLinks.whatsapp(),
+      context: context,
+      onTap: () => AnalyticsService.logContactClick('whatsapp'),
+    );
+  }
+
+  Widget _buildPhoneIcon(FaIconData icon, String phone, BuildContext context) {
     return _buildIconLink(
       icon: icon,
       label: 'Call $phone',

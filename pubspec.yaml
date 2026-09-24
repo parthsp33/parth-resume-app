@@ -1,5 +1,5 @@
 name: my_resume_app
-description: "A new Flutter project."
+description: "Parth Prajapati's personal resume and portfolio website, built with Flutter web."
 # The following line prevents the package from being accidentally published to
 # pub.dev using `flutter pub publish`. This is preferred for private packages.
 publish_to: 'none' # Remove this line if you wish to publish to pub.dev
@@ -45,6 +45,7 @@ dependencies:
   flutter_animate: ^4.5.2
   visibility_detector: ^0.4.0+2
   firebase_database: ^12.1.4
+  shared_preferences: ^2.5.5
 
 dev_dependencies:
   flutter_test:

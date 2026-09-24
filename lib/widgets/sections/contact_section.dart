@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import '../../config/resume_data.dart';
 import '../../utils/external_links.dart';
 import '../../services/analytics_service.dart';
@@ -135,13 +136,17 @@ class ContactSection extends StatelessWidget {
         _buildLogo(context),
         Row(
           children: [
-            _buildFooterLink('EMAIL', ResumeData.email, context),
+            _buildFooterLink(
+                'EMAIL', ResumeData.email, FontAwesomeIcons.envelope, context),
             const SizedBox(width: 28),
-            _buildFooterLink('LINKEDIN', ResumeData.linkedin, context),
+            _buildFooterLink('LINKEDIN', ResumeData.linkedin,
+                FontAwesomeIcons.linkedinIn, context),
             const SizedBox(width: 28),
-            _buildFooterLink('GITHUB', ResumeData.github, context),
+            _buildFooterLink(
+                'GITHUB', ResumeData.github, FontAwesomeIcons.github, context),
             const SizedBox(width: 28),
-            _buildFooterLink('WEBSITE', ResumeData.website, context),
+            _buildFooterLink(
+                'WEBSITE', ResumeData.website, FontAwesomeIcons.globe, context),
             const SizedBox(width: 28),
             _buildWhatsAppLink(context),
           ],
@@ -160,10 +165,14 @@ class ContactSection extends StatelessWidget {
           runSpacing: 16,
           alignment: WrapAlignment.center,
           children: [
-            _buildFooterLink('EMAIL', ResumeData.email, context),
-            _buildFooterLink('LINKEDIN', ResumeData.linkedin, context),
-            _buildFooterLink('GITHUB', ResumeData.github, context),
-            _buildFooterLink('WEBSITE', ResumeData.website, context),
+            _buildFooterLink(
+                'EMAIL', ResumeData.email, FontAwesomeIcons.envelope, context),
+            _buildFooterLink('LINKEDIN', ResumeData.linkedin,
+                FontAwesomeIcons.linkedinIn, context),
+            _buildFooterLink(
+                'GITHUB', ResumeData.github, FontAwesomeIcons.github, context),
+            _buildFooterLink(
+                'WEBSITE', ResumeData.website, FontAwesomeIcons.globe, context),
             _buildWhatsAppLink(context),
           ],
         ),
@@ -194,35 +203,51 @@ class ContactSection extends StatelessWidget {
     );
   }
 
-  Widget _buildFooterLink(String label, String url, BuildContext context) {
+  Widget _buildFooterLink(
+      String label, String url, FaIconData icon, BuildContext context) {
     final uri = url.startsWith('http')
         ? Uri.parse(url)
         : ExternalLinks.gmailCompose(to: url);
+
+    return _buildFooterText(label, icon, context, onTap: () {
+      AnalyticsService.logExternalLink(label.toLowerCase());
+      ExternalLinks.openOrNotify(context, uri);
+    });
+  }
+
+  Widget _buildFooterText(
+    String label,
+    FaIconData icon,
+    BuildContext context, {
+    required VoidCallback onTap,
+  }) {
+    // Was alpha 0.5 at 11px bold, under the contrast minimum.
+    final color =
+        Theme.of(context).textTheme.bodyLarge?.color?.withValues(alpha: 0.8);
 
     return Semantics(
       link: true,
       label: '$label, opens in a new tab',
       child: InkWell(
-        onTap: () {
-          AnalyticsService.logExternalLink(label.toLowerCase());
-          ExternalLinks.openOrNotify(context, uri);
-        },
+        onTap: onTap,
         child: Padding(
           // Was a bare Text, so the tap target was only as tall as the glyphs.
           padding: const EdgeInsets.symmetric(vertical: 12),
-          child: Text(
-            label,
-            style: TextStyle(
-              // Was alpha 0.5 at 11px bold, under the contrast minimum.
-              color: Theme.of(context)
-                  .textTheme
-                  .bodyLarge
-                  ?.color
-                  ?.withValues(alpha: 0.8),
-              fontSize: context.fontSize(mobile: 11, desktop: 12),
-              fontWeight: FontWeight.bold,
-              letterSpacing: 2,
-            ),
+          child: Row(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              FaIcon(icon, size: 14, color: color),
+              const SizedBox(width: 8),
+              Text(
+                label,
+                style: TextStyle(
+                  color: color,
+                  fontSize: context.fontSize(mobile: 11, desktop: 12),
+                  fontWeight: FontWeight.bold,
+                  letterSpacing: 2,
+                ),
+              ),
+            ],
           ),
         ),
       ),
@@ -230,48 +255,37 @@ class ContactSection extends StatelessWidget {
   }
 
   Widget _buildWhatsAppLink(BuildContext context) {
+    // Icon only: the number is not shown on the page. Tapping opens a chat
+    // with the number from ResumeData.
     return Semantics(
       link: true,
-      label: 'Connect on WhatsApp at ${ResumeData.whatsappDisplay}',
-      child: InkWell(
-        onTap: () {
-          AnalyticsService.logContactClick('whatsapp');
-          ExternalLinks.openOrNotify(context, ExternalLinks.whatsapp());
-        },
-        child: Padding(
-          padding: const EdgeInsets.symmetric(vertical: 8),
-          child: Row(
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              Container(
-                width: 28,
-                height: 28,
-                decoration: const BoxDecoration(
-                  color: Color(0xFF25D366),
-                  shape: BoxShape.circle,
-                ),
-                child: const Icon(
-                  Icons.chat,
-                  size: 16,
+      label: 'Chat on WhatsApp',
+      child: Tooltip(
+        message: 'Chat on WhatsApp',
+        child: InkWell(
+          onTap: () {
+            AnalyticsService.logContactClick('whatsapp');
+            ExternalLinks.openOrNotify(context, ExternalLinks.whatsapp());
+          },
+          customBorder: const CircleBorder(),
+          child: Padding(
+            // Keeps the tap target at least 44px.
+            padding: const EdgeInsets.all(8),
+            child: Container(
+              width: 32,
+              height: 32,
+              decoration: const BoxDecoration(
+                color: Color(0xFF25D366),
+                shape: BoxShape.circle,
+              ),
+              child: const Center(
+                child: FaIcon(
+                  FontAwesomeIcons.whatsapp,
+                  size: 18,
                   color: Colors.white,
                 ),
               ),
-              const SizedBox(width: 8),
-              Text(
-                'Connect on WhatsApp\n${ResumeData.whatsappDisplay}',
-                textAlign: TextAlign.left,
-                style: TextStyle(
-                  color: Theme.of(context)
-                      .textTheme
-                      .bodyLarge
-                      ?.color
-                      ?.withValues(alpha: 0.8),
-                  fontSize: context.fontSize(mobile: 10, desktop: 11),
-                  fontWeight: FontWeight.bold,
-                  height: 1.35,
-                ),
-              ),
-            ],
+            ),
           ),
         ),
       ),
