@@ -79,8 +79,8 @@ void main() {
     final uri = ExternalLinks.whatsapp(message: 'Hello from the portfolio');
 
     const number = '${ResumeData.countryCode}${ResumeData.mobile}';
-    expect(uri.toString(),
-        'https://wa.me/$number?text=Hello+from+the+portfolio');
+    expect(
+        uri.toString(), 'https://wa.me/$number?text=Hello+from+the+portfolio');
   });
 
   testWidgets('Contact form requires valid fields before sending',

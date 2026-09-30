@@ -40,7 +40,9 @@ class _ContactSectionState extends State<ContactSection> {
     setState(() => _isSubmitting = true);
     try {
       await ContactService.submitMessage(
-        name: '${_firstNameController.text.trim()} ${_lastNameController.text.trim()}'.trim(),
+        name:
+            '${_firstNameController.text.trim()} ${_lastNameController.text.trim()}'
+                .trim(),
         email: _emailController.text.trim(),
         message: _messageController.text.trim(),
       ).timeout(const Duration(seconds: 20));
@@ -436,5 +438,4 @@ class _ContactSectionState extends State<ContactSection> {
       ),
     );
   }
-
 }

@@ -167,8 +167,11 @@ class _HomeScreenState extends State<HomeScreen> {
       ),
       trailing: Icon(
         Icons.chevron_right,
-        color:
-            Theme.of(context).textTheme.bodyLarge?.color?.withValues(alpha: 0.6),
+        color: Theme.of(context)
+            .textTheme
+            .bodyLarge
+            ?.color
+            ?.withValues(alpha: 0.6),
       ),
       iconColor: Theme.of(context).colorScheme.primary,
       onTap: () {
