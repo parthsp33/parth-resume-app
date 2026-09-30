@@ -220,7 +220,6 @@ class _HomeScreenState extends State<HomeScreen> {
                       ProjectsSection(key: _projectsKey),
                       SizedBox(height: sectionGap),
                       SkillsSection(key: _skillsKey),
-                      SizedBox(height: sectionGap),
                     ],
                   ),
                 ),

@@ -25,7 +25,16 @@ void main() {
   });
 
   test('A visit on a new day is counted again', () async {
-    SharedPreferences.setMockInitialValues({'last_visit_day': '2000-01-01'});
+    SharedPreferences.setMockInitialValues(
+        {'last_firestore_visit_day': '2000-01-01'});
     expect(await PrefsService.isFirstVisitToday(), isTrue);
+  });
+
+  test('A previous database visit does not suppress the Firestore count',
+      () async {
+    SharedPreferences.setMockInitialValues({'last_visit_day': '2026-09-30'});
+
+    expect(await PrefsService.isFirstVisitToday(), isTrue);
+    expect(await PrefsService.isFirstVisitToday(), isFalse);
   });
 }

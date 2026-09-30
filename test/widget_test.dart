@@ -7,6 +7,7 @@ import 'package:my_resume_app/config/resume_data.dart';
 import 'package:my_resume_app/main.dart';
 import 'package:my_resume_app/utils/responsive_utils.dart';
 import 'package:my_resume_app/utils/external_links.dart';
+import 'package:my_resume_app/widgets/sections/contact_section.dart';
 
 /// Pumps the whole app at a fixed logical size.
 ///
@@ -80,5 +81,23 @@ void main() {
     const number = '${ResumeData.countryCode}${ResumeData.mobile}';
     expect(uri.toString(),
         'https://wa.me/$number?text=Hello+from+the+portfolio');
+  });
+
+  testWidgets('Contact form requires valid fields before sending',
+      (WidgetTester tester) async {
+    tester.view.physicalSize = const Size(800, 1100);
+    tester.view.devicePixelRatio = 1;
+    addTearDown(tester.view.reset);
+    await tester.pumpWidget(
+      const MaterialApp(home: Scaffold(body: ContactSection())),
+    );
+
+    await tester.tap(find.text('Send'));
+    await tester.pump();
+
+    expect(find.text('Enter your first name'), findsOneWidget);
+    expect(find.text('Enter your email'), findsOneWidget);
+    expect(find.text('Enter a message'), findsOneWidget);
+    await tester.pump(const Duration(seconds: 1));
   });
 }

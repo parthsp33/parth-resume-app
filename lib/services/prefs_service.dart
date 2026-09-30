@@ -9,7 +9,7 @@ class PrefsService {
   const PrefsService._();
 
   static const _themeKey = 'theme_mode';
-  static const _lastVisitKey = 'last_visit_day';
+  static const _lastVisitKey = 'last_firestore_visit_day';
 
   /// The theme the visitor picked last time, or null if they never picked
   /// one. Null means the app follows the system theme.
