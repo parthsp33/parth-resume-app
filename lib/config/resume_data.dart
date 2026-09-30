@@ -35,66 +35,60 @@ class ResumeData {
     "Traveling",
     "Gaming",
     "Reading",
-    "Open Source",
   ];
 
   static const List<ExperienceModel> experience = [
     ExperienceModel(
-      company: "E2Logy",
-      role: "Software Engineer",
-      period: "May 2026 - Present",
-      location: "Ahmedabad, Gujarat",
-      responsibilities: [
-        "Developing and enhancing the Cinch POS App and Cinch Subscription App using React Native and Expo.",
-        "Building cross-platform Android and iOS features with TypeScript, JavaScript, React Hooks, and functional components.",
-        "Implementing application state management with Zustand and server-state management, caching, queries, and mutations with TanStack Query.",
-        "Building navigation flows with React Navigation and integrating REST APIs using Axios.",
-        "Working with Expo Dev Client and Metro Bundler while developing reusable and maintainable mobile components.",
-        "Contributing to application debugging, testing, API integration, issue resolution, and release workflows.",
-        "Working on retail/POS workflows where the retail solution provides devices to customers and the POS application serves as the sales-end application."
-      ]
-    ),
+        company: "E2Logy",
+        role: "Software Engineer",
+        period: "May 2026 - Present",
+        location: "Ahmedabad, Gujarat",
+        responsibilities: [
+          "Developing and enhancing the Cinch POS App and Cinch Subscription App using React Native and Expo.",
+          "Building cross-platform Android and iOS features with TypeScript, JavaScript, React Hooks, and functional components.",
+          "Implementing application state management with Zustand and server-state management, caching, queries, and mutations with TanStack Query.",
+          "Building navigation flows with React Navigation and integrating REST APIs using Axios.",
+          "Working with Expo Dev Client and Metro Bundler while developing reusable and maintainable mobile components.",
+          "Contributing to application debugging, testing, API integration, issue resolution, and release workflows.",
+          "Working on retail/POS workflows where the retail solution provides devices to customers and the POS application serves as the sales-end application."
+        ]),
     ExperienceModel(
-      company: "Yudiz Solution LTD",
-      role: "Sr. Mobile Application Developer",
-      period: "Dec. 2021 - Apr. 2026",
-      location: "Ahmedabad, Gujarat",
-      responsibilities: [
-        "Participated in the development and maintenance of production-grade mobile applications.",
-        "Developed and maintained applications using Flutter and iOS Swift, focusing on clean architecture, performance, stability, and maintainability.",
-        "Integrated REST APIs and third-party services while collaborating closely with backend teams.",
-        "Implemented application features, UI flows, local data handling, API communication, and production fixes.",
-        "Improved application stability and performance through code optimization and development best practices.",
-        "Reduced bugs and crashes by following QA processes, debugging practices, and release-quality checks.",
-        "Used Git versioning and CI/CD practices, including Dev/QA/Prod build flavors and store deployment workflows.",
-        "Worked directly with clients and stakeholders to understand requirements, provide updates, and deliver features.",
-        "Handled end-to-end application ownership across design, development, testing, debugging, and deployment.",
-        "Worked as a solo developer on multiple production applications."
-      ]
-    ),
+        company: "Yudiz Solution LTD",
+        role: "Sr. Mobile Application Developer",
+        period: "Dec. 2021 - Apr. 2026",
+        location: "Ahmedabad, Gujarat",
+        responsibilities: [
+          "Participated in the development and maintenance of production-grade mobile applications.",
+          "Developed and maintained applications using Flutter and iOS Swift, focusing on clean architecture, performance, stability, and maintainability.",
+          "Integrated REST APIs and third-party services while collaborating closely with backend teams.",
+          "Implemented application features, UI flows, local data handling, API communication, and production fixes.",
+          "Improved application stability and performance through code optimization and development best practices.",
+          "Reduced bugs and crashes by following QA processes, debugging practices, and release-quality checks.",
+          "Used Git versioning and CI/CD practices, including Dev/QA/Prod build flavors and store deployment workflows.",
+          "Worked directly with clients and stakeholders to understand requirements, provide updates, and deliver features.",
+          "Handled end-to-end application ownership across design, development, testing, debugging, and deployment.",
+          "Worked as a solo developer on multiple production applications."
+        ]),
   ];
 
   static const List<EducationModel> education = [
     EducationModel(
-      institution: "GEC Modasa",
-      degree: "Bachelor of IT(Information Technology)",
-      period: "2013-2016",
-      location: "Modasa, Gujarat",
-      grade: "7.5 CGPA"
-    ),
+        institution: "GEC Modasa",
+        degree: "Bachelor of IT(Information Technology)",
+        period: "2013-2016",
+        location: "Modasa, Gujarat",
+        grade: "7.5 CGPA"),
   ];
 
   static const List<AchievementModel> achievements = [
     AchievementModel(
-      title: "First Prize, Online Charging Station Hackathon (2022 OCT)",
-      description:
-          "Developed and presented a winning solution for an online charging station, showcasing innovation and problem-solving skills. Implemented features to enable users to find and book available charging slots efficiently."
-    ),
+        title: "First Prize, Online Charging Station Hackathon (2022 OCT)",
+        description:
+            "Developed and presented a winning solution for an online charging station, showcasing innovation and problem-solving skills. Implemented features to enable users to find and book available charging slots efficiently."),
     AchievementModel(
-      title: "Runner-Up, AI-Thon Treasure Hunt (Jan 2024)",
-      description:
-          "Successfully participated in an AI-themed treasure hunt, showcasing teamwork, analytical skills, and adaptability. Demonstrated an aptitude for problem-solving within a competitive environment."
-    ),
+        title: "Runner-Up, AI-Thon Treasure Hunt (Jan 2024)",
+        description:
+            "Successfully participated in an AI-themed treasure hunt, showcasing teamwork, analytical skills, and adaptability. Demonstrated an aptitude for problem-solving within a competitive environment."),
   ];
 
   static const Map<String, List<String>> skills = {
@@ -148,7 +142,7 @@ class ResumeData {
 
   static final List<ProjectModel> projects = [
     ProjectModel(
-      name: "Cinch Retail & POS App",
+      name: "Cinch POS App",
       shortDescription:
           "A retail technology solution focused on providing retail devices to customers and supporting the POS application as the sales end. The mobile solution includes customer-facing and sales-oriented workflows and is developed for Android and iOS.",
       status: "In Progress",
@@ -164,13 +158,12 @@ class ResumeData {
         "Reusable mobile components and navigation flows"
       ],
       teamSize: 1,
-      appStoreLink: "https://apps.apple.com/sg/app/cinch-tech/id6786142725",
     ),
     ProjectModel(
       name: "Cinch Subscription App",
       shortDescription:
           "A subscription-focused mobile application developed alongside the Cinch POS solution using React Native and Expo.",
-      status: "In Progress",
+      status: "Complete",
       tools:
           "React Native, Expo, TypeScript, JavaScript, Zustand, TanStack Query, React Navigation, Axios",
       keyFeatures: [
@@ -180,6 +173,9 @@ class ResumeData {
         "Reusable React Native components"
       ],
       teamSize: 1,
+      appStoreLink: "https://apps.apple.com/sg/app/cinch-tech/id6786142725",
+      playStoreLink:
+          "https://play.google.com/store/apps/details?id=ai.cinchtech.prd",
     ),
     ProjectModel(
       name: "BASMA",
