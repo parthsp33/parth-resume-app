@@ -52,9 +52,6 @@ class _ContactSectionState extends State<ContactSection> {
       _emailController.clear();
       _messageController.clear();
       AnalyticsService.logContactClick('form_submit');
-      ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(content: Text('Message sent. Thank you!')),
-      );
     } catch (_) {
       if (!mounted) return;
       ScaffoldMessenger.of(context).showSnackBar(
