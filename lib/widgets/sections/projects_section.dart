@@ -18,7 +18,7 @@ class ProjectsSection extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
           Text(
-            'Portfolio',
+            'Featured Work',
             style: Theme.of(context).textTheme.displayMedium,
           ),
           SizedBox(height: context.headingGap),
@@ -71,25 +71,27 @@ class ProjectsSection extends StatelessWidget {
       child: Container(
         padding: EdgeInsets.all(isMobile ? 16 : 24),
         decoration: BoxDecoration(
-          color: Theme.of(context).brightness == Brightness.dark 
-              ? AppColors.surfaceDark.withValues(alpha: 0.4) 
+          color: Theme.of(context).brightness == Brightness.dark
+              ? AppColors.surfaceDark.withValues(alpha: 0.82)
               : Colors.white,
-          borderRadius: BorderRadius.circular(16),
+          borderRadius: BorderRadius.circular(18),
           border: Border.all(
-            color: Theme.of(context).brightness == Brightness.dark 
-                ? Colors.white.withValues(alpha: 0.05) 
-                : Colors.grey.withValues(alpha: 0.2),
+            color: Theme.of(context).brightness == Brightness.dark
+                ? Colors.white.withValues(alpha: 0.06)
+                : Colors.grey.withValues(alpha: 0.15),
             width: 1,
           ),
-          boxShadow: Theme.of(context).brightness == Brightness.light 
-              ? [
-                  BoxShadow(
-                    color: Colors.black.withValues(alpha: 0.05),
-                    blurRadius: 20,
-                    offset: const Offset(0, 10),
-                  )
-                ]
-              : null,
+          boxShadow: [
+            BoxShadow(
+              color: (Theme.of(context).brightness == Brightness.dark
+                      ? Colors.black
+                      : Colors.black)
+                  .withValues(alpha: Theme.of(context).brightness == Brightness.dark ? 0.28 : 0.08),
+              blurRadius: 24,
+              spreadRadius: 0,
+              offset: const Offset(0, 12),
+            ),
+          ],
         ),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,

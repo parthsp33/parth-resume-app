@@ -32,9 +32,8 @@ void main() {
   testWidgets('App builds at mobile width', (WidgetTester tester) async {
     await _pumpAppAt(tester, const Size(390, 844));
 
-    // Section headings are present.
-    expect(find.text('Portfolio'), findsWidgets);
-    expect(find.text('Education'), findsWidgets);
+    // Section headings are present in the new hierarchy.
+    expect(find.text('Featured Work'), findsWidgets);
     expect(find.text('Built with Flutter'), findsOneWidget);
     // WhatsApp is icon only, and the number is never shown as text.
     expect(find.byTooltip('Chat on WhatsApp'), findsWidgets);
@@ -42,10 +41,9 @@ void main() {
     expect(find.textContaining('All rights reserved'), findsNothing);
 
     // Below compactNav the horizontal row is gone and the drawer button is
-    // shown instead. The drawer itself uses title-case labels, the desktop row
-    // uses upper case, so the absence of upper case proves the row is gone.
+    // shown instead, so the absence of the uppercase row proves it is hidden.
     expect(find.byIcon(Icons.menu), findsOneWidget);
-    expect(find.text('EDUCATION'), findsNothing);
+    expect(find.text('FEATURED WORK'), findsNothing);
   });
 
   testWidgets('App builds at desktop width and shows the nav row',
@@ -53,11 +51,11 @@ void main() {
     await _pumpAppAt(tester, const Size(1440, 900));
 
     // The desktop nav row upper-cases its labels.
+    expect(find.text('FEATURED WORK'), findsOneWidget);
     expect(find.text('EXPERIENCE'), findsOneWidget);
-    expect(find.text('EDUCATION'), findsOneWidget);
 
     // The section heading itself is separate, and title case.
-    expect(find.text('Education'), findsWidgets);
+    expect(find.text('Featured Work'), findsWidgets);
 
     // The drawer button only exists in the compact layout.
     expect(find.byIcon(Icons.menu), findsNothing);
@@ -72,7 +70,7 @@ void main() {
   testWidgets('Nav row is shown at compactNav', (WidgetTester tester) async {
     await _pumpAppAt(tester, const Size(Breakpoints.compactNav, 900));
     expect(find.byIcon(Icons.menu), findsNothing);
-    expect(find.text('EDUCATION'), findsOneWidget);
+    expect(find.text('FEATURED WORK'), findsOneWidget);
   });
 
   test('WhatsApp link contains the configured number and message', () {

@@ -42,12 +42,20 @@ class _SectionRevealState extends State<SectionReveal> {
       child: widget.child.animate(
         target: _isVisible ? 1 : 0,
         delay: widget.delay,
-      ).fade(duration: 800.ms).slideY(
-        begin: 0.05,
-        end: 0,
-        duration: 800.ms,
-        curve: Curves.easeOutCubic,
-      ),
+      )
+          .fade(duration: 700.ms, curve: Curves.easeOutCubic)
+          .slideY(
+            begin: 0.08,
+            end: 0,
+            duration: 700.ms,
+            curve: Curves.easeOutCubic,
+          )
+          .scaleXY(
+            begin: 0.985,
+            end: 1,
+            duration: 700.ms,
+            curve: Curves.easeOutCubic,
+          ),
     );
   }
 }

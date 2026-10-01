@@ -5,13 +5,15 @@ class HoverScale extends StatefulWidget {
   final double scale;
   final Curve curve;
   final Duration duration;
+  final Offset hoverOffset;
 
   const HoverScale({
     super.key,
     required this.child,
-    this.scale = 1.05,
+    this.scale = 1.03,
     this.curve = Curves.easeOutCubic,
-    this.duration = const Duration(milliseconds: 200),
+    this.duration = const Duration(milliseconds: 180),
+    this.hoverOffset = const Offset(0, -2),
   });
 
   @override
@@ -26,11 +28,20 @@ class _HoverScaleState extends State<HoverScale> {
     return MouseRegion(
       onEnter: (_) => setState(() => _isHovered = true),
       onExit: (_) => setState(() => _isHovered = false),
-      child: AnimatedScale(
-        scale: _isHovered ? widget.scale : 1.0,
+      child: AnimatedContainer(
         duration: widget.duration,
         curve: widget.curve,
-        child: widget.child,
+        transform: Matrix4.translationValues(
+          _isHovered ? widget.hoverOffset.dx : 0,
+          _isHovered ? widget.hoverOffset.dy : 0,
+          0,
+        ),
+        child: AnimatedScale(
+          scale: _isHovered ? widget.scale : 1.0,
+          duration: widget.duration,
+          curve: widget.curve,
+          child: widget.child,
+        ),
       ),
     );
   }

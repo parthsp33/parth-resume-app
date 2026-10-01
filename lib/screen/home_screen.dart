@@ -8,8 +8,6 @@ import '../widgets/sections/hero_section.dart';
 import '../widgets/sections/skills_section.dart';
 import '../widgets/sections/projects_section.dart';
 import '../widgets/sections/contact_section.dart';
-import '../widgets/sections/achievements_section.dart';
-import '../widgets/sections/education_section.dart';
 import '../services/prefs_service.dart';
 import '../services/visitor_service.dart';
 import '../utils/responsive_utils.dart';
@@ -38,18 +36,14 @@ class _HomeScreenState extends State<HomeScreen> {
   // Section Keys
   final GlobalKey _aboutKey = GlobalKey();
   final GlobalKey _experienceKey = GlobalKey();
-  final GlobalKey _educationKey = GlobalKey();
-  final GlobalKey _achievementsKey = GlobalKey();
   final GlobalKey _projectsKey = GlobalKey();
   final GlobalKey _skillsKey = GlobalKey();
   final GlobalKey _contactKey = GlobalKey();
 
   late final List<_NavSection> _navSections = [
     _NavSection('About', _aboutKey),
+    _NavSection('Featured Work', _projectsKey),
     _NavSection('Experience', _experienceKey),
-    _NavSection('Education', _educationKey),
-    _NavSection('Achievements', _achievementsKey),
-    _NavSection('Projects', _projectsKey),
     _NavSection('Skills', _skillsKey),
     _NavSection('Contact', _contactKey),
   ];
@@ -214,13 +208,9 @@ class _HomeScreenState extends State<HomeScreen> {
                       SizedBox(height: context.space(32)),
                       AboutSection(key: _aboutKey),
                       SizedBox(height: sectionGap),
-                      ExperienceSection(key: _experienceKey),
-                      SizedBox(height: sectionGap),
-                      EducationSection(key: _educationKey),
-                      SizedBox(height: sectionGap),
-                      AchievementsSection(key: _achievementsKey),
-                      SizedBox(height: sectionGap),
                       ProjectsSection(key: _projectsKey),
+                      SizedBox(height: sectionGap),
+                      ExperienceSection(key: _experienceKey),
                       SizedBox(height: sectionGap),
                       SkillsSection(key: _skillsKey),
                     ],

@@ -251,11 +251,27 @@ class HeroSection extends StatelessWidget {
     final bgColor = isPrimary ? primaryBg : Colors.transparent;
     final textColor = isPrimary ? primaryFg : bodyColor;
     final borderColor = bodyColor?.withValues(alpha: 0.2);
+    final hoverShadow = isPrimary
+        ? const BoxShadow(
+            color: Color(0x1AFF2D20),
+            blurRadius: 18,
+            spreadRadius: 0,
+            offset: Offset(0, 8),
+          )
+        : BoxShadow(
+            color: (bodyColor ?? Colors.black).withValues(alpha: 0.12),
+            blurRadius: 18,
+            spreadRadius: 0,
+            offset: const Offset(0, 6),
+          );
 
     return HoverScale(
       child: InkWell(
         onTap: onPressed,
-        child: Container(
+        borderRadius: BorderRadius.circular(100),
+        child: AnimatedContainer(
+          duration: const Duration(milliseconds: 180),
+          curve: Curves.easeOutCubic,
           padding: EdgeInsets.symmetric(
             horizontal: isMobile ? 24 : 32,
             vertical: isMobile ? 14 : 16,
@@ -266,6 +282,7 @@ class HeroSection extends StatelessWidget {
             border: isPrimary
                 ? null
                 : Border.all(color: borderColor ?? Colors.grey),
+            boxShadow: [hoverShadow],
           ),
           child: Row(
             mainAxisSize: MainAxisSize.min,
