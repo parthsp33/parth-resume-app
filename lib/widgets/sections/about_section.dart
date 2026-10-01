@@ -12,9 +12,9 @@ class AboutSection extends StatelessWidget {
     final isMobile = context.isMobile;
 
     return SectionReveal(
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
           Text(
             'About Me',
             style: Theme.of(context).textTheme.displayMedium,
@@ -24,14 +24,14 @@ class AboutSection extends StatelessWidget {
           // Main Content Grid
           if (isMobile)
             Column(
-               crossAxisAlignment: CrossAxisAlignment.start,
-               children: [
-                 _buildBio(context),
-                 SizedBox(height: context.space(56)),
-                 _buildStats(context),
-                 SizedBox(height: context.space(56)),
-                 _buildInterests(context),
-               ],
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                _buildBio(context),
+                SizedBox(height: context.space(56)),
+                _buildStats(context),
+                SizedBox(height: context.space(56)),
+                _buildInterests(context),
+              ],
             )
           else
             Row(
@@ -57,7 +57,46 @@ class AboutSection extends StatelessWidget {
                 ),
               ],
             ),
+          SizedBox(height: context.space(96)),
+          _buildMoreAboutMe(context),
         ],
+      ),
+    );
+  }
+
+  Widget _buildMoreAboutMe(BuildContext context) {
+    final theme = Theme.of(context);
+    return Center(
+      child: ConstrainedBox(
+        constraints: const BoxConstraints(maxWidth: 820),
+        child: SizedBox(
+          width: double.infinity,
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: [
+              Text(
+                'More About Me',
+                textAlign: TextAlign.center,
+                style: theme.textTheme.displayMedium,
+              ),
+              SizedBox(height: context.space(24)),
+              Text(
+                'You know when you’re using a website, an app, or your phone and you get frustrated when it doesn’t do what you want it to? My job is to make sure that doesn’t happen :)',
+                textAlign: TextAlign.center,
+                style: theme.textTheme.bodyLarge?.copyWith(height: 1.7),
+              ),
+              SizedBox(height: context.space(36)),
+              Text(
+                'Software Engineer | Full Time | Part Time | Startup | Entrepreneur | Available for freelance opportunities',
+                textAlign: TextAlign.center,
+                style: theme.textTheme.titleMedium?.copyWith(
+                  height: 1.6,
+                  fontWeight: FontWeight.w600,
+                ),
+              ),
+            ],
+          ),
+        ),
       ),
     );
   }
@@ -70,9 +109,9 @@ class AboutSection extends StatelessWidget {
         Text(
           ResumeData.experienceSummary,
           style: Theme.of(context).textTheme.bodyLarge?.copyWith(
-            height: 1.8,
-            fontWeight: FontWeight.w600,
-          ),
+                height: 1.8,
+                fontWeight: FontWeight.w600,
+              ),
         ),
         SizedBox(height: context.space(28)),
         ...ResumeData.summaryPoints.map(
@@ -97,13 +136,13 @@ class AboutSection extends StatelessWidget {
                   child: Text(
                     point,
                     style: Theme.of(context).textTheme.bodyMedium?.copyWith(
-                      height: 1.7,
-                      color: Theme.of(context)
-                          .textTheme
-                          .bodyLarge
-                          ?.color
-                          ?.withValues(alpha: 0.75),
-                    ),
+                          height: 1.7,
+                          color: Theme.of(context)
+                              .textTheme
+                              .bodyLarge
+                              ?.color
+                              ?.withValues(alpha: 0.75),
+                        ),
                   ),
                 ),
               ],
@@ -132,15 +171,19 @@ class AboutSection extends StatelessWidget {
         Text(
           val,
           style: Theme.of(context).textTheme.displayLarge?.copyWith(
-            fontSize: context.fontSize(mobile: 36, tablet: 42, desktop: 48),
-          ),
+                fontSize: context.fontSize(mobile: 36, tablet: 42, desktop: 48),
+              ),
         ),
         const SizedBox(height: 8),
         Text(
           label,
           style: TextStyle(
             fontSize: context.fontSize(mobile: 11, desktop: 12),
-            color: Theme.of(context).textTheme.bodyLarge?.color?.withValues(alpha: 0.5),
+            color: Theme.of(context)
+                .textTheme
+                .bodyLarge
+                ?.color
+                ?.withValues(alpha: 0.5),
             fontWeight: FontWeight.bold,
             letterSpacing: 1,
           ),
@@ -181,7 +224,11 @@ class AboutSection extends StatelessWidget {
         Container(
           width: double.infinity,
           height: 1,
-          color: Theme.of(context).textTheme.bodyLarge?.color?.withValues(alpha: 0.1),
+          color: Theme.of(context)
+              .textTheme
+              .bodyLarge
+              ?.color
+              ?.withValues(alpha: 0.1),
         ),
         const SizedBox(height: 28),
       ],

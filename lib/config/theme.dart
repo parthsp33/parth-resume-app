@@ -56,6 +56,13 @@ class AppTheme {
         surface: card,
       ),
       useMaterial3: true,
+      filledButtonTheme: FilledButtonThemeData(
+        style: FilledButton.styleFrom(
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(8),
+          ),
+        ),
+      ),
       textTheme: TextTheme(
         // Massive Name Title
         displayLarge: GoogleFonts.spaceGrotesk(
@@ -106,6 +113,4 @@ class AppTheme {
       ),
     );
   }
-
-
 }

@@ -193,6 +193,24 @@ class _ContactSectionState extends State<ContactSection> {
         ),
         const SizedBox(height: 20),
         Row(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Icon(Icons.location_on_outlined, color: accent, size: 22),
+            const SizedBox(width: 14),
+            Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  'Address',
+                  style: theme.textTheme.bodySmall?.copyWith(color: accent),
+                ),
+                Text(ResumeData.address, style: theme.textTheme.bodyMedium),
+              ],
+            ),
+          ],
+        ),
+        const SizedBox(height: 20),
+        Row(
           children: [
             _buildContactSocialLink(
               context,
@@ -398,9 +416,6 @@ class _ContactSectionState extends State<ContactSection> {
                   disabledBackgroundColor:
                       AppColors.primary.withValues(alpha: 0.78),
                   disabledForegroundColor: Colors.white,
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(4),
-                  ),
                 ),
                 icon: _isSubmitting
                     ? const SizedBox.square(

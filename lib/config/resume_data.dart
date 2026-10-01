@@ -23,6 +23,7 @@ class ResumeData {
   static const String countryCode = "91";
   static const String mobile = "7383493845";
   static const String email = "bantiprajapati33@gmail.com";
+  static const String address = "Ahmedabad, Gujarat\nIndia";
   static const String linkedin =
       "https://www.linkedin.com/in/parth-prajapati-7174b2144";
   static const String github = "https://github.com/parthsp33";
